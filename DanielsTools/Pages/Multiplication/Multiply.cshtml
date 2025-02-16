@@ -1,0 +1,720 @@
+﻿@page
+@model DanielsTools.Pages.Multiplication.MultiplyModel
+@{
+    ViewData["Title"] = "Multiply";
+}
+<style>
+    .numberButton {
+        background: darkgreen;
+        color: white;
+        font-weight: bolder;
+        font-size: 4rem;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .error_text {
+        color: red;
+        font-size: 40px;
+    }
+
+    .normal_text {
+        color: black;
+        font-size: 40px;
+    }
+
+    .topcorner {
+        float: right;
+        top: 0;
+        right: 0;
+    }
+
+    .scrollable_area {
+        overflow-y: auto;
+        height: 500px;
+    }
+
+    .emoji_font {
+        font-size: 40px;
+    }
+
+    .large_input_field {
+        font-size: 48px;
+    }
+
+    .large_button {
+        font-size: 48px;
+        margin: 20px;
+        padding: 20px;
+    }
+
+    .emoji_button {
+        border: none;
+    }
+
+    .color_button {
+        border: none;
+        margin: 10px;
+        padding: 15px;
+        width: 80%
+    }
+
+    .color_label {
+        float: left;
+    }
+
+    .color_choice {
+        height: 80px;
+    }
+
+    .chosen_color_border {
+        border-color: black;
+        border-width: 5px;
+        border-style: solid;
+    }
+
+    .not_chosen_color_border {
+        border-color: white;
+        border-width: 5px;
+        border-style: solid;
+    }
+
+    .user_label_font {
+        font-size: 32px;
+        font-weight: bold;
+    }
+
+    .user_emoji_font {
+        font-size: 72px;
+    }
+
+    .current_user_label{
+        display:inline-block;
+        font-size: 32px;
+    }
+
+    .current_user_avatar {
+        display: inline-block;
+        font-size: 32px;
+    }
+</style>
+
+<script type="text/javascript">
+    const EMOJI_DICTIONARY = JSON.parse('@Html.Raw(Json.Serialize(Model.EmojiDictionary))');
+
+    const USER_LIST_COOKIE_NAME = "users_list";
+
+    const USER_REPLACEMENT = "<<user_id>>";
+
+    const USERS_SETTINGS_COOKIE_NAME = "user_" + USER_REPLACEMENT + "_settings";
+
+    var localUsers = {};
+
+    var currentUser = {};
+    currentUser.UserId = 0;
+    currentUser.Settings = {};
+
+    var newUser = {};
+    newUser.Username = "";
+    newUser.AvatarId = 0;
+
+    function getCookieName(username, firstOrSecond, number) {
+        var partOne = "";
+        if (firstOrSecond == 1) {
+            partOne = "First";
+        }
+        else {
+            partOne = "Second";
+        }
+
+        var partTwo = number;
+
+        return username + "_" + partOne + "_" + partTwo;
+    }
+
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    function loadUserCookies() {
+        localUsers = {};
+        localUsers.users = [];
+
+        var userCookieString = getCookie(USER_LIST_COOKIE_NAME);
+
+        if (userCookieString) {
+            try {
+                localUsers = JSON.parse(userCookieString);
+            }
+            catch (e) {
+                // error parsing, clear out list
+                localUsers = {};
+                localUsers.users = [];
+            }
+        }
+
+        reloadUserListFromMemory();
+    }
+
+    function reloadUserListFromMemory() {
+        var usersHTML = "";
+        $("#userListErrorSpan").html("");
+
+        if (localUsers.users.length == 0) {
+            usersHTML = "No users found";
+            $("#userListErrorSpan").html(usersHTML);
+        }
+        else {
+            for (var i = 0; i < localUsers.users.length; i++) {
+                var user = localUsers.users[i];
+                var avatar = EMOJI_DICTIONARY[user.AvatarId];
+                usersHTML += "<div class='col-md-3'><button style='width: 80%;background-color: " + user.Color + "'  onclick = 'selectUser(" + user.UserId + ")' ><div class='user_emoji_font'>" + avatar + "</div><div><p class='user_label_font'>" + user.Username + "</p></div></button ></div> ";
+            }
+
+            $("#userList").html(usersHTML);
+        }
+
+    }
+
+
+    function setCookie(cookieName, cookieValue) {
+        const d = new Date();
+        var lifeTimeInDays = 360;
+        d.setTime(d.getTime() + (lifeTimeInDays * 24 * 60 * 60 * 1000));
+        let expires = "expires=" + d.toUTCString();
+        document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+    }
+
+    function getElementName(firstOrSecond, number) {
+
+    }
+
+    function turnOnOffButton(firstOrSecond, number) {
+
+    }
+
+    function isAlphaNumeric(str) {
+        var code, i, len;
+
+        for (i = 0, len = str.length; i < len; i++) {
+            code = str.charCodeAt(i);
+            if (!(code > 47 && code < 58) && // numeric (0-9)
+                !(code > 64 && code < 91) && // upper alpha (A-Z)
+                !(code > 96 && code < 123)) { // lower alpha (a-z)
+                return false;
+            }
+        }
+        return true;
+    };
+
+    function setNewUserUsername() {
+        var newusername = $("#newUsernameTextBox").val();
+        var errorString = "";
+
+        if (newusername == "") {
+            errorString = "Name cannot be blank!";
+            $("#nameErrorSpan").html(errorString);
+            return;
+        }
+
+        if (!isAlphaNumeric(newusername)) {
+            errorString = "Name can only contains letters and numbers";
+            $("#nameErrorSpan").html(errorString);
+            return;
+        }
+
+        // clear name error if it exists
+        $("#nameErrorSpan").html("");
+
+        newUser.Username = newusername;
+
+        // clear out current emoji
+        newUser.AvatarId = 0;
+        $('.emoji_button').each(function (i, obj) {
+            $(this).css('background-color', 'transparent');
+        });
+
+        // username is good, continue on
+        $('#chooseNameModal').modal('hide');
+
+        $('#chooseAvatarModal').modal('show');
+    }
+
+    function setNewAvatar() {
+        if (newUser.AvatarId === 0) {
+            $("#avatarErrorSpan").html("Choose An Avatar");
+            return;
+        }
+        //clear avatar error if exists
+        $("#avatarErrorSpan").html("");
+
+        // avatar is good, move on to color
+        $('#chooseAvatarModal').modal('hide');
+        $('#chooseColorModal').modal('show');
+    }
+
+    function pad2(n) { return n < 10 ? '0' + n : n }
+
+    function getTimeStamp() {
+        var date = new Date();
+
+        var returnValue = date.getFullYear().toString() + pad2(date.getMonth() + 1) + pad2(date.getDate()) + pad2(date.getHours()) + pad2(date.getMinutes()) + pad2(date.getSeconds());
+
+        return returnValue;
+    }
+
+    function saveCurrentUserSettingsIntoCookies() {
+        var userCookieName = USERS_SETTINGS_COOKIE_NAME.replace(USER_REPLACEMENT, currentUser.UserId);
+        var settingsString = JSON.stringify(currentUser.Settings);
+        setCookie(userCookieName, settingsString);
+    }
+
+    function loadCurrentUsersSettingsFromCookies() {
+        var userCookieName = USERS_SETTINGS_COOKIE_NAME.replace(USER_REPLACEMENT, currentUser.UserId);
+        var userSettingsString = getCookie(userCookieName);
+
+        if (userSettingsString == "") {
+            // load default
+            currentUser.Settings = getDefaultSettings();
+            saveCurrentUserSettingsIntoCookies();
+        }
+        else {
+            try {
+                currentUser.Settings = JSON.parse(userSettingsString);
+            }
+            catch (e) {
+                currentUser.Settings = getDefaultSettings();
+                saveCurrentUserSettingsIntoCookies();
+            }
+        }
+    }
+
+    function getDefaultSettings() {
+        var result = { };
+
+        result.FirstNumber = [];
+        result.SecondNumber = [];
+
+        for (var i = 0; i <= 12; i++) {
+            result.FirstNumber[i] = true;
+            result.FirstNumber[i] = true;
+        }
+
+        result.PasswordProtected = false;
+        result.Password = "";
+
+        result.FlipNumbers = true;
+
+        return result;
+    }
+
+    function selectUser(userId) {
+        currentUser = {};
+        currentUser.UserId = 0;
+
+        for (var i = 0; i < localUsers.users.length; i++) {
+            var currentUserInList = localUsers.users[i];
+            if (currentUserInList.UserId == userId) {
+                currentUser = currentUserInList;
+                break;
+            }
+        }
+
+        loadCurrentUsersSettingsFromCookies(currentUser.UserId);
+
+        if (currentUser.UserId != 0) {
+            $('#usersModal').modal('hide');
+        }
+
+        $("#currentUserDiv").html("");
+
+        var avatar = EMOJI_DICTIONARY[currentUser.AvatarId];
+        var userDivHTML = "<div class='current_user_label' style='color: " + currentUser.Color + "'>" + currentUser.Username + "</div><div class='current_user_avatar'>" + avatar + "</div>";
+
+        $("#currentUserDiv").html(userDivHTML);
+    }
+
+    function saveUserListToCookie() {
+        var localUsersString = JSON.stringify(localUsers);
+        setCookie(USER_LIST_COOKIE_NAME, localUsersString);
+    }
+
+    function saveNewUserToMemory() {
+        // set id of new user to timestamp
+        newUser.UserId = getTimeStamp();
+
+        localUsers.users.push(newUser);
+
+        saveUserListToCookie();
+
+        reloadUserListFromMemory();
+
+        newUser = {};
+    }
+
+    function showMessageModal(isError, messageTitle, messageBody) {
+        $("#MessageModalBodyText").removeClass("error_text");
+        $("#MessageModalBodyText").removeClass("normal_text");
+
+        if (isError) {
+            $("#MessageModalBodyText").addClass("error_text");
+        } else {
+            $("#MessageModalBodyText").addClass("normal_text");
+        }
+
+        $("#MessageModalTitle").html(messageTitle);
+        $("#MessageModalBodyText").html(messageBody);
+
+        $('#messageModal').modal('show');
+    }
+
+    $(document).ready(function () {
+
+        loadUserCookies();
+
+        $('#usersModal').modal('show');
+
+        $("#setNewUsernameButton").on('click', function () {
+            setNewUserUsername();
+        });
+
+        $("#backAvatarButton").on('click', function () {
+            $('#chooseAvatarModal').modal('hide');
+            $('#chooseNameModal').modal('show');
+        });
+
+        $("#setAvatarButton").on('click', function () {
+            setNewAvatar();
+        });
+
+        $("#backColorButton").on('click', function () {
+            $('#chooseColorModal').modal('hide');
+            $('#chooseAvatarModal').modal('show');
+        });
+
+        $("#setColorButton").on('click', function () {
+            // show chose color modal
+            $('#chooseColorModal').modal('hide');
+
+            $('#chooseColorModal').modal('show');
+        });
+
+        // on emoji button clicked
+        $(".emoji_button").on('click', function (event) {
+
+            $('.emoji_button').each(function (i, obj) {
+                $(this).css('background-color', 'transparent');
+            });
+
+            $(this).css('background-color', 'blue');
+
+            // get the id of the clicked element
+            var idString = $(this).attr('id')
+
+            // get just the number in the string
+            idString = idString.replace(/\D/g, '');
+            newUser.AvatarId = idString;
+
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+        });
+
+        // on emoji button clicked
+        $(".color_button").on('click', function (event) {
+
+            $('.color_button').each(function (i, obj) {
+                $(this).removeClass("chosen_color_border");
+                $(this).addClass("not_chosen_color_border");
+            });
+
+            $(this).removeClass("not_chosen_color_border");
+            $(this).addClass("chosen_color_border");
+
+            // get the name of the clicked element
+            // which contains the color
+            newUser.Color = $(this).attr('name');
+
+            saveNewUserToMemory();
+
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+        });
+
+        // on emoji search
+        $('#emojiSearchBox').on('input', function (e) {
+            var emojiSearchTerm = $("#emojiSearchBox").val().toUpperCase();
+            $('.emoji_button').each(function (i, obj) {
+
+                var currentDesc = $(this).attr('name')
+                if (currentDesc.toUpperCase().indexOf(emojiSearchTerm) === -1) {
+                    // search term, not found, hide
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+            });
+        });
+
+        $('#usersModal').on('hidden.bs.modal', function (e) {
+
+            if (currentUser.UserId == 0) {
+                var messageTitle = "No Users Selected";
+                var messageBody = "No user was selected. Select the user icon to select a user";
+
+                showMessageModal(true, messageTitle, messageBody);
+            }
+        });
+
+
+    });
+</script>
+
+<div class="topcorner">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#settingsModal">
+        <i class="bi bi-gear"></i>
+    </button>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#usersModal">
+        <i class="bi bi-people"></i>
+    </button>
+</div>
+
+<div id="currentUserDiv" class="">
+</div>
+
+
+
+<!-- Settings Modal -->
+<div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Multiplication</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <p>
+                        <input type="checkbox" id="swapNumbers" name="swap" checked />
+                        <label for="swapNumbers">Randomly Flip Numbers</label>
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6 ml-auto">
+                            <div class="row">First Number</div>
+                            <div class="row">
+                                @for (int x = 1; x <= 12; x++)
+                                {
+                                    <div class="col-4">
+                                        <button class="numberButton" onclick="turnOnOffButton(1,@x);">@x</button>
+                                    </div>
+                                }
+                                <div class="col-4">
+                                    <button class="numberButton" onclick="turnOnOffButton(1,0);">0</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 ml-auto">
+                            <div class="row">Second Number</div>
+                            <div class="row">
+                                @for (int x = 1; x <= 12; x++)
+                                {
+                                    <div class="col-4">
+                                        <button class="numberButton" onclick="turnOnOffButton(2,@x);">@x</button>
+                                    </div>
+                                }
+                                <div class="col-4">
+                                    <button class="numberButton" onclick="turnOnOffButton(2,0);">0</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Select User Modal -->
+<div class="modal fade" id="usersModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">Select Your User</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-10 ml-auto">
+                            <div id="userList" class="row">
+                            </div>
+                            <div class="row">
+                                <span id="userListErrorSpan" class="error_text"></span>
+                            </div>
+                            <p />
+                            <p />
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chooseNameModal">
+                                Create New User
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            @*             <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div> *@
+        </div>
+    </div>
+</div>
+
+<!-- Create User - Name Modal -->
+<div class="modal fade" id="chooseNameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">Choose A Name</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <br />
+
+
+                    <div class="row">
+                        <div class="col-md-9 ml-auto">
+                            <input class="large_input_field" type="text" id="newUsernameTextBox" name="newUsernameTextBox" placeholder="Enter your first name..." />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <span id="nameErrorSpan" class="error_text"> </span>
+                    </div>
+                    <br />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary large_button" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" id="setNewUsernameButton" class="btn btn-primary large_button">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New User - Avatar modal   -->
+<div class="modal fade" id="chooseAvatarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">Choose Your Avatar</h1>
+
+                <input style="margin-right: 5px; float:right;" type="text" id="emojiSearchBox" name="emojiSearchBox" placeholder="Search Emojis" />
+                @* <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> *@
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="scrollable_area">
+                            <div class="row">
+                                @foreach (var item in Model.EmojiList)
+                                {
+                                    <button id="emoji_@Html.Raw(@item.Id)_button" class="col-md-1 emoji_font emoji_button" name="@item.Description">@Html.Raw(@item.Code)</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <span id="avatarErrorSpan" class="error_text"> </span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="backAvatarButton" type="button" class="btn btn-secondary large_button" data-bs-dismiss="modal">Back To Name</button>
+                <button id="setAvatarButton" type="button" class="btn btn-primary large_button">Choose Color</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- New User Color Modal-->
+<div class="modal fade" id="chooseColorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Choose Your Color</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div>
+                            <div class="row">
+                                @foreach (var item in Model.Colors)
+                                {
+                                    <div class="col-md-3 ">
+                                        <button class="color_button not_chosen_color_border" name="@item">
+                                            <div class="row">
+                                                <div class="col-md-5 color_choice" style="background-color: @item"></div>
+                                                <div class="col-md-5 color_label">@Html.Raw(@item)</div>
+                                            </div>
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="backColorButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                <button id="setColorButton" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save User</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Message Modal-->
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="MessageModalTitle" class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <span id="MessageModalBodyText" class=""></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
