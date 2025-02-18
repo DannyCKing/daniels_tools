@@ -4,503 +4,118 @@
     ViewData["Title"] = "Multiply";
 }
 <style>
-    .numberButton {
-        background: darkgreen;
-        color: white;
-        font-weight: bolder;
-        font-size: 4rem;
-        width: 100%;
-        margin-top: 15px;
-    }
-
-    .error_text {
-        color: red;
-        font-size: 40px;
-    }
-
-    .normal_text {
-        color: black;
-        font-size: 40px;
-    }
-
-    .topcorner {
-        float: right;
-        top: 0;
-        right: 0;
-    }
-
-    .scrollable_area {
-        overflow-y: auto;
-        height: 500px;
-    }
-
-    .emoji_font {
-        font-size: 40px;
-    }
-
-    .large_input_field {
-        font-size: 48px;
-    }
-
-    .large_button {
-        font-size: 48px;
-        margin: 20px;
-        padding: 20px;
-    }
-
-    .emoji_button {
-        border: none;
-    }
-
-    .color_button {
-        border: none;
-        margin: 10px;
-        padding: 15px;
-        width: 80%
-    }
-
-    .color_label {
-        float: left;
-    }
-
-    .color_choice {
-        height: 80px;
-    }
-
-    .chosen_color_border {
-        border-color: black;
-        border-width: 5px;
-        border-style: solid;
-    }
-
-    .not_chosen_color_border {
-        border-color: white;
-        border-width: 5px;
-        border-style: solid;
-    }
-
-    .user_label_font {
-        font-size: 32px;
-        font-weight: bold;
-    }
-
-    .user_emoji_font {
-        font-size: 72px;
-    }
-
-    .current_user_label{
-        display:inline-block;
-        font-size: 32px;
-    }
-
-    .current_user_avatar {
-        display: inline-block;
-        font-size: 32px;
     }
 </style>
-
+<link rel="stylesheet" href="~/css/multiply.css" />
+<script src="~/js/multiply.js"></script>
 <script type="text/javascript">
     const EMOJI_DICTIONARY = JSON.parse('@Html.Raw(Json.Serialize(Model.EmojiDictionary))');
 
-    const USER_LIST_COOKIE_NAME = "users_list";
-
-    const USER_REPLACEMENT = "<<user_id>>";
-
-    const USERS_SETTINGS_COOKIE_NAME = "user_" + USER_REPLACEMENT + "_settings";
-
-    var localUsers = {};
-
-    var currentUser = {};
-    currentUser.UserId = 0;
-    currentUser.Settings = {};
-
-    var newUser = {};
-    newUser.Username = "";
-    newUser.AvatarId = 0;
-
-    function getCookieName(username, firstOrSecond, number) {
-        var partOne = "";
-        if (firstOrSecond == 1) {
-            partOne = "First";
-        }
-        else {
-            partOne = "Second";
-        }
-
-        var partTwo = number;
-
-        return username + "_" + partOne + "_" + partTwo;
-    }
-
-    function getCookie(cname) {
-        let name = cname + "=";
-        let decodedCookie = decodeURIComponent(document.cookie);
-        let ca = decodedCookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
-
-    function loadUserCookies() {
-        localUsers = {};
-        localUsers.users = [];
-
-        var userCookieString = getCookie(USER_LIST_COOKIE_NAME);
-
-        if (userCookieString) {
-            try {
-                localUsers = JSON.parse(userCookieString);
-            }
-            catch (e) {
-                // error parsing, clear out list
-                localUsers = {};
-                localUsers.users = [];
-            }
-        }
-
-        reloadUserListFromMemory();
-    }
-
-    function reloadUserListFromMemory() {
-        var usersHTML = "";
-        $("#userListErrorSpan").html("");
-
-        if (localUsers.users.length == 0) {
-            usersHTML = "No users found";
-            $("#userListErrorSpan").html(usersHTML);
-        }
-        else {
-            for (var i = 0; i < localUsers.users.length; i++) {
-                var user = localUsers.users[i];
-                var avatar = EMOJI_DICTIONARY[user.AvatarId];
-                usersHTML += "<div class='col-md-3'><button style='width: 80%;background-color: " + user.Color + "'  onclick = 'selectUser(" + user.UserId + ")' ><div class='user_emoji_font'>" + avatar + "</div><div><p class='user_label_font'>" + user.Username + "</p></div></button ></div> ";
-            }
-
-            $("#userList").html(usersHTML);
-        }
-
-    }
-
-
-    function setCookie(cookieName, cookieValue) {
-        const d = new Date();
-        var lifeTimeInDays = 360;
-        d.setTime(d.getTime() + (lifeTimeInDays * 24 * 60 * 60 * 1000));
-        let expires = "expires=" + d.toUTCString();
-        document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
-    }
-
-    function getElementName(firstOrSecond, number) {
-
-    }
-
-    function turnOnOffButton(firstOrSecond, number) {
-
-    }
-
-    function isAlphaNumeric(str) {
-        var code, i, len;
-
-        for (i = 0, len = str.length; i < len; i++) {
-            code = str.charCodeAt(i);
-            if (!(code > 47 && code < 58) && // numeric (0-9)
-                !(code > 64 && code < 91) && // upper alpha (A-Z)
-                !(code > 96 && code < 123)) { // lower alpha (a-z)
-                return false;
-            }
-        }
-        return true;
-    };
-
-    function setNewUserUsername() {
-        var newusername = $("#newUsernameTextBox").val();
-        var errorString = "";
-
-        if (newusername == "") {
-            errorString = "Name cannot be blank!";
-            $("#nameErrorSpan").html(errorString);
-            return;
-        }
-
-        if (!isAlphaNumeric(newusername)) {
-            errorString = "Name can only contains letters and numbers";
-            $("#nameErrorSpan").html(errorString);
-            return;
-        }
-
-        // clear name error if it exists
-        $("#nameErrorSpan").html("");
-
-        newUser.Username = newusername;
-
-        // clear out current emoji
-        newUser.AvatarId = 0;
-        $('.emoji_button').each(function (i, obj) {
-            $(this).css('background-color', 'transparent');
-        });
-
-        // username is good, continue on
-        $('#chooseNameModal').modal('hide');
-
-        $('#chooseAvatarModal').modal('show');
-    }
-
-    function setNewAvatar() {
-        if (newUser.AvatarId === 0) {
-            $("#avatarErrorSpan").html("Choose An Avatar");
-            return;
-        }
-        //clear avatar error if exists
-        $("#avatarErrorSpan").html("");
-
-        // avatar is good, move on to color
-        $('#chooseAvatarModal').modal('hide');
-        $('#chooseColorModal').modal('show');
-    }
-
-    function pad2(n) { return n < 10 ? '0' + n : n }
-
-    function getTimeStamp() {
-        var date = new Date();
-
-        var returnValue = date.getFullYear().toString() + pad2(date.getMonth() + 1) + pad2(date.getDate()) + pad2(date.getHours()) + pad2(date.getMinutes()) + pad2(date.getSeconds());
-
-        return returnValue;
-    }
-
-    function saveCurrentUserSettingsIntoCookies() {
-        var userCookieName = USERS_SETTINGS_COOKIE_NAME.replace(USER_REPLACEMENT, currentUser.UserId);
-        var settingsString = JSON.stringify(currentUser.Settings);
-        setCookie(userCookieName, settingsString);
-    }
-
-    function loadCurrentUsersSettingsFromCookies() {
-        var userCookieName = USERS_SETTINGS_COOKIE_NAME.replace(USER_REPLACEMENT, currentUser.UserId);
-        var userSettingsString = getCookie(userCookieName);
-
-        if (userSettingsString == "") {
-            // load default
-            currentUser.Settings = getDefaultSettings();
-            saveCurrentUserSettingsIntoCookies();
-        }
-        else {
-            try {
-                currentUser.Settings = JSON.parse(userSettingsString);
-            }
-            catch (e) {
-                currentUser.Settings = getDefaultSettings();
-                saveCurrentUserSettingsIntoCookies();
-            }
-        }
-    }
-
-    function getDefaultSettings() {
-        var result = { };
-
-        result.FirstNumber = [];
-        result.SecondNumber = [];
-
-        for (var i = 0; i <= 12; i++) {
-            result.FirstNumber[i] = true;
-            result.FirstNumber[i] = true;
-        }
-
-        result.PasswordProtected = false;
-        result.Password = "";
-
-        result.FlipNumbers = true;
-
-        return result;
-    }
-
-    function selectUser(userId) {
-        currentUser = {};
-        currentUser.UserId = 0;
-
-        for (var i = 0; i < localUsers.users.length; i++) {
-            var currentUserInList = localUsers.users[i];
-            if (currentUserInList.UserId == userId) {
-                currentUser = currentUserInList;
-                break;
-            }
-        }
-
-        loadCurrentUsersSettingsFromCookies(currentUser.UserId);
-
-        if (currentUser.UserId != 0) {
-            $('#usersModal').modal('hide');
-        }
-
-        $("#currentUserDiv").html("");
-
-        var avatar = EMOJI_DICTIONARY[currentUser.AvatarId];
-        var userDivHTML = "<div class='current_user_label' style='color: " + currentUser.Color + "'>" + currentUser.Username + "</div><div class='current_user_avatar'>" + avatar + "</div>";
-
-        $("#currentUserDiv").html(userDivHTML);
-    }
-
-    function saveUserListToCookie() {
-        var localUsersString = JSON.stringify(localUsers);
-        setCookie(USER_LIST_COOKIE_NAME, localUsersString);
-    }
-
-    function saveNewUserToMemory() {
-        // set id of new user to timestamp
-        newUser.UserId = getTimeStamp();
-
-        localUsers.users.push(newUser);
-
-        saveUserListToCookie();
-
-        reloadUserListFromMemory();
-
-        newUser = {};
-    }
-
-    function showMessageModal(isError, messageTitle, messageBody) {
-        $("#MessageModalBodyText").removeClass("error_text");
-        $("#MessageModalBodyText").removeClass("normal_text");
-
-        if (isError) {
-            $("#MessageModalBodyText").addClass("error_text");
-        } else {
-            $("#MessageModalBodyText").addClass("normal_text");
-        }
-
-        $("#MessageModalTitle").html(messageTitle);
-        $("#MessageModalBodyText").html(messageBody);
-
-        $('#messageModal').modal('show');
-    }
-
-    $(document).ready(function () {
-
-        loadUserCookies();
-
-        $('#usersModal').modal('show');
-
-        $("#setNewUsernameButton").on('click', function () {
-            setNewUserUsername();
-        });
-
-        $("#backAvatarButton").on('click', function () {
-            $('#chooseAvatarModal').modal('hide');
-            $('#chooseNameModal').modal('show');
-        });
-
-        $("#setAvatarButton").on('click', function () {
-            setNewAvatar();
-        });
-
-        $("#backColorButton").on('click', function () {
-            $('#chooseColorModal').modal('hide');
-            $('#chooseAvatarModal').modal('show');
-        });
-
-        $("#setColorButton").on('click', function () {
-            // show chose color modal
-            $('#chooseColorModal').modal('hide');
-
-            $('#chooseColorModal').modal('show');
-        });
-
-        // on emoji button clicked
-        $(".emoji_button").on('click', function (event) {
-
-            $('.emoji_button').each(function (i, obj) {
-                $(this).css('background-color', 'transparent');
-            });
-
-            $(this).css('background-color', 'blue');
-
-            // get the id of the clicked element
-            var idString = $(this).attr('id')
-
-            // get just the number in the string
-            idString = idString.replace(/\D/g, '');
-            newUser.AvatarId = idString;
-
-            event.stopPropagation();
-            event.stopImmediatePropagation();
-        });
-
-        // on emoji button clicked
-        $(".color_button").on('click', function (event) {
-
-            $('.color_button').each(function (i, obj) {
-                $(this).removeClass("chosen_color_border");
-                $(this).addClass("not_chosen_color_border");
-            });
-
-            $(this).removeClass("not_chosen_color_border");
-            $(this).addClass("chosen_color_border");
-
-            // get the name of the clicked element
-            // which contains the color
-            newUser.Color = $(this).attr('name');
-
-            saveNewUserToMemory();
-
-            event.stopPropagation();
-            event.stopImmediatePropagation();
-        });
-
-        // on emoji search
-        $('#emojiSearchBox').on('input', function (e) {
-            var emojiSearchTerm = $("#emojiSearchBox").val().toUpperCase();
-            $('.emoji_button').each(function (i, obj) {
-
-                var currentDesc = $(this).attr('name')
-                if (currentDesc.toUpperCase().indexOf(emojiSearchTerm) === -1) {
-                    // search term, not found, hide
-                    $(this).hide();
-                }
-                else {
-                    $(this).show();
-                }
-            });
-        });
-
-        $('#usersModal').on('hidden.bs.modal', function (e) {
-
-            if (currentUser.UserId == 0) {
-                var messageTitle = "No Users Selected";
-                var messageBody = "No user was selected. Select the user icon to select a user";
-
-                showMessageModal(true, messageTitle, messageBody);
-            }
-        });
-
-
-    });
 </script>
 
-<div class="topcorner">
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#settingsModal">
-        <i class="bi bi-gear"></i>
-    </button>
+<div class="row">
+    <div id="currentUserDiv" class="col-md-6">
+    </div>
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#usersModal">
-        <i class="bi bi-people"></i>
+    <div id="" class="col-md-3">
+    </div>
+
+
+    <div class="topcorner col-md-3">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-success large_button" data-bs-toggle="modal" data-bs-target="#settingsModal">
+            <i class="bi bi-gear"></i>
+        </button>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary large_button" data-bs-toggle="modal" data-bs-target="#usersModal">
+            <i class="bi bi-people"></i>
+        </button>
+    </div>
+</div>
+
+
+
+<div class="row hide_during_test">
+    <button id="start_practice_button" type="button" class="btn btn-primary large_button">
+        <i class="bi bi-play"></i>Start Practice
     </button>
 </div>
 
-<div id="currentUserDiv" class="">
+<div class="row hide_during_test">
+    <button id="start_timing_button" type="button" class="btn btn-primary large_button">
+        <i class="bi bi-stopwatch"></i>Start Timing
+    </button>
+</div>
+
+<div class="row show_during_test">
+    <div>
+        <span id="firstNumberDiv" class="current_problem  unselectable"></span>
+        <span id="operationDiv" class="current_problem unselectable"></span>
+        <span id="secondNumberDiv" class="current_problem unselectable"></span>
+    </div>
 </div>
 
 
+<div class="row show_during_test">
+    <button id="stop_timing_button" type="button" class="btn btn-warning large_button">
+        <i class="bi bi-sign-stop"></i>Stop
+    </button>
+</div>
 
 <!-- Settings Modal -->
 <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Settings</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-success setting_button" data-bs-toggle="modal" data-bs-target="#numbersModal">
+                                <i class="bi bi-list-ol"></i>  Numbers
+                            </button>
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-success setting_button" data-bs-toggle="modal" data-bs-target="#operationsModal">
+                                <i class="bi bi-plus-slash-minus"></i>  Operations
+                            </button>
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-success setting_button" data-bs-toggle="modal" data-bs-target="#operationsModal">
+                                <i class="bi bi-person"></i> User Settings
+                            </button>
+                        </div>
+
+                        <div class="col-md-12">
+                            <input type="checkbox" id="swapNumbers" name="swapNumbers" checked />
+                            <label for="swapNumbers" class="unselectable">Randomly Flip Numbers</label>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Numbers Modal -->
+<div class="modal fade" id="numbersModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -509,36 +124,49 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <p>
-                        <input type="checkbox" id="swapNumbers" name="swap" checked />
-                        <label for="swapNumbers">Randomly Flip Numbers</label>
-                    </p>
                     <div class="row">
-                        <div class="col-md-6 ml-auto">
-                            <div class="row">First Number</div>
+                        <div class="col-md-5 number_background_1 extra_space">
+                            <div class="row">
+                                <div class="col-md-12 large_label">First Number</div>
+                            </div>
                             <div class="row">
                                 @for (int x = 1; x <= 12; x++)
                                 {
                                     <div class="col-4">
-                                        <button class="numberButton" onclick="turnOnOffButton(1,@x);">@x</button>
+                                        <button id="buttonnumber_@Html.Raw(1)_@Html.Raw(x)" class="number_button unselectable">
+                                            <div>@x</div>
+                                            <div id="onoffnumber_@Html.Raw(1)_@Html.Raw(x)" class="on_off_label">&nbsp;</div>
+                                        </button>
                                     </div>
                                 }
                                 <div class="col-4">
-                                    <button class="numberButton" onclick="turnOnOffButton(1,0);">0</button>
+                                    <button id="buttonnumber_@Html.Raw(1)_@Html.Raw(0)" class="number_button unselectable">
+                                        <div>0</div>
+                                        <div id="onoffnumber_@Html.Raw(1)_@Html.Raw(0)" class="on_off_label">&nbsp;</div>
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 ml-auto">
-                            <div class="row">Second Number</div>
+                        <div class="col-md-1 number_background_2 "> </div>
+                        <div class="col-md-5 number_background_2 extra_space">
+                            <div class="row">
+                                <div class="col-md-12 large_label">Second Number</div>
+                            </div>
                             <div class="row">
                                 @for (int x = 1; x <= 12; x++)
                                 {
                                     <div class="col-4">
-                                        <button class="numberButton" onclick="turnOnOffButton(2,@x);">@x</button>
+                                        <button id="buttonnumber_@Html.Raw(2)_@Html.Raw(x)" class="number_button unselectable">
+                                            <div>@x</div>
+                                            <div id="onoffnumber_@Html.Raw(2)_@Html.Raw(x)" class="on_off_label">&nbsp;</div>
+                                        </button>
                                     </div>
                                 }
                                 <div class="col-4">
-                                    <button class="numberButton" onclick="turnOnOffButton(2,0);">0</button>
+                                    <button id="buttonnumber_@Html.Raw(2)_@Html.Raw(0)" class="number_button unselectable">
+                                        <div>0</div>
+                                        <div id="onoffnumber_@Html.Raw(2)_@Html.Raw(0)" class="on_off_label">&nbsp;</div>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -546,8 +174,80 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Operations Modal -->
+<div class="modal fade" id="operationsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Operations</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6">
+                            <button id="add_operation_button" class="unselectable operation_button">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="operation_button_label">Add</div>
+                                    </div>
+                                    <div id="onoff_add" class="on_off_label">&nbsp;</div>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button id="subtract_operation_button" class="unselectable operation_button">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="operation_button_label">Subtract</div>
+                                    </div>
+                                    <div id="onoff_sub" class="on_off_label">&nbsp;</div>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button id="multiply_operation_button" class="unselectable operation_button">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="bi bi-x-lg"></i>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="operation_button_label">Multiply</div>
+                                    </div>
+                                    <div id="onoff_multiply" class="on_off_label">&nbsp;</div>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button id="divide_operation_button" class="unselectable operation_button">
+                                <div class="row">
+                                    <div class="col-4 divide_icon">
+                                        <i class="bi bi-percent"></i>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="operation_button_label">Divide</div>
+                                    </div>
+                                    <div id="onoff_divide" class="on_off_label">&nbsp;</div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -695,7 +395,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- Message Modal-->
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
