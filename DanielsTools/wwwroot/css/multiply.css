@@ -222,4 +222,17 @@ input:checked + .slider:before {
     font-size: 144px;
     color: black;
     margin: 5px;
+    padding: 10px;
 }
+
+.timer_class{
+    border: 5px solid black;
+    border-radius: 10px; 
+    width: auto;
+}
+
+.green_box{
+    border: 5px solid black;
+    color:green;
+}
+

@@ -49,13 +49,17 @@
 </div>
 
 <div class="row show_during_test">
-    <div>
-        <span id="firstNumberDiv" class="current_problem  unselectable"></span>
-        <span id="operationDiv" class="current_problem unselectable"></span>
-        <span id="secondNumberDiv" class="current_problem unselectable"></span>
+    <div class="row unselectable">
+        <span id="firstNumberDiv" class="current_problem  unselectable col-md-2"></span>
+        <span id="operationDiv" class="current_problem unselectable col-md-2"></span>
+        <span id="secondNumberDiv" class="current_problem unselectable col-md-2"></span>
+        <input id="answerTextBox" class="current_problem col-md-3" type="text" />
     </div>
 </div>
 
+<span id="secondsSpan" class="current_problem  unselectable timer_class show_during_timed_test">00</span>
+
+<span id="" class="show_after_timed_test current_problem  unselectable timer_class">Correct Count:</span><span id="correctCountSpan" class="show_after_timed_test current_problem  unselectable timer_class">0</span>
 
 <div class="row show_during_test">
     <button id="stop_timing_button" type="button" class="btn btn-warning large_button">
@@ -273,9 +277,9 @@
                             </div>
                             <p />
                             <p />
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chooseNameModal">
+                            @*<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chooseNameModal">
                                 Create New User
-                            </button>
+                            </button>*@
                         </div>
 
                     </div>
@@ -350,8 +354,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="backAvatarButton" type="button" class="btn btn-secondary large_button" data-bs-dismiss="modal">Back To Name</button>
-                <button id="setAvatarButton" type="button" class="btn btn-primary large_button">Choose Color</button>
+                <button id="backAvatarButton" type="button" class="btn btn-secondary large_button" data-bs-dismiss="modal">Back</button>
+                <button id="setAvatarButton" type="button" class="btn btn-primary large_button">Next</button>
             </div>
         </div>
     </div>

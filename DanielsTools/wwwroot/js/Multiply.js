@@ -18,6 +18,11 @@ var newUser = {};
 newUser.Username = "";
 newUser.AvatarId = 0;
 
+var timerEnd = Date.now();
+
+var correctCount = 0;
+var stopTimerStatus = false;
+
 function getCookieName(username, firstOrSecond, number) {
     var partOne = "";
     if (firstOrSecond == 1) {
@@ -73,7 +78,7 @@ function reloadUserListFromMemory() {
     $("#userListErrorSpan").html("");
 
     if (localUsers.users.length == 0) {
-        usersHTML = "No users found";
+        usersHTML = "";
         $("#userListErrorSpan").html(usersHTML);
     }
     else {
@@ -83,8 +88,12 @@ function reloadUserListFromMemory() {
             usersHTML += "<div class='col-md-3'><button style='width: 80%;background-color: " + user.Color + "'  onclick = 'selectUser(" + user.UserId + ")' ><div class='user_emoji_font'>" + avatar + "</div><div><p class='user_label_font'>" + user.Username + "</p></div></button ></div> ";
         }
 
-        $("#userList").html(usersHTML);
     }
+    usersHTML += "<div class='col-md-3'><button style='width: 80%;background-color: blue;' data-bs-toggle='modal' data-bs-target='#chooseNameModal' ><div class='user_emoji_font'><i class='bi bi-plus-lg'></i></div><div><p class='user_label_font'>Add</p></div></button ></div> ";
+
+
+
+    $("#userList").html(usersHTML);
 
 }
 
@@ -473,20 +482,20 @@ function getOperation() {
     var operations = [];
 
     if (currentUser.Settings.Operations.Add) {
-        operations.push("Add");
+        operations.push("+");
     }
     if (currentUser.Settings.Operations.Subtract) {
-        operations.push("Subtract");
+        operations.push("-");
     }
     if (currentUser.Settings.Operations.Multiply) {
-        operations.push("Multiply");
+        operations.push("x");
     }
-    if (currentUser.Settings.Operations.Multiply) {
-        operations.push("Subtract");
+    if (currentUser.Settings.Operations.Divide) {
+        operations.push("÷");
     }
 
     if (operations.length == 0) {
-        return "Add";
+        return "+";
     }
     else {
         var idx = Math.floor(Math.random() * operations.length);
@@ -497,7 +506,18 @@ function getOperation() {
 }
 
 function getAnswer(num1, num2, operation) {
-    
+    if (operation == "+") {
+        return num1 + num2;
+    }
+    else if (operation == "-") {
+        return num1 - num2;
+    }
+    else if (operation == "x") {
+        return num1 * num2;
+    }
+    else if (operation == "÷") {
+        return num1 / num2;
+    }
 }
 
 function showNumbersForProblem() {
@@ -505,7 +525,6 @@ function showNumbersForProblem() {
     var secondNumber = getSecondNumber();
     var operation = getOperation();
 
-    currentAnswer = getAnswer();
     var shouldWeFlip = currentUser.Settings.FlipNumbers;
 
     var flip = Math.floor(Math.random() * 2) == 1;
@@ -515,14 +534,19 @@ function showNumbersForProblem() {
         secondNumber = temp;
     }
 
+    currentAnswer = getAnswer(firstNumber, secondNumber, operation);
+
     $("#firstNumberDiv").html(firstNumber);
     $("#secondNumberDiv").html(secondNumber);
     $("#operationDiv").html(operation);
-
-
+    $("#answerTextBox").trigger('focus');
 }
 
-function showProblems() {
+function showProblems(isTimed) {
+    $('.show_after_timed_test').each(function (i, obj) {
+        $(this).hide();
+    });
+
     $('.hide_during_test').each(function (i, obj) {
         $(this).hide();
     });
@@ -530,24 +554,115 @@ function showProblems() {
     $('.show_during_test').each(function (i, obj) {
         $(this).show();
     });
+
+    if (isTimed) {
+        $('.show_during_timed_test').each(function (i, obj) {
+            $(this).show();
+        });
+    }
 
     showNumbersForProblem();
 }
 
-function hideProblems() {
+function hideProblems(isTimed) {
     $('.show_during_test').each(function (i, obj) {
+        $(this).hide();
+    });
+
+    $('.show_during_timed_test').each(function (i, obj) {
         $(this).hide();
     });
 
     $('.hide_during_test').each(function (i, obj) {
         $(this).show();
     });
+
+    if (isTimed) {
+        $('.show_after_timed_test').each(function (i, obj) {
+            $(this).show();
+        });
+    }
 }
+
+function beep() {
+    var snd = new Audio("data:audio/mpeg;base64,SUQzBAAAAAAAO1RYWFgAAAAPAAADVFhYWABpc29tbXA0MgBUU1NFAAAADgAAA0xhdmY2MS4xLjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAFwAAB1AAJycnJzExMTE7Ozs7O0REREROTk5OWFhYWFhiYmJibGxsbHZ2dnZ2gICAgImJiYmTk5OTk52dnZ2np6ensbGxsbG7u7u7xMTExM7Ozs7O2NjY2OLi4uLs7Ozs7Pb29vb/////AAAAAExhdmM2MS4zLgAAAAAAAAAAAAAAACQCpQAAAAAAAAdQo3EaQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+MYxAAAOAQAADAAAB5AqK4gD//+oEDn//+iBAxg+CDv/gM+c///8Hw+XD/B9/g+fxOH6ggQP9Tu3+eOE/2EBxf/6ZvNzA0//+MYxDoJUAVEUUAQAP/LhpNDM3IOf///0E3qNGJxE3////NB1jJk2OekHTjkEQVT////9EvuT5gy1IKJg0DlAEjf/////wFB/+MYxE8YK6KAEYKgAOANDAAEBsAGKACEIX3GuGqy3QBgMBgMBsNtASB//cx/8pSgv9GfMnR//osieMlF7//9SaR1pdOK7+///+MYxCkXc4rSWYJoALE0mGpkUhxH0VN/X1f+rWg6T7JpUR/I3/61//zogADMJEomJIlRdUf/xlAM1D//jCgCsfahCYH//////+MYxAYOY0qcMcCgAudb////U/qSRRQdF0dbLU///////q1mLEGIIGBAMIvA9yAW0lSGki5kxxakUGMjInkDzJUAxIB/4T///+MYxAcMUz6sWACpL//qRUIqMruRTu5GOrkO5A5if/////9a5cJ8rAOAABSRwEwTDJJLV6E6xdUAbb0Of8/Z/5/n/Zb42Ofl/+MYxBAOmwLgeAGVDk1Ttu5nf1LZU4z5pdjSU5RajjuicXJI2EauSX////T//+7jICNh/cRCUqoMP/X///////////iCEmEv/+MYxBAK+yaMEABrLP95sfM3IuJ9D6AmIQNMjALqzii6cLbLKiQKNyP/zb//////////////qqWXzhkT46gt5AOEoGHj6Bso/+MYxB8LIzJ4AAVHMIwWmjuGNIgYmB4+ypglAK6g/+v/8/1HA4AR4GACNyAICj8H0+bP////poEuTQxwGoCoFeIRr07/kSQX/+MYxC0KswacWABpLSEzCshMwhhQheLxeQhELD3R/1P10bTpPEGBqAAHFh0xjPGz4dDqpFX/1/////////////D///mhNFgm/+MYxD0KUxKMEABpZsNBC00A1qB/awY3HcQEmCmXjadTMUr/lv////////////4v/9uZzpwsjUFCiUQECUDWQAC9osREC82e/+MYxE4KKypsAAgpSCQv3f/D////////////////12rha/Vn61PelWnDLxBRAF7LWGnPnLa1z7VWpfBXDrn9J1/v/////////+MYxGAJ+x5sAAgrSP//8X//3QTYxSGuGqBxA2fA2KMgtbMCsVUDRGCVHDvlXWMV9dnfr//////////h/1////pUkKaZiRgZ/+MYxHMLcypoAAB1LBQupAQLwNDCgLqRzhzThVBIIKr+AjRqc////////////7//6DIMZnzzHRDxcQbMBmoIw1EQIanEsT8q/+MYxIAKgxpcAAgrSfVkYghRoL6H//l//9v//f/////q//2UqjpJP//PHC8fPF0ixZEEByAb+BokZBcONEunzh4vnb0Mhqpj/+MYxJELWxJYAAgrZc9xcASCQFyg1EY+XDioThOVAwgNl//6In/+2fvXf7a9f+oyn8l///////b//yUJUcwLqQsdAx8UwPIG/+MYxJ4J0w5cAAgpSSAkUQseFKiliVkuSk+cPz+07lS4EpUCZkfZM4156OUl52s5/d//////9SkkF/q//////////1///8ly/+MYxLEOUyJQAAgqyFCXHOAwaDAJBoAwxAYpW4NnQtSKXFKktJYlJ3nV9XDQPxIB4GxoTIqQHDCJY////////////Wv/Pfu//+MYxLIS+zYsADgrYP///////////5eLguABAADABAMqVA9PoEhAXIHMJYlCGnuNqtKNDCEiEtTDwUYgvQQVmMTju////////+MYxKER4zYsAGAqaP///9Wq7f////ZFJaKlrUn/+dLnbau7pHloJpnjc2NT5PEVLwywzoAIwDiIwvL//gUIgdEILhnv/4IR/+MYxJQQqx44AUegAcBhh4gIMeOkihFyyThF6i//L///////////VVq///9Squuv///9GYmKiiYqI0xMiNLxO////+DdILpC/+MYxIwX06JEAYWgAOMcgmTx0mUCNkxBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq/+MYxGcNMxIQAYGAAKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+    snd.play();
+}
+
+function showTimer() {
+    $('#secondsSpan').show();
+}
+function hideTimer() {
+    secondsSpan
+}
+
+function startTimer() {
+    stopTimerStatus = false;
+    timerEnd = new Date();
+    timerEnd.setSeconds(timerEnd.getSeconds() + 60);
+    tickTimer();
+}
+
+function tickTimer() {
+    if (stopTimerStatus) {
+        return;
+    }
+
+    var now = new Date();
+    var seconds = (timerEnd.getTime() - now.getTime()) / 1000;
+    var wholeSeconds = Math.floor(seconds);
+    var interval = 300;
+
+    $('#secondsSpan').html("00:" + pad2(wholeSeconds));
+
+    if (wholeSeconds < 0) {
+        wholeSeconds = 0;
+        hideProblems(true);
+        hideTimer();
+        return;
+    }
+
+    setTimeout(function () {
+        tickTimer();
+    }, 1000)
+}
+
+function updateCorrectCount() {
+    $('#correctCountSpan').html(correctCount);
+}
+
+function stopTimer() {
+    stopTimerStatus = true;
+}
+
+function makeAnswerTextGreenForShortTime() {
+    //$("#answerTextBox").css("border", "5px solid green");//more efficient
+    $("#answerTextBox").css("background-color", "green");
+
+    //$('#answerTextBox').addClass('green_box');
+    //$('#answerTextBox').animate({ backgroundColor: '#008000' }, 500);
+    setTimeout(function () {
+        clearAnswerBox();
+    }, 500)
+}
+
+function clearAnswerBox() {
+    $("#answerTextBox").val("");
+    //$("#answerTextBox").css("border-color", "black");
+    $("#answerTextBox").css("background-color", "white");
+    //$('#answerTextBox').removeClass('green_box');
+}
+
 
 // document.ready
 $(function () {
 
     loadUserCookies();
+
+    hideProblems(true);
+    $('.show_after_timed_test').each(function (i, obj) {
+        $(this).hide();
+    });
 
     $('#usersModal').modal('show');
 
@@ -651,18 +766,42 @@ $(function () {
     });
 
     $("#start_practice_button").on('click', function (event) {
-        showProblems();
+        correctCount = 0;
+        showProblems(false);
+        hideTimer();
     })
 
     $("#start_timing_button").on('click', function (event) {
-        showProblems();
+        correctCount = 0;
+        showProblems(true);
+        showTimer();
+        startTimer();
     })
 
     $("#stop_timing_button").on('click', function (event) {
-        hideProblems();
+        hideProblems(true);
+        hideTimer();
+        stopTimer();
     })
 
+    $('#answerTextBox').on('input', function (e) {
+        var myanswer = $("#answerTextBox").val();
+        if (myanswer == currentAnswer.toString()) {
+            //makeTextGreenForShortTime();
+            correctCount++;
+            updateCorrectCount();
+            beep();
+            showNumbersForProblem();
+            makeAnswerTextGreenForShortTime();
+            
+            $("#answerTextBox").trigger('focus');
+        }
 
+        // clear out on a space bar
+        else if (myanswer.includes(" ")) {
+            $("#answerTextBox").val("");
+        }
+    });
 
 
 });
