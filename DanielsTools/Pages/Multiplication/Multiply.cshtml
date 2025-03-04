@@ -13,26 +13,57 @@
 
 </script>
 
+<div class="d-lg-none hide_during_test">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light hide_during_test">
+        <div class="container-fluid">
+            <a id="smallUserDiv" class="navbar-brand" href="#">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    @*<div id="currentUserDiv" class="col-md-6">
+                    </div>*@
+                    <a class="nav-link active" aria-current="page" href="#">
+
+                    </a>
+                    <button type="button" class="btn btn-success large_button nav-link hide_during_test" data-bs-toggle="modal" data-bs-target="#youTubeModal">
+                        <i class="bi bi-coin"></i>
+                    </button>
+                    <button type="button" class="btn btn-success large_button nav-link hide_during_test" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                        <i class="bi bi-gear"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary large_button hide_during_test nav-link" data-bs-toggle="modal" data-bs-target="#usersModal">
+                        <i class="bi bi-people"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+
 <div class="row">
-    <div id="currentUserDiv" class="col-md-6">
-    </div>
-
-    <div id="" class="col-md-3">
+    <div id="currentUserDiv" class="col-md-6 hide_during_test d-none d-lg-block d-xl-block">
     </div>
 
 
-    <div class="topcorner col-md-3">
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-success large_button" data-bs-toggle="modal" data-bs-target="#settingsModal">
+    <div class="topcorner col-md-6 hide_during_test d-none d-lg-block d-xl-block">
+
+        <button type="button" class="btn btn-success large_button hide_during_test" data-bs-toggle="modal" data-bs-target="#youTubeModal">
+            <i class="bi bi-coin"></i>
+        </button>
+        <button type="button" class="btn btn-success large_button hide_during_test" data-bs-toggle="modal" data-bs-target="#settingsModal">
             <i class="bi bi-gear"></i>
         </button>
-
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary large_button" data-bs-toggle="modal" data-bs-target="#usersModal">
+        <button type="button" class="btn btn-primary large_button hide_during_test" data-bs-toggle="modal" data-bs-target="#usersModal">
             <i class="bi bi-people"></i>
         </button>
     </div>
 </div>
+
+
+
 
 
 
@@ -269,7 +300,7 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-10 ml-auto">
+                        <div class="col-md-12 col-lg-12">
                             <div id="userList" class="row">
                             </div>
                             <div class="row">
@@ -278,8 +309,8 @@
                             <p />
                             <p />
                             @*<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chooseNameModal">
-                                Create New User
-                            </button>*@
+                                    Create New User
+                                </button>*@
                         </div>
 
                     </div>
@@ -412,6 +443,29 @@
                 <div class="container-fluid">
                     <div class="row">
                         <span id="MessageModalBodyText" class=""></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- You Tube Modal-->
+<div class="modal fade" id="youTubeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="MessageModalTitle" class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <iframe width="315" height="560"
+                                src="https://www.onlinegames.io/games/2024/unity/drift-king/index.html"></iframe>
                     </div>
                 </div>
             </div>

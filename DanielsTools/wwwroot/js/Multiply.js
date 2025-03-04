@@ -85,16 +85,12 @@ function reloadUserListFromMemory() {
         for (var i = 0; i < localUsers.users.length; i++) {
             var user = localUsers.users[i];
             var avatar = EMOJI_DICTIONARY[user.AvatarId];
-            usersHTML += "<div class='col-md-3'><button style='width: 80%;background-color: " + user.Color + "'  onclick = 'selectUser(" + user.UserId + ")' ><div class='user_emoji_font'>" + avatar + "</div><div><p class='user_label_font'>" + user.Username + "</p></div></button ></div> ";
+            usersHTML += "<div class='col-xxl-4 col-xl-4 col-lg-4 col-md-5 col-sm-12 user_button_div'><button style='width: 80%; background-color: " + user.Color + "'  onclick = 'selectUser(" + user.UserId + ")' ><div class='user_emoji_font'>" + avatar + "</div><div><p class='user_label_font'>" + user.Username + "</p></div></button ></div> ";
         }
-
     }
-    usersHTML += "<div class='col-md-3'><button style='width: 80%;background-color: blue;' data-bs-toggle='modal' data-bs-target='#chooseNameModal' ><div class='user_emoji_font'><i class='bi bi-plus-lg'></i></div><div><p class='user_label_font'>Add</p></div></button ></div> ";
-
-
+    usersHTML += "<div class='col-xxl-4 col-xl-4 col-lg-4 col-md-5 col-sm-12 user_button_div'><button style='width: 80%;background-color: blue;' data-bs-toggle='modal' data-bs-target='#chooseNameModal' ><div class='user_emoji_font'><i class='bi bi-plus-lg'></i></div><div><p class='user_label_font'>Add</p></div></button ></div> ";
 
     $("#userList").html(usersHTML);
-
 }
 
 
@@ -339,6 +335,9 @@ function selectUser(userId) {
     if (currentUser.UserId != 0) {
         $('#usersModal').modal('hide');
     }
+
+    $("#smallUserDiv").html("");
+    $("#smallUserDiv").html(currentUser.Username);
 
     $("#currentUserDiv").html("");
 

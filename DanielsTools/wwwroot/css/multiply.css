@@ -89,12 +89,12 @@
 }
 
 .user_label_font {
-    font-size: 32px;
     font-weight: bold;
+    font-size: calc(16px + 2vw);
 }
 
 .user_emoji_font {
-    font-size: 72px;
+    font-size: 4vw;
 }
 
 .current_user_label {
@@ -106,6 +106,10 @@
 .current_user_avatar {
     display: inline-block;
     font-size: 72px;
+}
+
+.user_button_div{
+    margin: 10px;
 }
 
 .unselectable {
