@@ -447,7 +447,6 @@ namespace DanielsTools.Utilities
 577 &#x1F345 tomato
 578 &#x1F965 coconut
 579 &#x1F951 avocado
-580 &#x1F346 eggplant
 581 &#x1F954 potato
 582 &#x1F955 carrot
 583 &#x1F33D ear-of-corn

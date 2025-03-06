@@ -353,16 +353,28 @@ function saveUserListToCookie() {
 }
 
 function saveNewUserToMemory() {
-    // set id of new user to timestamp
-    newUser.UserId = getTimeStamp();
+    if (newUser.UserId != "") {
+        // we already have a user id, update the user
+        for (var i = 0; i < localUsers.users.length; i++) {
+            if (localUsers.users[i].UserId == newUser.UserId) {
+                localUsers.users[i] = newUser;
+                selectUser(newUser.UserId);
+            }
+        }
+    }
+    else{
+        // set id of new user to timestamp
+        newUser.UserId = getTimeStamp();
 
-    localUsers.users.push(newUser);
-
+        localUsers.users.push(newUser);
+    }
     saveUserListToCookie();
 
     reloadUserListFromMemory();
 
     newUser = {};
+
+    $('#chooseColorModal').modal('hide');
 }
 
 function showMessageModal(isError, messageTitle, messageBody) {
@@ -781,6 +793,16 @@ $(function () {
         hideProblems(true);
         hideTimer();
         stopTimer();
+    })
+
+    $("#onChooseNameButton").on('click', function (event) {
+        // update name field with the existing fields
+        var usernameTextBox = $("#newUsernameTextBox");
+        //usernameTextBox.attr("placeholder", "");
+        usernameTextBox.val(currentUser.Username);
+
+        newUser = {};
+        newUser.UserId = currentUser.UserId;
     })
 
     $('#answerTextBox').on('input', function (e) {

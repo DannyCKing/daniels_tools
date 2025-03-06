@@ -23,7 +23,7 @@
             <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     @*<div id="currentUserDiv" class="col-md-6">
-                    </div>*@
+                        </div>*@
                     <a class="nav-link active" aria-current="page" href="#">
 
                     </a>
@@ -44,11 +44,11 @@
 
 
 <div class="row">
-    <div id="currentUserDiv" class="col-md-6 hide_during_test d-none d-lg-block d-xl-block">
+    <div id="currentUserDiv" class="col hide_during_test d-none d-lg-block d-xl-block">
     </div>
 
 
-    <div class="topcorner col-md-6 hide_during_test d-none d-lg-block d-xl-block">
+    <div class="topcorner col-auto hide_during_test d-none d-lg-block d-xl-block">
 
         <button type="button" class="btn btn-success large_button hide_during_test" data-bs-toggle="modal" data-bs-target="#youTubeModal">
             <i class="bi bi-coin"></i>
@@ -126,15 +126,19 @@
 
                         <div class="col-md-6">
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-success setting_button" data-bs-toggle="modal" data-bs-target="#operationsModal">
+                            <button id="onChooseNameButton" type="button" class="btn btn-success setting_button" data-bs-toggle="modal" data-bs-target="#chooseNameModal">
                                 <i class="bi bi-person"></i> User Settings
                             </button>
                         </div>
 
-                        <div class="col-md-12">
-                            <input type="checkbox" id="swapNumbers" name="swapNumbers" checked />
-                            <label for="swapNumbers" class="unselectable">Randomly Flip Numbers</label>
+                        <div class="col-md-6">
+                            <!-- Button trigger modal -->
+                            <button id="onChooseNameButton" type="button" class="btn btn-danger setting_button" data-bs-toggle="modal" data-bs-target="#chooseNameModal">
+                                <i class="bi bi-trash"></i> Delete User
+                            </button>
                         </div>
+
+
                     </div>
 
 
@@ -143,7 +147,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
@@ -277,6 +280,10 @@
                                     <div id="onoff_divide" class="on_off_label">&nbsp;</div>
                                 </div>
                             </button>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="checkbox" id="swapNumbers" name="swapNumbers" checked />
+                            <label for="swapNumbers" class="unselectable">Randomly Flip Numbers</label>
                         </div>
                     </div>
                 </div>
