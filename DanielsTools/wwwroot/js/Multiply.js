@@ -85,10 +85,10 @@ function reloadUserListFromMemory() {
         for (var i = 0; i < localUsers.users.length; i++) {
             var user = localUsers.users[i];
             var avatar = EMOJI_DICTIONARY[user.AvatarId];
-            usersHTML += "<div class='col-xxl-4 col-xl-4 col-lg-4 col-md-5 col-sm-12 user_button_div'><button style='width: 80%; background-color: " + user.Color + "'  onclick = 'selectUser(" + user.UserId + ")' ><div class='user_emoji_font'>" + avatar + "</div><div><p class='user_label_font'>" + user.Username + "</p></div></button ></div> ";
+            usersHTML += "<div class='col-xxl-3 col-xl-3 col-lg-3 col-md-5 col-sm-12 user_button_div'><button style='width: 80%; background-color: " + user.Color + "'  onclick = 'selectUser(" + user.UserId + ")' ><div class='user_emoji_font'>" + avatar + "</div><div><p class='user_label_font'>" + user.Username + "</p></div></button ></div> ";
         }
     }
-    usersHTML += "<div class='col-xxl-4 col-xl-4 col-lg-4 col-md-5 col-sm-12 user_button_div'><button style='width: 80%;background-color: blue;' data-bs-toggle='modal' data-bs-target='#chooseNameModal' ><div class='user_emoji_font'><i class='bi bi-plus-lg'></i></div><div><p class='user_label_font'>Add</p></div></button ></div> ";
+    usersHTML += "<div class='col-xxl-3 col-xl-3 col-lg-3 col-md-5 col-sm-12 user_button_div'><button style='width: 80%;background-color: blue;' data-bs-toggle='modal' data-bs-target='#chooseNameModal' ><div class='user_emoji_font'><i class='bi bi-plus-lg'></i></div><div><p class='user_label_font'>Add</p></div></button ></div> ";
 
     $("#userList").html(usersHTML);
 }
@@ -220,10 +220,10 @@ function getDefaultSettings() {
     result.Operations.Multiply = true;
     result.Operations.Divide = false;
 
+    result.Operations.SwapNumbers = true;
+
     result.PasswordProtected = false;
     result.Password = "";
-
-    result.FlipNumbers = true;
 
     return result;
 }
@@ -267,50 +267,75 @@ function turnOnOffNumberButtonsBasedOnSettings() {
 function turnOnOffOperationButtonsBasedOnSettings() {
     $("#add_operation_button").removeClass("operation_button_on");
     $("#add_operation_button").removeClass("operation_button_off");
+    $("#add_current_toggle").removeClass("bi-toggle-on");
+    $("#add_current_toggle").removeClass("bi-toggle-off");
 
     if (currentUser.Settings.Operations.Add) {
         $("#add_operation_button").addClass("operation_button_on");
-        $("#onoff_add").html("ON");
+        $("#add_current_toggle").addClass("bi-toggle-on");
     }
     else {
         $("#add_operation_button").addClass("operation_button_off");
-        $("#onoff_add").html("OFF");
+        $("#add_current_toggle").addClass("bi-toggle-off");
     }
 
     $("#subtract_operation_button").removeClass("operation_button_on");
     $("#subtract_operation_button").removeClass("operation_button_off");
+    $("#subtract_current_toggle").removeClass("bi-toggle-on");
+    $("#subtract_current_toggle").removeClass("bi-toggle-off");
 
     if (currentUser.Settings.Operations.Subtract) {
         $("#subtract_operation_button").addClass("operation_button_on");
-        $("#onoff_sub").html("ON");
+        $("#subtract_current_toggle").addClass("bi-toggle-on");
     }
     else {
         $("#subtract_operation_button").addClass("operation_button_off");
-        $("#onoff_sub").html("OFF");
+        $("#subtract_current_toggle").addClass("bi-toggle-off");
     }
 
     $("#multiply_operation_button").removeClass("operation_button_on");
     $("#multiply_operation_button").removeClass("operation_button_off");
+    $("#multiply_current_toggle").removeClass("bi-toggle-on");
+    $("#multiply_current_toggle").removeClass("bi-toggle-off");
 
     if (currentUser.Settings.Operations.Multiply) {
         $("#multiply_operation_button").addClass("operation_button_on");
-        $("#onoff_multiply").html("ON");
+        $("#multiply_current_toggle").addClass("bi-toggle-on");
     }
     else {
         $("#multiply_operation_button").addClass("operation_button_off");
-        $("#onoff_multiply").html("OFF");
+        $("#multiply_current_toggle").addClass("bi-toggle-off");
     }
 
     $("#divide_operation_button").removeClass("operation_button_on");
     $("#divide_operation_button").removeClass("operation_button_off");
+    $("#divide_current_toggle").removeClass("bi-toggle-on");
+    $("#divide_current_toggle").removeClass("bi-toggle-off");
 
     if (currentUser.Settings.Operations.Divide) {
         $("#divide_operation_button").addClass("operation_button_on");
-        $("#onoff_divide").html("ON");
+        $("#divide_current_toggle").addClass("bi-toggle-on");
     }
     else {
         $("#divide_operation_button").addClass("operation_button_off");
-        $("#onoff_divide").html("OFF");
+        $("#divide_current_toggle").addClass("bi-toggle-off");
+    }
+
+    $("#swap_operation_button").removeClass("operation_button_on");
+    $("#swap_operation_button").removeClass("operation_button_off");
+
+    $("#swap_current_toggle").removeClass("bi-toggle-on");
+    $("#swap_current_toggle").removeClass("bi-toggle-off");
+
+
+    if (currentUser.Settings.Operations.SwapNumbers) {
+        $("#swap_operation_button").addClass("operation_button_on");
+        $("#swap_current_toggle").addClass("bi-toggle-on");
+
+    }
+    else {
+        $("#swap_operation_button").addClass("operation_button_off");
+        $("#swap_current_toggle").addClass("bi-toggle-off");
     }
 }
 
@@ -353,7 +378,7 @@ function saveUserListToCookie() {
 }
 
 function saveNewUserToMemory() {
-    if (newUser.UserId != "") {
+    if (newUser.UserId && newUser.UserId != "") {
         // we already have a user id, update the user
         for (var i = 0; i < localUsers.users.length; i++) {
             if (localUsers.users[i].UserId == newUser.UserId) {
@@ -432,6 +457,9 @@ function turnOperationOnOff(buttonId) {
     }
     else if (operationType == "divide") {
         currentUser.Settings.Operations.Divide = !currentUser.Settings.Operations.Divide;
+    }
+    else if (operationType == "swap") {
+        currentUser.Settings.Operations.SwapNumbers = !currentUser.Settings.Operations.SwapNumbers;
     }
 
     saveCurrentUserSettingsIntoCookies();
@@ -536,7 +564,7 @@ function showNumbersForProblem() {
     var secondNumber = getSecondNumber();
     var operation = getOperation();
 
-    var shouldWeFlip = currentUser.Settings.FlipNumbers;
+    var shouldWeFlip = currentUser.Settings.Operations.SwapNumbers;
 
     var flip = Math.floor(Math.random() * 2) == 1;
     if (shouldWeFlip && flip) {

@@ -229,55 +229,138 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-lg-6 col-md-8 col-sm-8">
                             <button id="add_operation_button" class="unselectable operation_button">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <i class="bi bi-plus-lg"></i>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="row">
+                                                <i class="bi bi-plus-lg"></i>
+                                            </div>
+                                            <div class="row">
+                                                <div class="operation_button_label">Add</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div>
+                                                <p class="on_label">ON</p>
+                                            </div>
+                                            <div class="toggle_rotate_270 toggle_margin">
+                                                <i id="add_current_toggle" class="bi"></i>
+                                            </div>
+                                            <div>
+                                                <p class="off_label">OFF</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-8">
-                                        <div class="operation_button_label">Add</div>
-                                    </div>
-                                    <div id="onoff_add" class="on_off_label">&nbsp;</div>
                                 </div>
                             </button>
                         </div>
-                        <div class="col-6">
+                        <div class="col-lg-6 col-md-8 col-sm-8">
                             <button id="subtract_operation_button" class="unselectable operation_button">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <i class="bi bi-plus-lg"></i>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="row">
+                                                <i class="bi bi-dash-lg"></i>
+                                            </div>
+                                            <div class="row">
+                                                <div class="operation_button_label">Subtract</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div>
+                                                <p class="on_label">ON</p>
+                                            </div>
+                                            <div class="toggle_rotate_270 toggle_margin">
+                                                <i id="subtract_current_toggle" class="bi"></i>
+                                            </div>
+                                            <div>
+                                                <p class="off_label">OFF</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-8">
-                                        <div class="operation_button_label">Subtract</div>
-                                    </div>
-                                    <div id="onoff_sub" class="on_off_label">&nbsp;</div>
                                 </div>
                             </button>
                         </div>
-                        <div class="col-6">
+                        <div class="col-lg-6 col-md-8 col-sm-8">
                             <button id="multiply_operation_button" class="unselectable operation_button">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <i class="bi bi-x-lg"></i>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="row">
+                                                <i class="bi bi-x-lg"></i>
+                                            </div>
+                                            <div class="row">
+                                                <div class="operation_button_label">Multiply</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div>
+                                                <p class="on_label">ON</p>
+                                            </div>
+                                            <div class="toggle_rotate_270 toggle_margin">
+                                                <i id="multiply_current_toggle" class="bi"></i>
+                                            </div>
+                                            <div>
+                                                <p class="off_label">OFF</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-8">
-                                        <div class="operation_button_label">Multiply</div>
-                                    </div>
-                                    <div id="onoff_multiply" class="on_off_label">&nbsp;</div>
                                 </div>
                             </button>
                         </div>
-                        <div class="col-6">
+                        <div class="col-lg-6 col-md-8 col-sm-8">
                             <button id="divide_operation_button" class="unselectable operation_button">
-                                <div class="row">
-                                    <div class="col-4 divide_icon">
-                                        <i class="bi bi-percent"></i>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="row divide_icon">
+                                                <i class="bi bi-percent"></i>
+                                            </div>
+                                            <div class="row">
+                                                <div class="operation_button_label">Divide</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div>
+                                                <p class="on_label">ON</p>
+                                            </div>
+                                            <div class="toggle_rotate_270 toggle_margin">
+                                                <i id="divide_current_toggle" class="bi"></i>
+                                            </div>
+                                            <div>
+                                                <p class="off_label">OFF</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-8">
-                                        <div class="operation_button_label">Divide</div>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-lg-6 col-md-8 col-sm-8">
+                            <button id="swap_operation_button" class="unselectable operation_button">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="row">
+                                                <i class="bi bi-arrow-left-right"></i>
+                                            </div>
+                                            <div class="row">
+                                                <div class="operation_button_label">Swap</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div>
+                                                <p class="on_label">ON</p>
+                                            </div>
+                                            <div class="toggle_rotate_270 toggle_margin">
+                                                <i id="swap_current_toggle" class="bi"></i>
+                                            </div>
+                                            <div>
+                                                <p class="off_label">OFF</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div id="onoff_divide" class="on_off_label">&nbsp;</div>
                                 </div>
                             </button>
                         </div>

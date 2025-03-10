@@ -14,8 +14,24 @@
 }
 
 .on_off_label{
+    
+}
+
+.on_label {
+    margin-bottom: 0px;
     font-size: 14px;
 }
+
+.off_label {
+    margin-top: 0px;
+    font-size: 14px;
+}
+
+.toggle_margin{
+    padding: 0px;
+    margin: 0px;
+}
+
 
 .number_button_off {
     background-color: white;
@@ -198,6 +214,10 @@ input:checked + .slider:before {
     transform: rotate(45deg);
 }
 
+.toggle_rotate_270 {
+    transform: rotate(270deg);
+}
+
 .operation_button_label{
     float:left;
 }
@@ -205,7 +225,7 @@ input:checked + .slider:before {
 .operation_button {
     color: white;
     font-weight: bolder;
-    font-size: 4rem;
+    font-size: 4vw;
     width: 100%;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -218,8 +238,8 @@ input:checked + .slider:before {
 }
 
 .operation_button_off {
-    background-color: white;
-    color: gray;
+    background-color: #E5E4E2;
+    color: darkgray;
 }
 
 .current_problem{
@@ -298,3 +318,12 @@ input:checked + .slider:before {
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0px;
 }
+
+$display-font-sizes: (
+  1: 5rem,
+  2: 4.5rem,
+  3: 4rem,
+  4: 3.5rem,
+  5: 3rem,
+  6: 2.5rem
+);
