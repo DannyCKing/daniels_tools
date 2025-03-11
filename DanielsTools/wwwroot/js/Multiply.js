@@ -236,14 +236,20 @@ function turnOnOffNumberButtonsBasedOnSettings() {
         $("#" + firstNumberButtonId).removeClass("number_button_on");
         $("#" + firstNumberButtonId).removeClass("number_button_off");
 
-
         var onOffLabel1Id = "onoffnumber_1_" + i.toString();
+        var radioButton1Id = "firstNumber_1_" + i.toString();
+        $("#" + radioButton1Id).removeClass("bi-toggle-on");
+        $("#" + radioButton1Id).removeClass("bi-toggle-off");
+
+
         if (currentUser.Settings.FirstNumber[i]) {
             $("#" + firstNumberButtonId).addClass("number_button_on");
+            $("#" + radioButton1Id).addClass("bi-toggle-on");
             $("#" + onOffLabel1Id).html("ON");
         }
         else {
             $("#" + firstNumberButtonId).addClass("number_button_off");
+            $("#" + radioButton1Id).addClass("bi-toggle-off");
             $("#" + onOffLabel1Id).html("OFF");
         }
 

@@ -163,57 +163,92 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-5 number_background_1 extra_space">
+                        <div class="col-md-12 number_background_1 extra_space">
                             <div class="row">
                                 <div class="col-md-12 large_label">First Number</div>
                             </div>
                             <div class="row">
-                                @for (int x = 1; x <= 12; x++)
+                                @for (int x = 0; x <= 4; x++)
                                 {
-                                    <div class="col-4">
+                                    <div class="col">
                                         <button id="buttonnumber_@Html.Raw(1)_@Html.Raw(x)" class="number_button unselectable">
-                                            <div>@x</div>
-                                            <div id="onoffnumber_@Html.Raw(1)_@Html.Raw(x)" class="on_off_label">&nbsp;</div>
+                                            <div class="row">
+                                                <div class="col-6">@x</div>
+                                                <div class="col-6 toggle_rotate_270 toggle_margin">
+                                                    <i id="firstNumber_@Html.Raw(1)_@Html.Raw(x)" class="bi"></i>
+                                                </div>
+                                                @*<div id="onoffnumber_@Html.Raw(1)_@Html.Raw(x)" class="on_off_label col-4">&nbsp;</div>*@
+
+                                            </div>
                                         </button>
                                     </div>
                                 }
-                                <div class="col-4">
-                                    <button id="buttonnumber_@Html.Raw(1)_@Html.Raw(0)" class="number_button unselectable">
-                                        <div>0</div>
-                                        <div id="onoffnumber_@Html.Raw(1)_@Html.Raw(0)" class="on_off_label">&nbsp;</div>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-1 number_background_2 "> </div>
-                        <div class="col-md-5 number_background_2 extra_space">
-                            <div class="row">
-                                <div class="col-md-12 large_label">Second Number</div>
                             </div>
                             <div class="row">
-                                @for (int x = 1; x <= 12; x++)
+                                @for (int x = 5; x <= 9; x++)
                                 {
-                                    <div class="col-4">
-                                        <button id="buttonnumber_@Html.Raw(2)_@Html.Raw(x)" class="number_button unselectable">
-                                            <div>@x</div>
-                                            <div id="onoffnumber_@Html.Raw(2)_@Html.Raw(x)" class="on_off_label">&nbsp;</div>
+                                    <div class="col">
+                                        <button id="buttonnumber_@Html.Raw(1)_@Html.Raw(x)" class="number_button unselectable">
+                                            <div class="row">
+                                                <div class="col-6">@x</div>
+                                                <div class="col-6 toggle_rotate_270 toggle_margin">
+                                                    <i id="firstNumber_@Html.Raw(1)_@Html.Raw(x)" class="bi"></i>
+                                                </div>
+                                            </div>
+                                            @*<div id="onoffnumber_@Html.Raw(1)_@Html.Raw(x)" class="on_off_label">&nbsp;</div>*@
                                         </button>
                                     </div>
                                 }
+                            </div>
+                            <div class="row">
+                                @for (int x = 10; x <= 12; x++)
+                                {
+                                    <div class="col">
+                                        <button id="buttonnumber_@Html.Raw(1)_@Html.Raw(x)" class="number_button unselectable">
+                                            <div class="row">
+                                                <div class="col-6">@x</div>
+                                                <div class="col-6 toggle_rotate_270 toggle_margin">
+                                                    <i id="firstNumber_@Html.Raw(1)_@Html.Raw(x)" class="bi"></i>
+                                                </div>
+                                            </div>
+                                            @*<div id="onoffnumber_@Html.Raw(1)_@Html.Raw(x)" class="on_off_label">&nbsp;</div>*@
+                                        </button>
+                                    </div>
+                                }
+                                <div class="col"></div>
+                                <div class="col"></div>
+                            </div>
+
+                            </div>
+                    </div>
+                    @*<div class="col-md-1 number_background_2 "> </div>*@
+                    <div class="col-md-12 number_background_2 extra_space">
+                        <div class="row">
+                            <div class="col-md-12 large_label">Second Number</div>
+                        </div>
+                        <div class="row">
+                            @for (int x = 1; x <= 12; x++)
+                            {
                                 <div class="col-4">
-                                    <button id="buttonnumber_@Html.Raw(2)_@Html.Raw(0)" class="number_button unselectable">
-                                        <div>0</div>
-                                        <div id="onoffnumber_@Html.Raw(2)_@Html.Raw(0)" class="on_off_label">&nbsp;</div>
+                                    <button id="buttonnumber_@Html.Raw(2)_@Html.Raw(x)" class="number_button unselectable">
+                                        <div>@x</div>
+                                        <div id="onoffnumber_@Html.Raw(2)_@Html.Raw(x)" class="on_off_label">&nbsp;</div>
                                     </button>
                                 </div>
+                            }
+                            <div class="col-4">
+                                <button id="buttonnumber_@Html.Raw(2)_@Html.Raw(0)" class="number_button unselectable">
+                                    <div>0</div>
+                                    <div id="onoffnumber_@Html.Raw(2)_@Html.Raw(0)" class="on_off_label">&nbsp;</div>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
         </div>
     </div>
 </div>
@@ -229,7 +264,7 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-6 col-md-8 col-sm-8">
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-8">
                             <button id="add_operation_button" class="unselectable operation_button">
                                 <div class="container-fluid">
                                     <div class="row">
@@ -256,7 +291,7 @@
                                 </div>
                             </button>
                         </div>
-                        <div class="col-lg-6 col-md-8 col-sm-8">
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-8">
                             <button id="subtract_operation_button" class="unselectable operation_button">
                                 <div class="container-fluid">
                                     <div class="row">
@@ -283,7 +318,7 @@
                                 </div>
                             </button>
                         </div>
-                        <div class="col-lg-6 col-md-8 col-sm-8">
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-8">
                             <button id="multiply_operation_button" class="unselectable operation_button">
                                 <div class="container-fluid">
                                     <div class="row">
@@ -310,7 +345,7 @@
                                 </div>
                             </button>
                         </div>
-                        <div class="col-lg-6 col-md-8 col-sm-8">
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-8">
                             <button id="divide_operation_button" class="unselectable operation_button">
                                 <div class="container-fluid">
                                     <div class="row">
@@ -337,7 +372,7 @@
                                 </div>
                             </button>
                         </div>
-                        <div class="col-lg-6 col-md-8 col-sm-8">
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-8">
                             <button id="swap_operation_button" class="unselectable operation_button">
                                 <div class="container-fluid">
                                     <div class="row">
@@ -364,10 +399,10 @@
                                 </div>
                             </button>
                         </div>
-                        <div class="col-md-12">
+                        @*<div class="col-md-12">
                             <input type="checkbox" id="swapNumbers" name="swapNumbers" checked />
                             <label for="swapNumbers" class="unselectable">Randomly Flip Numbers</label>
-                        </div>
+                        </div>*@
                     </div>
                 </div>
             </div>
