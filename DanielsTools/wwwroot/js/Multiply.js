@@ -232,40 +232,66 @@ function turnOnOffNumberButtonsBasedOnSettings() {
     // turn off on correct number buttons
     for (var i = 0; i <= 12; i++) {
 
+        // handle first number section
         var firstNumberButtonId = "buttonnumber_1_" + i.toString();
         $("#" + firstNumberButtonId).removeClass("number_button_on");
         $("#" + firstNumberButtonId).removeClass("number_button_off");
 
         var onOffLabel1Id = "onoffnumber_1_" + i.toString();
         var radioButton1Id = "firstNumber_1_" + i.toString();
+        var parentOfRadioButton1Id = "parentFirstNumber_1_" + i.toString();
+
         $("#" + radioButton1Id).removeClass("bi-toggle-on");
         $("#" + radioButton1Id).removeClass("bi-toggle-off");
-
+        $("#" + radioButton1Id).removeClass("green_font");
+        $("#" + radioButton1Id).removeClass("red_font");
 
         if (currentUser.Settings.FirstNumber[i]) {
             $("#" + firstNumberButtonId).addClass("number_button_on");
             $("#" + radioButton1Id).addClass("bi-toggle-on");
+            $("#" + radioButton1Id).addClass("green_font");
+
             $("#" + onOffLabel1Id).html("ON");
+
         }
         else {
             $("#" + firstNumberButtonId).addClass("number_button_off");
             $("#" + radioButton1Id).addClass("bi-toggle-off");
+            $("#" + radioButton1Id).addClass("red_font");
+            //$("#" + parentOfRadioButton1Id).addClass("toggle_rotate_90");
+
             $("#" + onOffLabel1Id).html("OFF");
         }
 
-        var secondNumberButtonId = "buttonnumber_2_" + i.toString();
-        var onOffLabel2Id = "onoffnumber_2_" + i.toString();
+        // handle second number section
+        var firstNumberButtonId = "buttonnumber_2_" + i.toString();
+        $("#" + firstNumberButtonId).removeClass("number_button_on");
+        $("#" + firstNumberButtonId).removeClass("number_button_off");
 
-        $("#" + secondNumberButtonId).removeClass("number_button_on");
-        $("#" + secondNumberButtonId).removeClass("number_button_off");
+        var onOffLabel1Id = "onoffnumber_2_" + i.toString();
+        var radioButton1Id = "firstNumber_2_" + i.toString();
+        var parentOfRadioButton1Id = "parentFirstNumber_1_" + i.toString();
+
+        $("#" + radioButton1Id).removeClass("bi-toggle-on");
+        $("#" + radioButton1Id).removeClass("bi-toggle-off");
+        $("#" + radioButton1Id).removeClass("green_font");
+        $("#" + radioButton1Id).removeClass("red_font");
 
         if (currentUser.Settings.SecondNumber[i]) {
-            $("#" + secondNumberButtonId).addClass("number_button_on");
-            $("#" + onOffLabel2Id).html("ON");
+            $("#" + firstNumberButtonId).addClass("number_button_on");
+            $("#" + radioButton1Id).addClass("bi-toggle-on");
+            $("#" + radioButton1Id).addClass("green_font");
+
+            $("#" + onOffLabel1Id).html("ON");
+
         }
         else {
-            $("#" + secondNumberButtonId).addClass("number_button_off");
-            $("#" + onOffLabel2Id).html("OFF");
+            $("#" + firstNumberButtonId).addClass("number_button_off");
+            $("#" + radioButton1Id).addClass("bi-toggle-off");
+            $("#" + radioButton1Id).addClass("red_font");
+            //$("#" + parentOfRadioButton1Id).addClass("toggle_rotate_90");
+
+            $("#" + onOffLabel1Id).html("OFF");
         }
     }
 }
@@ -279,10 +305,13 @@ function turnOnOffOperationButtonsBasedOnSettings() {
     if (currentUser.Settings.Operations.Add) {
         $("#add_operation_button").addClass("operation_button_on");
         $("#add_current_toggle").addClass("bi-toggle-on");
+        $("#onoff_add").text("ON");
+
     }
     else {
         $("#add_operation_button").addClass("operation_button_off");
         $("#add_current_toggle").addClass("bi-toggle-off");
+        $("#onoff_add").text("OFF");
     }
 
     $("#subtract_operation_button").removeClass("operation_button_on");
@@ -293,10 +322,13 @@ function turnOnOffOperationButtonsBasedOnSettings() {
     if (currentUser.Settings.Operations.Subtract) {
         $("#subtract_operation_button").addClass("operation_button_on");
         $("#subtract_current_toggle").addClass("bi-toggle-on");
+        $("#onoff_sub").text("ON");
+
     }
     else {
         $("#subtract_operation_button").addClass("operation_button_off");
         $("#subtract_current_toggle").addClass("bi-toggle-off");
+        $("#onoff_sub").text("OFF");
     }
 
     $("#multiply_operation_button").removeClass("operation_button_on");
@@ -307,10 +339,14 @@ function turnOnOffOperationButtonsBasedOnSettings() {
     if (currentUser.Settings.Operations.Multiply) {
         $("#multiply_operation_button").addClass("operation_button_on");
         $("#multiply_current_toggle").addClass("bi-toggle-on");
+        $("#onoff_mult").text("ON");
+
     }
     else {
         $("#multiply_operation_button").addClass("operation_button_off");
         $("#multiply_current_toggle").addClass("bi-toggle-off");
+        $("#onoff_mult").text("OFF");
+
     }
 
     $("#divide_operation_button").removeClass("operation_button_on");
@@ -321,10 +357,14 @@ function turnOnOffOperationButtonsBasedOnSettings() {
     if (currentUser.Settings.Operations.Divide) {
         $("#divide_operation_button").addClass("operation_button_on");
         $("#divide_current_toggle").addClass("bi-toggle-on");
+        $("#onoff_divide").text("ON");
+
     }
     else {
         $("#divide_operation_button").addClass("operation_button_off");
         $("#divide_current_toggle").addClass("bi-toggle-off");
+        $("#onoff_divide").text("OFF");
+
     }
 
     $("#swap_operation_button").removeClass("operation_button_on");
@@ -337,11 +377,14 @@ function turnOnOffOperationButtonsBasedOnSettings() {
     if (currentUser.Settings.Operations.SwapNumbers) {
         $("#swap_operation_button").addClass("operation_button_on");
         $("#swap_current_toggle").addClass("bi-toggle-on");
+        $("#onoff_swap").text("ON");
+
 
     }
     else {
         $("#swap_operation_button").addClass("operation_button_off");
         $("#swap_current_toggle").addClass("bi-toggle-off");
+        $("#onoff_swap").text("OFF");
     }
 }
 
@@ -466,6 +509,7 @@ function turnOperationOnOff(buttonId) {
     }
     else if (operationType == "swap") {
         currentUser.Settings.Operations.SwapNumbers = !currentUser.Settings.Operations.SwapNumbers;
+        showMessageModal(false, "Swap Setting", "This setting will sometimes swap the first and second numbers in addition and multiplication facts.")
     }
 
     saveCurrentUserSettingsIntoCookies();

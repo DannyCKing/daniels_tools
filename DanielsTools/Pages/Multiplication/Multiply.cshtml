@@ -157,7 +157,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Multiplication</h5>
+                <h5 class="modal-title">Choose Numbers For Problems</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -167,90 +167,120 @@
                             <div class="row">
                                 <div class="col-md-12 large_label">First Number</div>
                             </div>
-                            <div class="row">
-                                @for (int x = 0; x <= 4; x++)
-                                {
-                                    <div class="col">
-                                        <button id="buttonnumber_@Html.Raw(1)_@Html.Raw(x)" class="number_button unselectable">
-                                            <div class="row">
-                                                <div class="col-6">@x</div>
-                                                <div class="col-6 toggle_rotate_270 toggle_margin">
-                                                    <i id="firstNumber_@Html.Raw(1)_@Html.Raw(x)" class="bi"></i>
-                                                </div>
-                                                @*<div id="onoffnumber_@Html.Raw(1)_@Html.Raw(x)" class="on_off_label col-4">&nbsp;</div>*@
 
-                                            </div>
-                                        </button>
-                                    </div>
-                                }
-                            </div>
                             <div class="row">
-                                @for (int x = 5; x <= 9; x++)
+                                @for (int x = 0; x <= 12; x++)
                                 {
-                                    <div class="col">
-                                        <button id="buttonnumber_@Html.Raw(1)_@Html.Raw(x)" class="number_button unselectable">
-                                            <div class="row">
-                                                <div class="col-6">@x</div>
-                                                <div class="col-6 toggle_rotate_270 toggle_margin">
-                                                    <i id="firstNumber_@Html.Raw(1)_@Html.Raw(x)" class="bi"></i>
+                                    <div class="col-6 col-sm-6 col-md-6 col-lg-2 col-xl-2 col-xxl-2">
+                                        <button id="buttonnumber_@Html.Raw(1)_@Html.Raw(x)" name="buttonnumber_@Html.Raw(1)_@Html.Raw(x)" class="number_button unselectable">
+
+                                            <!-- This will change the layout of the button for larger screens-->
+
+                                            <div class=" d-none  d-lg-block">
+                                                <div class="row">
+                                                    <div class="col-6 align-self-center">
+                                                        @x
+                                                    </div>
+                                                    <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                                        <div class="small_button_font justify-content-md-center">
+                                                            ON
+                                                        </div>
+                                                        <div class="">
+                                                            <div id="parentFirstNumber_@Html.Raw(1)_@Html.Raw(x)" class="toggle_rotate_270 ">
+                                                                <i id="firstNumber_@Html.Raw(1)_@Html.Raw(x)" class="bi "></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="small_button_font justify-content-md-center">
+                                                            OFF
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            @*<div id="onoffnumber_@Html.Raw(1)_@Html.Raw(x)" class="on_off_label">&nbsp;</div>*@
-                                        </button>
-                                    </div>
-                                }
-                            </div>
-                            <div class="row">
-                                @for (int x = 10; x <= 12; x++)
-                                {
-                                    <div class="col">
-                                        <button id="buttonnumber_@Html.Raw(1)_@Html.Raw(x)" class="number_button unselectable">
-                                            <div class="row">
-                                                <div class="col-6">@x</div>
-                                                <div class="col-6 toggle_rotate_270 toggle_margin">
-                                                    <i id="firstNumber_@Html.Raw(1)_@Html.Raw(x)" class="bi"></i>
+
+                                            <!-- This will change the layout of the button for smaller screens-->
+
+                                            <div class="d-lg-none">
+                                                <div class="row">
+                                                    <div class="col-6 align-self-center">
+                                                        @x
+                                                    </div>
+
+                                                    <div class="col-6">
+                                                        <div id="onoffnumber_@Html.Raw(1)_@Html.Raw(x)" class="on_off_label">ON</div>
+                                                    </div>
+
                                                 </div>
                                             </div>
-                                            @*<div id="onoffnumber_@Html.Raw(1)_@Html.Raw(x)" class="on_off_label">&nbsp;</div>*@
                                         </button>
                                     </div>
                                 }
-                                <div class="col"></div>
-                                <div class="col"></div>
                             </div>
 
-                            </div>
-                    </div>
-                    @*<div class="col-md-1 number_background_2 "> </div>*@
-                    <div class="col-md-12 number_background_2 extra_space">
-                        <div class="row">
-                            <div class="col-md-12 large_label">Second Number</div>
+                            <div class="col"></div>
+                            <div class="col"></div>
                         </div>
-                        <div class="row">
-                            @for (int x = 1; x <= 12; x++)
-                            {
-                                <div class="col-4">
-                                    <button id="buttonnumber_@Html.Raw(2)_@Html.Raw(x)" class="number_button unselectable">
-                                        <div>@x</div>
-                                        <div id="onoffnumber_@Html.Raw(2)_@Html.Raw(x)" class="on_off_label">&nbsp;</div>
-                                    </button>
-                                </div>
-                            }
-                            <div class="col-4">
-                                <button id="buttonnumber_@Html.Raw(2)_@Html.Raw(0)" class="number_button unselectable">
-                                    <div>0</div>
-                                    <div id="onoffnumber_@Html.Raw(2)_@Html.Raw(0)" class="on_off_label">&nbsp;</div>
+
+                    </div>
+                </div>
+                @*<div class="col-md-1 number_background_2 "> </div>*@
+                <div class="col-md-12 number_background_2 extra_space">
+                    <div class="row">
+                        <div class="col-md-12 large_label">Second Number</div>
+                    </div>
+
+                    <div class="row">
+                        @for (int x = 0; x <= 12; x++)
+                        {
+                            <div class="col-6 col-sm-6 col-md-6 col-lg-2 col-xl-2 col-xxl-2">
+                                <button id="buttonnumber_@Html.Raw(2)_@Html.Raw(x)" name="buttonnumber_@Html.Raw(2)_@Html.Raw(x)" class="number_button unselectable">
+
+                                    <!-- This will change the layout of the button for larger screens-->
+                                    <div class=" d-none  d-lg-block">
+                                        <div class="row">
+                                            <div class="col-6 align-self-center">
+                                                @x
+                                            </div>
+                                            <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                                <div class="small_button_font justify-content-md-center">
+                                                    ON
+                                                </div>
+                                                <div class="">
+                                                    <div id="parentFirstNumber_@Html.Raw(2)_@Html.Raw(x)" class="toggle_rotate_270 ">
+                                                        <i id="firstNumber_@Html.Raw(2)_@Html.Raw(x)" class="bi "></i>
+                                                    </div>
+                                                </div>
+                                                <div class="small_button_font justify-content-md-center">
+                                                    OFF
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- This will change the layout of the button for smaller screens-->
+                                    <div class="d-lg-none">
+                                        <div class="row">
+                                            <div class="col-6 align-self-center">
+                                                @x
+                                            </div>
+
+                                            <div class="col-6">
+                                                <div id="onoffnumber_@Html.Raw(2)_@Html.Raw(x)" class="on_off_label">ON</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </button>
                             </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-        </div>
     </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+    </div>
+</div>
 </div>
 
 <!-- Operations Modal -->
@@ -264,90 +294,147 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-6 col-md-8 col-sm-8 col-8">
+                        <div class="col-6">
                             <button id="add_operation_button" class="unselectable operation_button">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <div class="row">
-                                                <i class="bi bi-plus-lg"></i>
+                                
+                                <!-- This will change the layout of the button on larger screens-->
+                                <div class="d-none  d-lg-block">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="row">
+                                                    <i class="bi bi-plus-lg"></i>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="operation_button_label">Add</div>
+                                                </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="operation_button_label">Add</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div>
-                                                <p class="on_label">ON</p>
-                                            </div>
-                                            <div class="toggle_rotate_270 toggle_margin">
-                                                <i id="add_current_toggle" class="bi"></i>
-                                            </div>
-                                            <div>
-                                                <p class="off_label">OFF</p>
+                                            <div class="col-4">
+                                                <div>
+                                                    <p class="on_label">ON</p>
+                                                </div>
+                                                <div class="toggle_rotate_270 toggle_margin">
+                                                    <i id="add_current_toggle" class="bi"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="off_label">OFF</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- This will change the layout of the button for smaller screens-->
+                                <div class="d-lg-none">
+                                    <div class="row">
+                                        <div class="col-4 align-self-center operation_button_large_font">
+                                            <i class="bi bi-plus-lg"></i>
+                                        </div>
+
+                                        <div class="col-8">
+                                            <span id="onoff_add" class="on_off_label operation_button_large_font"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
                             </button>
                         </div>
-                        <div class="col-lg-6 col-md-8 col-sm-8 col-8">
+                        <div class="col-6">
                             <button id="subtract_operation_button" class="unselectable operation_button">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <div class="row">
-                                                <i class="bi bi-dash-lg"></i>
+
+                                <!---->
+                                <!-- This will change the layout of the button on larger screens-->
+                                <div class="d-none  d-lg-block">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="row">
+                                                    <i class="bi bi-dash-lg"></i>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="operation_button_label">Subtract</div>
+                                                </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="operation_button_label">Subtract</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div>
-                                                <p class="on_label">ON</p>
-                                            </div>
-                                            <div class="toggle_rotate_270 toggle_margin">
-                                                <i id="subtract_current_toggle" class="bi"></i>
-                                            </div>
-                                            <div>
-                                                <p class="off_label">OFF</p>
+                                            <div class="col-4">
+                                                <div>
+                                                    <p class="on_label">ON</p>
+                                                </div>
+                                                <div class="toggle_rotate_270 toggle_margin">
+                                                    <i id="subtract_current_toggle" class="bi"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="off_label">OFF</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- This will change the layout of the button for smaller screens-->
+                                <div class="d-lg-none">
+                                    <div class="row">
+                                        <div class="col-4 align-self-center operation_button_large_font">
+                                            <i class="bi bi-dash-lg"></i>
+                                        </div>
+
+                                        <div class="col-8">
+                                            <span id="onoff_sub" class="on_off_label operation_button_large_font"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </button>
                         </div>
-                        <div class="col-lg-6 col-md-8 col-sm-8 col-8">
+                        <div class="col-6">
                             <button id="multiply_operation_button" class="unselectable operation_button">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <div class="row">
-                                                <i class="bi bi-x-lg"></i>
+
+                                <!---->
+                                <!-- This will change the layout of the button on larger screens-->
+                                <div class="d-none  d-lg-block">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="row">
+                                                    <i class="bi bi-x-lg"></i>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="operation_button_label">Multiply</div>
+                                                </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="operation_button_label">Multiply</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div>
-                                                <p class="on_label">ON</p>
-                                            </div>
-                                            <div class="toggle_rotate_270 toggle_margin">
-                                                <i id="multiply_current_toggle" class="bi"></i>
-                                            </div>
-                                            <div>
-                                                <p class="off_label">OFF</p>
+                                            <div class="col-4">
+                                                <div>
+                                                    <p class="on_label">ON</p>
+                                                </div>
+                                                <div class="toggle_rotate_270 toggle_margin">
+                                                    <i id="multiply_current_toggle" class="bi"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="off_label">OFF</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- This will change the layout of the button for smaller screens-->
+                                <div class="d-lg-none">
+                                    <div class="row">
+                                        <div class="col-4 align-self-center operation_button_large_font">
+                                            <i class="bi bi-x-lg"></i>
+                                        </div>
+
+                                        <div class="col-8">
+                                            <span id="onoff_mult" class="on_off_label operation_button_large_font"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </button>
                         </div>
-                        <div class="col-lg-6 col-md-8 col-sm-8 col-8">
+                        <div class="col-6">
                             <button id="divide_operation_button" class="unselectable operation_button">
-                                <div class="container-fluid">
+                                @*<div class="container-fluid">
                                     <div class="row">
                                         <div class="col-8">
                                             <div class="row divide_icon">
@@ -369,12 +456,54 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>*@
+
+                                <!---->
+                                <!-- This will change the layout of the button on larger screens-->
+                                <div class="d-none  d-lg-block">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="row divide_icon">
+                                                    <i class="bi bi-percent"></i>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="operation_button_label">Divide</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div>
+                                                    <p class="on_label">ON</p>
+                                                </div>
+                                                <div class="toggle_rotate_270 toggle_margin">
+                                                    <i id="divide_current_toggle" class="bi"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="off_label">OFF</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- This will change the layout of the button for smaller screens-->
+                                <div class="d-lg-none">
+                                    <div class="row">
+                                        <div class="col-4 align-self-center operation_button_large_font divide_icon">
+                                            <i class="bi bi-percent"></i>
+                                        </div>
+
+                                        <div class="col-8">
+                                            <span id="onoff_divide" class="on_off_label operation_button_large_font"></span>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </button>
                         </div>
-                        <div class="col-lg-6 col-md-8 col-sm-8 col-8">
+                        <div class="col-12">
                             <button id="swap_operation_button" class="unselectable operation_button">
-                                <div class="container-fluid">
+                                @*<div class="container-fluid">
                                     <div class="row">
                                         <div class="col-8">
                                             <div class="row">
@@ -396,13 +525,58 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>*@
+
+                                <!---->
+                                <!-- This will change the layout of the button on larger screens-->
+                                <div class="d-none  d-lg-block">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <div class="row">
+                                                    <i class="bi bi-arrow-left-right"></i>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="operation_button_label">Swap</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 explanation_text">
+                                                <p>This setting will randomly swap the numbers in the addition and multiplication problems</p>
+                                            </div>
+                                            <div class="col-4">
+                                                <div>
+                                                    <p class="on_label">ON</p>
+                                                </div>
+                                                <div class="toggle_rotate_270 toggle_margin">
+                                                    <i id="swap_current_toggle" class="bi"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="off_label">OFF</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- This will change the layout of the button for smaller screens-->
+                                <div class="d-lg-none">
+                                    <div class="row">
+                                        <div class="col-4 align-self-center operation_button_large_font">
+                                            <i class="bi bi-arrow-left-right"></i>
+                                        </div>
+
+                                        <div class="col-8">
+                                            <span id="onoff_swap" class="on_off_label operation_button_large_font"></span>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </button>
                         </div>
                         @*<div class="col-md-12">
-                            <input type="checkbox" id="swapNumbers" name="swapNumbers" checked />
-                            <label for="swapNumbers" class="unselectable">Randomly Flip Numbers</label>
-                        </div>*@
+                                <input type="checkbox" id="swapNumbers" name="swapNumbers" checked />
+                                <label for="swapNumbers" class="unselectable">Randomly Flip Numbers</label>
+                            </div>*@
                     </div>
                 </div>
             </div>
