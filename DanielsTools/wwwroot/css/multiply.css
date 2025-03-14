@@ -92,9 +92,15 @@
 }
 
 .large_button {
-    font-size: 48px;
-    margin: 20px;
-    padding: 20px;
+    font-size: min(6vw, 48px);
+    margin: 10px;
+    padding: 10px;
+}
+
+.small_button {
+    font-size: min(6vw, 36px);
+    margin: 5px;
+    padding: 5px;
 }
 
 .emoji_button {
@@ -282,11 +288,22 @@ input:checked + .slider:before {
     border: 5px solid gray;
 }
 
-.current_problem{
-    font-size: 144px;
+.current_problem {
+    font-size: min(10vw, 144px);
     color: black;
     margin: 5px;
+    padding: 5px;
+}
+
+.current_problem_small {
+    font-size: min(10vw, 144px);
+    color: black;
+    margin: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
     padding: 10px;
+    margin-top:5px;
+    margin-bottom: 0px;
 }
 
 .timer_class{
