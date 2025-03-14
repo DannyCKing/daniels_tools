@@ -33,7 +33,6 @@ namespace DanielsTools.Utilities
 
         public const string EMOJIS_STRING =
             @"1 &#x1F600 grinning-face
-2 &#x1F603 grinning-face-with-big-eyes
 3 &#x1F604 grinning-face-with-smiling-eyes
 4 &#x1F601 beaming-face-with-smiling-eyes
 5 &#x1F606 grinning-squinting-face
@@ -529,8 +528,6 @@ namespace DanielsTools.Utilities
 660 &#x1F377 wine-glass
 661 &#x1F378 cocktail-glass
 662 &#x1F379 tropical-drink
-663 &#x1F37A beer-mug
-664 &#x1F37B clinking-beer-mugs
 665 &#x1F942 clinking-glasses
 666 &#x1F943 tumbler-glass
 667 &#x1F964 cup-with-straw

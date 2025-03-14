@@ -44,7 +44,7 @@
 
 
 <div class="row">
-    <div id="currentUserDiv" class="col hide_during_test d-none d-lg-block d-xl-block">
+    <div id="currentUserDiv" class="col hide_during_test d-none d-lg-block d-xl-block unselectable">
     </div>
 
 
@@ -84,7 +84,7 @@
         <span id="firstNumberDiv" class="current_problem  unselectable col-md-2"></span>
         <span id="operationDiv" class="current_problem unselectable col-md-2"></span>
         <span id="secondNumberDiv" class="current_problem unselectable col-md-2"></span>
-        <input id="answerTextBox" class="current_problem col-md-3" type="text" />
+        <input id="answerTextBox" class="current_problem col-md-3" type="text"   />
     </div>
 </div>
 
@@ -175,11 +175,10 @@
                                         <button id="buttonnumber_@Html.Raw(1)_@Html.Raw(x)" name="buttonnumber_@Html.Raw(1)_@Html.Raw(x)" class="number_button unselectable">
 
                                             <!-- This will change the layout of the button for larger screens-->
-
                                             <div class=" d-none  d-lg-block">
                                                 <div class="row">
-                                                    <div class="col-6 align-self-center">
-                                                        @x
+                                                    <div class="col-6 align-self-center centered_numbered" >
+                                                        <span>@x</span> 
                                                     </div>
                                                     <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                                                         <div class="small_button_font justify-content-md-center">
@@ -237,8 +236,8 @@
                                     <!-- This will change the layout of the button for larger screens-->
                                     <div class=" d-none  d-lg-block">
                                         <div class="row">
-                                            <div class="col-6 align-self-center">
-                                                @x
+                                            <div class="col-6 align-self-center centered_numbered">
+                                                <span>@x</span>
                                             </div>
                                             <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                                                 <div class="small_button_font justify-content-md-center">

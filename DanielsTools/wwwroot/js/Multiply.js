@@ -617,10 +617,24 @@ function showNumbersForProblem() {
     var shouldWeFlip = currentUser.Settings.Operations.SwapNumbers;
 
     var flip = Math.floor(Math.random() * 2) == 1;
-    if (shouldWeFlip && flip) {
+    if (shouldWeFlip && flip && (operation == "+" || operation == "x")) {
         var temp = firstNumber;
         firstNumber = secondNumber;
         secondNumber = temp;
+    }
+
+    // to check numbers for subtraction so we can't get negative numbers
+    if (operation == "-" && firstNumber < secondNumber) {
+        // swap the numbers back, we don't want the
+        // answer to be negative
+        var temp = firstNumber;
+        firstNumber = secondNumber;
+        secondNumber = temp;
+    }
+
+    // to do: for division, generate first number and second number
+    if (operation == "÷") {
+        firstNumber = firstNumber * secondNumber;
     }
 
     currentAnswer = getAnswer(firstNumber, secondNumber, operation);
@@ -733,6 +747,16 @@ function makeAnswerTextGreenForShortTime() {
     setTimeout(function () {
         clearAnswerBox();
     }, 500)
+}
+
+function makeAnswerRed() {
+    //$("#answerTextBox").css("border", "5px solid green");//more efficient
+    $("#answerTextBox").css("background-color", "red");
+}
+
+function makeAnswerClear() {
+    //$("#answerTextBox").css("border", "5px solid green");//more efficient
+    $("#answerTextBox").css("background-color", "white");
 }
 
 function clearAnswerBox() {
@@ -885,7 +909,21 @@ $(function () {
 
     $('#answerTextBox').on('input', function (e) {
         var myanswer = $("#answerTextBox").val();
-        if (myanswer == currentAnswer.toString()) {
+
+        // we only allow numbers or space to by typed
+        myanswer = myanswer.replace(/[^\d ]+/g, '');
+
+        if (myanswer.includes(" ")) {
+            // clear out on a space bar
+            myanswer = "";
+        }
+
+        // update text box with properly formatted answer
+        
+        $("#answerTextBox").val(myanswer);
+
+        if (myanswer == currentAnswer.toString() &&
+            myanswer.length == currentAnswer.toString().length) {
             //makeTextGreenForShortTime();
             correctCount++;
             updateCorrectCount();
@@ -895,11 +933,21 @@ $(function () {
             
             $("#answerTextBox").trigger('focus');
         }
-
-        // clear out on a space bar
-        else if (myanswer.includes(" ")) {
-            $("#answerTextBox").val("");
+        else if (myanswer.length < currentAnswer.toString().length) {
+            // my answer length is less than actual answer length
+            makeAnswerClear();
         }
+        else if (myanswer.length == currentAnswer.toString().length) {
+            makeAnswerRed();
+        }
+        else if (myanswer.length > 3) {
+            // ignore any input longer than length
+            var newAnswer = myanswer.substring(0, 3);
+            $("#answerTextBox").val(newAnswer);
+        }
+
+
+
     });
 
 
