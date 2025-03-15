@@ -194,15 +194,12 @@
 
                         <div class="col-md-6">
                             <!-- Button trigger modal -->
-                            <button id="onChooseNameButton" type="button" class="btn btn-danger setting_button" data-bs-toggle="modal" data-bs-target="#chooseNameModal">
+                            <button id="deleteUserButton" type="button" class="btn btn-danger setting_button">
                                 <i class="bi bi-trash"></i> Delete User
                             </button>
                         </div>
 
-
                     </div>
-
-
 
                 </div>
             </div>
@@ -500,32 +497,7 @@
                         </div>
                         <div class="col-6">
                             <button id="divide_operation_button" class="unselectable operation_button">
-                                @*<div class="container-fluid">
-                                        <div class="row">
-                                            <div class="col-8">
-                                                <div class="row divide_icon">
-                                                    <i class="bi bi-percent"></i>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="operation_button_label">Divide</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div>
-                                                    <p class="on_label">ON</p>
-                                                </div>
-                                                <div class="toggle_rotate_270 toggle_margin">
-                                                    <i id="divide_current_toggle" class="bi"></i>
-                                                </div>
-                                                <div>
-                                                    <p class="off_label">OFF</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>*@
-
-                                <!---->
-                                <!-- This will change the layout of the button on larger screens-->
+                                
                                 <div class="d-none  d-lg-block">
                                     <div class="container-fluid">
                                         <div class="row">
@@ -569,29 +541,6 @@
                         </div>
                         <div class="col-12">
                             <button id="swap_operation_button" class="unselectable operation_button">
-                                @*<div class="container-fluid">
-                                        <div class="row">
-                                            <div class="col-8">
-                                                <div class="row">
-                                                    <i class="bi bi-arrow-left-right"></i>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="operation_button_label">Swap</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div>
-                                                    <p class="on_label">ON</p>
-                                                </div>
-                                                <div class="toggle_rotate_270 toggle_margin">
-                                                    <i id="swap_current_toggle" class="bi"></i>
-                                                </div>
-                                                <div>
-                                                    <p class="off_label">OFF</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>*@
 
                                 <!---->
                                 <!-- This will change the layout of the button on larger screens-->
@@ -813,6 +762,30 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Message Modal-->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="DeleteUserMessageModalTitle" class="modal-title">Delete User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <span id="deleteUserModalBodyText" class="error_text"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="deleteConfirmationButton" type="button" class="btn btn-danger" >Delete</button>
+
             </div>
         </div>
     </div>
