@@ -84,11 +84,12 @@
 }
 
 .emoji_font {
-    font-size: 40px;
+    font-size: min(6vw, 48px);
 }
 
 .large_input_field {
-    font-size: 48px;
+    font-size: min(6vw, 48px);
+    width:100%;
 }
 
 .large_button {
@@ -119,7 +120,7 @@
 }
 
 .color_choice {
-    height: 80px;
+    height: 10vh;
 }
 
 .chosen_color_border {
@@ -136,16 +137,22 @@
 
 .user_label_font {
     font-weight: bold;
-    font-size: min(4vw, 36px);
+    font-size: min(3.5vw, 24px);
 }
 
 .user_emoji_font {
     font-size: 4vw;
 }
 
+.username_profile_label {
+    display: inline-block;
+    font-size: min(8vw, 54px);
+    font-weight: bold;
+}
+
 .current_user_label {
     display: inline-block;
-    font-size: 72px;
+    font-size: min(7vw, 72px);
     font-weight: bold;
 }
 

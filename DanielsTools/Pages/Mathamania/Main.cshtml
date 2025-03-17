@@ -1,0 +1,271 @@
+﻿@page
+@model DanielsTools.Pages.Multiplication.MultiplyModel
+@{
+    ViewData["Title"] = "Mathamania";
+}
+
+<link rel="stylesheet" href="~/css/math.css" />
+<script src="~/js/shared_math.js"></script>
+<script src="~/js/main_math.js"></script>
+<script type="text/javascript">
+    const EMOJI_DICTIONARY = JSON.parse('@Html.Raw(Json.Serialize(Model.EmojiDictionary))');
+</script>
+
+<div class="d-lg-none hide_during_test">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light hide_during_test">
+        <div class="container-fluid">
+            <a id="smallUserDiv" class="navbar-brand" href="#">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="#">
+
+                    </a>
+                    <button type="button" class="btn btn-success large_button nav-link hide_during_test" data-bs-toggle="modal" data-bs-target="#youTubeModal">
+                        <i class="bi bi-coin"></i>
+                    </button>
+                    <button type="button" class="btn btn-success large_button nav-link hide_during_test" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                        <i class="bi bi-gear"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary large_button hide_during_test nav-link" data-bs-toggle="modal" data-bs-target="#usersModal">
+                        <i class="bi bi-people"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="row">
+    <div id="currentUserDiv" class="col hide_during_test d-none d-lg-block d-xl-block unselectable"></div>
+
+    <div class="topcorner col-auto hide_during_test d-none d-lg-block d-xl-block">
+
+        <button type="button" class="btn btn-success large_button hide_during_test" data-bs-toggle="modal" data-bs-target="#youTubeModal">
+            <i class="bi bi-coin"></i>
+        </button>
+        <button type="button" class="btn btn-success large_button hide_during_test" data-bs-toggle="modal" data-bs-target="#settingsModal">
+            <i class="bi bi-gear"></i>
+        </button>
+        <button type="button" class="btn btn-primary large_button hide_during_test" data-bs-toggle="modal" data-bs-target="#usersModal">
+            <i class="bi bi-people"></i>
+        </button>
+    </div>
+</div>
+
+
+<div class="row hide_during_test">
+    <button id="start_practice_button" type="button" class="btn btn-primary large_button col-11">
+        <i class="bi bi-play"></i>Start Practice
+    </button>
+</div>
+
+<div class="row hide_during_test">
+    <button id="start_timing_button" type="button" class="btn btn-primary large_button col-11">
+        <i class="bi bi-stopwatch"></i>Start Timing
+    </button>
+</div>
+
+<div class="show_during_test d-none d-lg-block">
+    <span id="secondsSpan" class="current_problem  unselectable timer_class show_during_timed_test">00</span>
+    <span id="" class="show_after_timed_test current_problem  unselectable timer_class">Correct Count:</span><span id="correctCountSpan" class="show_after_timed_test current_problem  unselectable timer_class">0</span>
+
+    <div class="row unselectable show_during_test">
+        <span id="firstNumberDiv" class="current_problem  unselectable col-2"></span>
+        <span id="operationDiv" class="current_problem unselectable col-auto"></span>
+        <span id="secondNumberDiv" class="current_problem unselectable col-2"></span>
+        <span class="current_problem unselectable col-2">=</span>
+        <input id="answerTextBox" class="current_problem col-4" type="text" />
+    </div>
+
+    <div class="row show_during_test">
+        <button id="stop_timing_button" type="button" class="btn btn-warning large_button col-11">
+            <i class="bi bi-sign-stop"></i>Stop
+        </button>
+    </div>
+</div>
+
+<!-- This should show on mobile devices in the potrait orientation-->
+<div class="show_during_test d-lg-none">
+    <div class="row">
+        <div class="col" style="background-color:pink;">
+            <span id="secondsSpanSmallScreen" class="current_problem unselectable timer_class show_during_timed_test">00</span>
+        </div>
+        <button id="stop_timing_button_small" type="button" class="col-4 btn btn-warning small_button">
+            <i class="bi bi-sign-stop"></i>
+        </button>
+    </div>
+    <div class="row unselectable">
+        <span id="firstNumberDivSmallScreen" class="current_problem  unselectable col-2"></span>
+        <span id="operationDivSmallScreen" class="current_problem unselectable col-2"></span>
+        <span id="secondNumberDivSmallScreen" class="current_problem unselectable col-2"></span>
+        <span class="current_problem unselectable col-auto">=</span>
+        <input id="answerTextBoxSmallScreenPotrait" class="current_problem col" type="text" />
+    </div>
+    <div class="row">
+    </div>
+    <div class="row">
+        <button id="number1SmallScreenPortrait" class="current_problem_small col-3 btn-info">1</button>
+        <div class="col"></div>
+        <button id="number2SmallScreenPortrait" class="current_problem_small col-3 btn-info">2</button>
+        <div class="col"></div>
+        <button id="number3SmallScreenPortrait" class="current_problem_small col-3 btn-info">3</button>
+
+
+    </div>
+    <div class="row">
+        <button id="number4SmallScreenPortrait" class="current_problem_small col-3 btn-info">4</button>
+        <div class="col"></div>
+        <button id="number5SmallScreenPortrait" class="current_problem_small col-3 btn-info">5</button>
+        <div class="col"></div>
+        <button id="number6SmallScreenPortrait" class="current_problem_small col-3 btn-info">6</button>
+    </div>
+
+    <div class="row">
+        <button id="number7SmallScreenPortrait" class="current_problem_small col-3 btn-info">7</button>
+        <div class="col"></div>
+        <button id="number8SmallScreenPortrait" class="current_problem_small col-3 btn-info">8</button>
+        <div class="col"></div>
+        <button id="number9SmallScreenPortrait" class="current_problem_small col-3 btn-info">9</button>
+    </div>
+
+    <div class="row">
+        <button class="current_problem_small col-3 btn-info" style="visibility:hidden"></button>
+        <div class="col"></div>
+        <button id="number0SmallScreenPortrait" class="current_problem_small col-3 btn-info">0</button>
+        <div class="col"></div>
+        <button id="clearSmallScreenPortrait" class="current_problem_small col-3 btn-info">
+            <i class="bi bi-backspace"></i>
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- Settings Modal -->
+<div class="modal fade my_modal" id="settingsModal" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Settings</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-success setting_button" data-bs-toggle="modal" data-bs-target="#numbersModal">
+                                <i class="bi bi-list-ol"></i>  Numbers
+                            </button>
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-success setting_button" data-bs-toggle="modal" data-bs-target="#operationsModal">
+                                <i class="bi bi-plus-slash-minus"></i>  Operations
+                            </button>
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- Button trigger modal -->
+                            <button id="onChooseNameButton" type="button" class="btn btn-success setting_button">
+                                <i class="bi bi-person"></i> User Settings
+                            </button>
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- Button trigger modal -->
+                            <button id="deleteUserButton" type="button" class="btn btn-danger setting_button">
+                                <i class="bi bi-trash"></i> Delete User
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Select User Modal -->
+<div class="modal fade my_modal" id="usersModal" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title unselectable">Select Or Create Your User</h1>
+                @*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div id="userList" class="row">
+                            </div>
+                            <div class="row">
+                                <span id="userListErrorSpan" class="error_text"></span>
+                            </div>
+                            <p />
+                            <p />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm Delete User Modal-->
+<div class="modal fade my_modal" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="DeleteUserMessageModalTitle" class="modal-title">Delete User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <span id="deleteUserModalBodyText" class="error_text"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="deleteConfirmationButton" type="button" class="btn btn-danger">Delete</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- You Tube Modal-->
+@*<div class="modal fade" id="youTubeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="MessageModalTitle" class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <iframe width="315" height="560"
+                                    src="https://www.onlinegames.io/games/2024/unity/drift-king/index.html"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
