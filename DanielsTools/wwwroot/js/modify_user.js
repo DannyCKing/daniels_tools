@@ -77,6 +77,7 @@ function saveModifiedUserToMemory() {
     }
     saveUserListToCookie();
 
+    // go back to main page on save
     location.href = 'Main';
 
     // reloadUserListFromMemory();
@@ -363,22 +364,26 @@ function loadEventHandlers() {
         $(this).find('[autofocus]').focus();
     });
 
-    $("#onDismissSettingNameButton").on('click', function (event) {
-        // go back to main page
-        location.href = 'Main';
+    $("#closeUsernameModalButton").on('click', function (event) {
+        $('#chooseNameModal').modal('hide');
     });
 
     $("#setNewUsernameButton").on('click', function (event) {
         modifyUser.Username = $("#newUsernameTextBox").val();
 
+
         if (modifyUser.OriginalUsername == "") {
+            // only set the original username if this is a new user we are creating
             modifyUser.OriginalUsername = modifyUser.Username;
         }
 
         loadCurrentUserIntoUpdateFields();
 
         $('#chooseNameModal').modal('hide');
+
         if (modifyUser.AvatarId == 0) {
+            // if the have not chosen an avatar (if it is a new user)
+            // automatically show the avatar modal
             $('#chooseAvatarModal').modal('show');
         }
     });
@@ -436,9 +441,17 @@ function loadEventHandlers() {
 
     $("#setColorButton").on('click', function () {
         loadCurrentUserIntoUpdateFields();
-        // show chose color modal
-        //$('#chooseColorModal').modal('hide');
+    });
+
+    $("#updateUserProfileButton").on('click', function () {
         saveModifiedUserToMemory();
+    });
+
+    $("#cancelUserChangesButton").on('click', function () {
+        modifyUser = {};
+
+        // go back to main page
+        location.href = 'Main';
     });
 
 
