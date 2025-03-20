@@ -5,8 +5,10 @@
 }
 
 <link rel="stylesheet" href="~/css/math.css" />
-<script src="~/js/shared_math.js"></script>
-<script src="~/js/main_math.js"></script>
+<script src="~/js/shared_math.js" asp-append-version="true"></script>
+<script src="~/js/main_math.js" asp-append-version="true"></script>
+<script src="~/js/beep.js" asp-append-version="true"></script>
+
 <script type="text/javascript">
     const EMOJI_DICTIONARY = JSON.parse('@Html.Raw(Json.Serialize(Model.EmojiDictionary))');
 </script>
@@ -23,6 +25,7 @@
                     <a class="nav-link active" aria-current="page" href="#">
 
                     </a>
+
                     <button type="button" class="btn btn-success large_button nav-link hide_during_test" data-bs-toggle="modal" data-bs-target="#youTubeModal">
                         <i class="bi bi-coin"></i>
                     </button>
@@ -39,10 +42,13 @@
 </div>
 
 <div class="row">
-    <div id="currentUserDiv" class="col hide_during_test d-none d-lg-block d-xl-block unselectable"></div>
+    <div id="currentUserDiv" class="col hide_during_test d-none d-lg-block d-xl-block unselectable">
+    </div>
 
-    <div class="topcorner col-auto hide_during_test d-none d-lg-block d-xl-block">
-
+    <div class="topcorner col-auto hide_during_test d-none d-lg-block d-xl-block unselectable">
+        <div id="changeSoundStatusButton" class="large_button show_during_test">
+            <i id="soundStatusIcon" class="bi bi-volume-up-fill green_font"></i>
+        </div>
         <button type="button" class="btn btn-success large_button hide_during_test" data-bs-toggle="modal" data-bs-target="#youTubeModal">
             <i class="bi bi-coin"></i>
         </button>
@@ -146,7 +152,7 @@
 
 
 <!-- Settings Modal -->
-<div class="modal fade my_modal" id="settingsModal" tabindex="-1" role="dialog" >
+<div class="modal fade my_modal" id="settingsModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">

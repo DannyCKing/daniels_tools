@@ -40,8 +40,10 @@
 
     }
 </script>
-<script src="~/js/shared_math.js"></script>
-<script src="~/js/modify_user.js"></script>
+<script src="~/js/shared_math.js" asp-append-version="true" ></script>
+<script src="~/js/modify_user.js" asp-append-version="true" ></script>
+
+<h1>Modify User</h1>
 
 <div class="container-fluid">
     <div class="row">
@@ -52,20 +54,20 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-4">
+        <div class="col-6">
             <div class="row">
                 <button id="updateNameButton" type="button" class="btn btn-success small_button" data-bs-toggle="modal" data-bs-target="#chooseNameModal">
-                    <span>Name</span>
+                    <span>Update Name</span>
                 </button>
             </div>
             <div class="row">
                 <button id="updateProfileAvatarButton" type="button" class="btn btn-success small_button align-self-center" data-bs-toggle="modal" data-bs-target="#chooseAvatarModal">
-                    <span>Avatar</span>
+                    <span>Update Avatar</span>
                 </button>
             </div>
             <div class="row">
                 <button id="updateProfileColorButton" type="button" class="btn btn-success small_button align-self-center" data-bs-toggle="modal" data-bs-target="#chooseColorModal">
-                    <span>Color</span>
+                    <span>Update Color</span>
                 </button>
             </div>
         </div>
@@ -503,7 +505,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="closeUsernameModalButton" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" id="closeUsernameModalButton" class="btn btn-secondary">Cancel</button>
                 <button type="button" id="setNewUsernameButton" class="btn btn-primary">Update</button>
             </div>
         </div>
@@ -527,7 +529,7 @@
                             <div class="row">
                                 @foreach (var item in Model.EmojiList)
                                 {
-                                    <button id="emoji_@Html.Raw(@item.Id)_button" class="col-md-1 emoji_font emoji_button" name="@item.Description">@Html.Raw(@item.Code)</button>
+                                    <button id="emoji_@Html.Raw(@item.Id)_button" class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-1 col-xxl-1 emoji_font emoji_button" name="@item.Description">@Html.Raw(@item.Code)</button>
                                 }
                             </div>
                         </div>
@@ -538,7 +540,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="backAvatarButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="cancelAvatarButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <button id="setAvatarButton" type="button" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
             </div>
         </div>

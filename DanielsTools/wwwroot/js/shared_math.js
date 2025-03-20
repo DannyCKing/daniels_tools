@@ -65,6 +65,37 @@ function checkIfAtLeastOneNumberIsOn() {
     }
 }
 
+function isStringAlphaNumeric(str) {
+    for (var i = 0; i < str.length; i++) {
+        var code = str.charCodeAt(i);
+        if (code => 48 && code <= 57) {
+            //if character is 0-9
+            continue;
+        }
+        else if (code => 65 && code <= 90) {
+            // if character is A-Z (uppercase)
+            continue;
+        }
+        else if (code >= 97 && code <= 122) {
+            // if character is a-z (lower)
+            continue;
+        }
+        else if (code == 32) {
+            // if character is a space
+            continue;
+        }
+        else if (code == 32) {
+            // if character is a space
+            continue;
+        }
+        else {
+            // we don't know what it is
+            return false;
+        }
+    }
+    return true;
+};
+
 
 function getCookie(cname) {
     let name = cname + "=";
@@ -153,65 +184,6 @@ function createNewUser() {
 }
 
 
-function isAlphaNumeric(str) {
-    var code, i, len;
-
-    for (i = 0, len = str.length; i < len; i++) {
-        code = str.charCodeAt(i);
-        if (!(code > 47 && code < 58) && // numeric (0-9)
-            !(code > 64 && code < 91) && // upper alpha (A-Z)
-            !(code > 96 && code < 123)) { // lower alpha (a-z)
-            return false;
-        }
-    }
-    return true;
-};
-
-function setNewUserUsername() {
-    var newusername = $("#newUsernameTextBox").val();
-    var errorString = "";
-
-    if (newusername == "") {
-        errorString = "Name cannot be blank!";
-        $("#nameErrorSpan").html(errorString);
-        return;
-    }
-
-    if (newusername.length > 9) {
-        errorString = "Name is too long";
-        $("#nameErrorSpan").html(errorString);
-        return;
-    }
-
-    //if (!isAlphaNumeric(newusername)) {
-    //    errorString = "Name can only contains letters and numbers";
-    //    $("#nameErrorSpan").html(errorString);
-    //    return;
-    //}
-
-    // clear name error if it exists
-    $("#nameErrorSpan").html("");
-
-    newUser.Username = newusername;
-
-    if (!newUser.OriginalUsername) {
-        // if the new user original user name is not set,
-        // it is a new user
-        // if it is set, this is an existing user
-        newUser.OriginalUsername = newusername;
-    }
-
-
-    // username is good, continue on
-    $('#chooseNameModal').modal('hide');
-
-    if (newUser.AvatarId == 0) {
-        // they have saved the name, but haven't chosen an avatar yet,
-        // bring that up automatically
-        $('#chooseAvatarModal').modal('show');
-    }
-}
-
 function onAvatarScreenVisible() {
     $('.emoji_button').each(function (i, obj) {
         $(this).css('background-color', 'transparent');
@@ -240,8 +212,6 @@ function getTimeStamp() {
 
     return returnValue;
 }
-
-
 
 function getCurrentUserCookieName() {
     var friendlyUserName = currentUser.OriginalUsername.toLowerCase().replace(/\W/g, '');

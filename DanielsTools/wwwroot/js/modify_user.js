@@ -6,6 +6,7 @@ function initializeModifyUser() {
     modifyUser.OriginalUsername = studentName;
     modifyUser.Username = studentName;
     modifyUser.Color = "";
+    modifyUser.IsNewUser = true;
 }
 
 function loadCurrentUserIntoUpdateFields() {
@@ -34,6 +35,7 @@ function onRefresh() {
     if (currentUserId == "") {
         // if creating new user auto show name modal
         $('#chooseNameModal').modal('show');
+        modifyUser.IsNewUser = true;
     }
     else {
         // is existing user
@@ -50,6 +52,9 @@ function onRefresh() {
                 break;
             }
         }
+
+        modifyUser.IsNewUser = false;
+
     }
 
     loadCurrentUserIntoUpdateFields();
@@ -113,6 +118,51 @@ function setNewAvatar() {
     if (modifyUser.Color == "") {
         // avatar is good, move on to color
         $('#chooseColorModal').modal('show');
+    }
+}
+
+
+function setModifyUsername() {
+    modifyUser.Username = $("#newUsernameTextBox").val();
+
+    modifyUser.Username = modifyUser.Username.trim();
+
+    if (modifyUser.Username === null || modifyUser.Username.match(/^\s*$/) !== null) {
+        errorString = "Please enter a value";
+        $("#nameErrorSpan").html(errorString);
+        return;
+    }
+
+    // only validation we are doing for the name
+    if (modifyUser.Username.length > 20) {
+        errorString = "Name is too long";
+        $("#nameErrorSpan").html(errorString);
+        return;
+    }
+
+    if (!isStringAlphaNumeric(modifyUser.Username)) {
+        errorString = "Only letters and numbers please";
+        $("#nameErrorSpan").html(errorString);
+        return;
+    }
+
+    // clear any name error if it exists
+    $("#nameErrorSpan").html("");
+
+
+    if (modifyUser.OriginalUsername == "") {
+        // only set the original username if this is a new user we are creating
+        modifyUser.OriginalUsername = modifyUser.Username;
+    }
+
+    loadCurrentUserIntoUpdateFields();
+
+    $('#chooseNameModal').modal('hide');
+
+    if (modifyUser.AvatarId == 0) {
+        // if they have not chosen an avatar (if it is a new user)
+        // automatically show the avatar modal
+        $('#chooseAvatarModal').modal('show');
     }
 }
 
@@ -365,27 +415,31 @@ function loadEventHandlers() {
     });
 
     $("#closeUsernameModalButton").on('click', function (event) {
-        $('#chooseNameModal').modal('hide');
+        if (modifyUser.IsNewUser) {
+            // cancel the whole creation process
+            // go back to main page
+            location.href = 'Main';
+        }
+        else {
+            // cancel just the name modal opening
+            $('#chooseNameModal').modal('hide');
+        }
+    });
+
+    $("#cancelAvatarButton").on('click', function (event) {
+        if (modifyUser.IsNewUser) {
+            // cancel the whole creation process
+            // go back to main page
+            location.href = 'Main';
+        }
+        else {
+            // cancel just the name modal opening
+            $('#chooseNameModal').modal('hide');
+        }
     });
 
     $("#setNewUsernameButton").on('click', function (event) {
-        modifyUser.Username = $("#newUsernameTextBox").val();
-
-
-        if (modifyUser.OriginalUsername == "") {
-            // only set the original username if this is a new user we are creating
-            modifyUser.OriginalUsername = modifyUser.Username;
-        }
-
-        loadCurrentUserIntoUpdateFields();
-
-        $('#chooseNameModal').modal('hide');
-
-        if (modifyUser.AvatarId == 0) {
-            // if the have not chosen an avatar (if it is a new user)
-            // automatically show the avatar modal
-            $('#chooseAvatarModal').modal('show');
-        }
+        setModifyUsername();
     });
 
 
@@ -431,9 +485,6 @@ function loadEventHandlers() {
         turnNumberOnOff(buttonId)
     });
 
-    $("#setNewUsernameButton").on('click', function () {
-        setNewUserUsername();
-    });
 
     $("#setAvatarButton").on('click', function () {
         setNewAvatar();

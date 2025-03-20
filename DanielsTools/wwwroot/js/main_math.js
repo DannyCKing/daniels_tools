@@ -1,7 +1,4 @@
-﻿function beep() {
-    var snd = new Audio("data:audio/mpeg;base64,SUQzBAAAAAAAO1RYWFgAAAAPAAADVFhYWABpc29tbXA0MgBUU1NFAAAADgAAA0xhdmY2MS4xLjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAFwAAB1AAJycnJzExMTE7Ozs7O0REREROTk5OWFhYWFhiYmJibGxsbHZ2dnZ2gICAgImJiYmTk5OTk52dnZ2np6ensbGxsbG7u7u7xMTExM7Ozs7O2NjY2OLi4uLs7Ozs7Pb29vb/////AAAAAExhdmM2MS4zLgAAAAAAAAAAAAAAACQCpQAAAAAAAAdQo3EaQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+MYxAAAOAQAADAAAB5AqK4gD//+oEDn//+iBAxg+CDv/gM+c///8Hw+XD/B9/g+fxOH6ggQP9Tu3+eOE/2EBxf/6ZvNzA0//+MYxDoJUAVEUUAQAP/LhpNDM3IOf///0E3qNGJxE3////NB1jJk2OekHTjkEQVT////9EvuT5gy1IKJg0DlAEjf/////wFB/+MYxE8YK6KAEYKgAOANDAAEBsAGKACEIX3GuGqy3QBgMBgMBsNtASB//cx/8pSgv9GfMnR//osieMlF7//9SaR1pdOK7+///+MYxCkXc4rSWYJoALE0mGpkUhxH0VN/X1f+rWg6T7JpUR/I3/61//zogADMJEomJIlRdUf/xlAM1D//jCgCsfahCYH//////+MYxAYOY0qcMcCgAudb////U/qSRRQdF0dbLU///////q1mLEGIIGBAMIvA9yAW0lSGki5kxxakUGMjInkDzJUAxIB/4T///+MYxAcMUz6sWACpL//qRUIqMruRTu5GOrkO5A5if/////9a5cJ8rAOAABSRwEwTDJJLV6E6xdUAbb0Of8/Z/5/n/Zb42Ofl/+MYxBAOmwLgeAGVDk1Ttu5nf1LZU4z5pdjSU5RajjuicXJI2EauSX////T//+7jICNh/cRCUqoMP/X///////////iCEmEv/+MYxBAK+yaMEABrLP95sfM3IuJ9D6AmIQNMjALqzii6cLbLKiQKNyP/zb//////////////qqWXzhkT46gt5AOEoGHj6Bso/+MYxB8LIzJ4AAVHMIwWmjuGNIgYmB4+ypglAK6g/+v/8/1HA4AR4GACNyAICj8H0+bP////poEuTQxwGoCoFeIRr07/kSQX/+MYxC0KswacWABpLSEzCshMwhhQheLxeQhELD3R/1P10bTpPEGBqAAHFh0xjPGz4dDqpFX/1/////////////D///mhNFgm/+MYxD0KUxKMEABpZsNBC00A1qB/awY3HcQEmCmXjadTMUr/lv////////////4v/9uZzpwsjUFCiUQECUDWQAC9osREC82e/+MYxE4KKypsAAgpSCQv3f/D////////////////12rha/Vn61PelWnDLxBRAF7LWGnPnLa1z7VWpfBXDrn9J1/v/////////+MYxGAJ+x5sAAgrSP//8X//3QTYxSGuGqBxA2fA2KMgtbMCsVUDRGCVHDvlXWMV9dnfr//////////h/1////pUkKaZiRgZ/+MYxHMLcypoAAB1LBQupAQLwNDCgLqRzhzThVBIIKr+AjRqc////////////7//6DIMZnzzHRDxcQbMBmoIw1EQIanEsT8q/+MYxIAKgxpcAAgrSfVkYghRoL6H//l//9v//f/////q//2UqjpJP//PHC8fPF0ixZEEByAb+BokZBcONEunzh4vnb0Mhqpj/+MYxJELWxJYAAgrZc9xcASCQFyg1EY+XDioThOVAwgNl//6In/+2fvXf7a9f+oyn8l///////b//yUJUcwLqQsdAx8UwPIG/+MYxJ4J0w5cAAgpSSAkUQseFKiliVkuSk+cPz+07lS4EpUCZkfZM4156OUl52s5/d//////9SkkF/q//////////1///8ly/+MYxLEOUyJQAAgqyFCXHOAwaDAJBoAwxAYpW4NnQtSKXFKktJYlJ3nV9XDQPxIB4GxoTIqQHDCJY////////////Wv/Pfu//+MYxLIS+zYsADgrYP///////////5eLguABAADABAMqVA9PoEhAXIHMJYlCGnuNqtKNDCEiEtTDwUYgvQQVmMTju////////+MYxKER4zYsAGAqaP///9Wq7f////ZFJaKlrUn/+dLnbau7pHloJpnjc2NT5PEVLwywzoAIwDiIwvL//gUIgdEILhnv/4IR/+MYxJQQqx44AUegAcBhh4gIMeOkihFyyThF6i//L///////////VVq///9Squuv///9GYmKiiYqI0xMiNLxO////+DdILpC/+MYxIwX06JEAYWgAOMcgmTx0mUCNkxBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq/+MYxGcNMxIQAYGAAKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-    snd.play();
-}
+﻿
 function checkMyAnswer(myAnswer) {
 
     // we only allow numbers or space to by typed
@@ -54,7 +51,7 @@ function clearAnswerBox() {
 }
 
 function deleteCurrentUser() {
-    loadUserIntoMemoryFromCookies();
+    loadCurrentUsersSettingsFromCookies();
 
     var indexToRemove = -1;
 
