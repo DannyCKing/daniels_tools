@@ -1,4 +1,9 @@
 ﻿
+var currentAnswer = 0;
+var firstNumber = 0;
+var secondNumber = 0;
+var operation = "+";
+
 function checkMyAnswer(myAnswer) {
 
     // we only allow numbers or space to by typed
@@ -72,44 +77,54 @@ function deleteCurrentUser() {
     deleteCookie(cookieName);
 }
 
+function getRandomValueFromList(possibleNumbers) {
+    if (possibleNumbers.length == 0) {
+        // if there are no numbers selected, we will just return the number one
+        return 1;
+    }
+    else {
+        var idx = Math.floor(Math.random() * possibleNumbers.length);
+        return possibleNumbers[idx];
+    }
+}
 
-function getFirstNumber() {
-    var numbers = [];
+function getListOfPossibleFirstNumbers() {
+    var possibleNumbers = [];
 
     for (var i = 0; i <= 12; i++) {
         if (currentUser.Settings.FirstNumber[i]) {
-            numbers.push(i);
+            possibleNumbers.push(i);
         }
     }
 
-    if (numbers.length == 0) {
-        return 1;
-    }
-    else {
-        var idx = Math.floor(Math.random() * numbers.length);
-        return numbers[idx];
-    }
+    return possibleNumbers;
 }
 
-function getSecondNumber() {
-    var numbers = [];
+function getListOfPossibleSecondNumbers() {
+    var possibleNumbers = [];
 
     for (var i = 0; i <= 12; i++) {
         if (currentUser.Settings.SecondNumber[i]) {
-            numbers.push(i);
+            possibleNumbers.push(i);
         }
     }
 
-    if (numbers.length == 0) {
-        return 1;
-    }
-    else {
-        var idx = Math.floor(Math.random() * numbers.length);
-        return numbers[idx];
-    }
+    return possibleNumbers;
 }
 
-function getOperation() {
+function getFirstNumber() {
+    var possibleNumbers = getListOfPossibleFirstNumbers();
+
+    return getRandomValueFromList(possibleNumbers); 
+}
+
+function getSecondNumber() {
+    var possibleNumbers = getListOfPossibleSecondNumbers();
+
+    return getRandomValueFromList(possibleNumbers); 
+}
+
+function getListOfOperations() {
     var operations = [];
 
     if (currentUser.Settings.Operations.Add) {
@@ -124,6 +139,12 @@ function getOperation() {
     if (currentUser.Settings.Operations.Divide) {
         operations.push("÷");
     }
+
+    return operations;
+}
+
+function getOperation() {
+    var operations = getListOfOperations();
 
     if (operations.length == 0) {
         return "+";
@@ -232,31 +253,70 @@ function selectUser(userId) {
 }
 
 function showNumbersForProblem() {
-    var firstNumber = getFirstNumber();
-    var secondNumber = getSecondNumber();
-    var operation = getOperation();
+    /// variable to indicate if this problem is an exact repeat of the previous problem
+    var isRepeat = true;
 
-    var shouldWeFlip = currentUser.Settings.Operations.SwapNumbers;
+    // variable to indicate if more than one problem is possible
+    var multipleProblemsPossible = true;
 
-    var flip = Math.floor(Math.random() * 2) == 1;
-    if (shouldWeFlip && flip && (operation == "+" || operation == "x")) {
-        var temp = firstNumber;
-        firstNumber = secondNumber;
-        secondNumber = temp;
+    var firstTime = true;
+
+    var previousFirstNumber = firstNumber;
+    var previousSecondNumber = secondNumber;
+    var previousOperation = operation;
+
+    var possibleFirstNumbers = getListOfPossibleFirstNumbers();
+    var possibleSecondNumbers = getListOfPossibleSecondNumbers();
+    var possibleOperations = getListOfOperations();
+    if (possibleFirstNumbers.length > 1 || possibleSecondNumbers.length > 1 || possibleOperations.length > 1 || currentUser.Settings.Operations.SwapNumbers) {
+        multipleProblemsPossible = true;
+    }
+    else {
+        multipleProblemsPossible = false;
     }
 
-    // to check numbers for subtraction so we can't get negative numbers
-    if (operation == "-" && firstNumber < secondNumber) {
-        // swap the numbers back, we don't want the
-        // answer to be negative
-        var temp = firstNumber;
-        firstNumber = secondNumber;
-        secondNumber = temp;
-    }
 
-    // to do: for division, generate first number and second number
-    if (operation == "÷") {
-        firstNumber = firstNumber * secondNumber;
+    ///  We want to avoid showing the same problem twice in a row
+    ///  Therefore, if more than one problem is possible based on the settings
+    ///  we will generate the problem until we get a new one
+    ///  If the settings are set in such a way only one math problem is problem
+    ///  we will obviously get repeats
+    while (isRepeat && (firstTime || multipleProblemsPossible)) {
+        firstTime = false;
+
+        firstNumber = getFirstNumber();
+        secondNumber = getSecondNumber();
+        operation = getOperation();
+
+        if (previousFirstNumber == firstNumber && previousSecondNumber == secondNumber && previousOperation == operataion) {
+            isRepeat = true;
+        }
+        else {
+            isRepeat = false;
+        }
+
+        var shouldWeFlip = currentUser.Settings.Operations.SwapNumbers;
+
+        var flip = Math.floor(Math.random() * 2) == 1;
+        if (shouldWeFlip && flip && (operation == "+" || operation == "x")) {
+            var temp = firstNumber;
+            firstNumber = secondNumber;
+            secondNumber = temp;
+        }
+
+        // to check numbers for subtraction so we can't get negative numbers
+        if (operation == "-" && firstNumber < secondNumber) {
+            // swap the numbers back, we don't want the
+            // answer to be negative
+            var temp = firstNumber;
+            firstNumber = secondNumber;
+            secondNumber = temp;
+        }
+
+        // to do: for division, generate first number and second number
+        if (operation == "÷") {
+            firstNumber = firstNumber * secondNumber;
+        }
     }
 
     currentAnswer = getAnswer(firstNumber, secondNumber, operation);
@@ -441,6 +501,11 @@ $(function () {
     $("#onChooseNameButton").on('click', function (event) {
         window.location.href = "ModifyUser";
     })
+
+    $("#chooseOperationsButton").on('click', function (event) {
+        window.location.href = "Operations";
+    })
+
 
 
     $(".current_problem_small").on('click', function (event) {

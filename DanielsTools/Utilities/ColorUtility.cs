@@ -6,7 +6,7 @@
         {
             get
             {
-                return new List<string> { "maroon", "red", "purple", "green", "lime", "olive", "yellow", "navy", "blue", "teal", "aqua", "hotpink" };
+                return new List<string> { "DarkOrange", "Crimson", "MediumSlateBlue", "Chartreuse", "SkyBlue", "MediumSeaGreen", "yellow", "SteelBlue", "Orchid", "Aquamarine", "aqua", "hotpink" };
             }
         }
 

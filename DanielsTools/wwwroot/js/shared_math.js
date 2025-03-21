@@ -10,12 +10,44 @@ const CURRENT_USER_ID_COOKIE_NAME = "mathamamania_current_user_id";
 
 var localUsers = {};
 
+class Operations {
+    constructor() {
+        this.Add = false;
+        this.Subtract = false;
+        this.Multiply = true;
+        this.Divide = false;
+        this.SwapNumbers = true;
+    }
+}
+
+class Settings {
+
+    constructor() {
+        this.FirstNumber = [];
+        this.SecondNumber = [];
+        this.NumbersInitialized = false;
+        this.OperationsInitialized = false;
+
+        for (var i = 0; i <= 12; i++) {
+            this.FirstNumber[i] = true;
+            this.SecondNumber[i] = true;
+        }
+
+        this.Operations = new Operations();
+
+        this.PasswordProtected = false;
+        this.Password = "";
+    }
+}
+
+
 class MathUser {
     constructor() {
         this.UserId = 0;
         this.Settings = {};
         this.OriginalUsername = "";
         this.Username = "";
+        this.Settings = new Settings();
     }
 }
 
@@ -168,10 +200,10 @@ function reloadUserListFromMemory() {
         for (var i = 0; i < localUsers.users.length; i++) {
             var user = localUsers.users[i];
             var avatar = EMOJI_DICTIONARY[user.AvatarId];
-            usersHTML += "<div class='col-12 col-sm-12 col-md-5 col-lg-5 col-xl-3 col-xxl-3  user_button_div'><button style='width: 100%; background-color: " + user.Color + "'  onclick = 'selectUser(" + user.UserId + ")' ><div class='user_emoji_font'>" + avatar + "</div><div><p class='user_label_font'>" + user.Username + "</p></div></button ></div> ";
+            usersHTML += "<div class='col-12 col-sm-12 col-md-5 col-lg-5 col-xl-3 col-xxl-3  unselectable user_button_div'><button style='width: 100%; background-color: " + user.Color + "'  onclick = 'selectUser(" + user.UserId + ")' ><div class='user_emoji_font'>" + avatar + "</div><div><p class='user_label_font'>" + user.Username + "</p></div></button ></div> ";
         }
     }
-    usersHTML += "<div class='col-12 col-sm-12 col-md-5 col-lg-5 col-xl-3 col-xxl-3  user_button_div '><button id='createNewUserButton' class='btn-success' style='width: 100%; '><div class='user_emoji_font'><i class='bi bi-plus-lg'></i></div><div><p class='user_label_font'>Add User</p></div></button ></div> ";
+    usersHTML += "<div class='col-12 col-sm-12 col-md-5 col-lg-5 col-xl-3 col-xxl-3  user_button_div unselectable '><button id='createNewUserButton' class='btn-success' style='width: 100%; '><div class='user_emoji_font'><i class='bi bi-plus-lg'></i></div><div><p class='user_label_font'>Add User</p></div></button ></div> ";
 
     $("#userList").html(usersHTML);
 }
@@ -225,7 +257,7 @@ function loadCurrentUsersSettingsFromCookies() {
 
     if (userSettingsString == "") {
         // load default
-        currentUser.Settings = getDefaultSettings();
+        currentUser.Settings = new Settings();
         saveCurrentUserSettingsIntoCookies();
     }
     else {
@@ -233,7 +265,7 @@ function loadCurrentUsersSettingsFromCookies() {
             currentUser.Settings = JSON.parse(userSettingsString);
         }
         catch (e) {
-            currentUser.Settings = getDefaultSettings();
+            currentUser.Settings = new Settings();
             saveCurrentUserSettingsIntoCookies();
         }
     }

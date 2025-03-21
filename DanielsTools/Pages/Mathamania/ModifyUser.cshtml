@@ -101,7 +101,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Choose Numbers For Problems</h5>
-                <button type="button" class="btn-success" data-bs-dismiss="modal" aria-label="Close">Save Changes</button>
+                <button type="button" class="btn-success" data-bs-dismiss="modal" >Save Changes</button>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -553,7 +553,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Choose Your Color</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" ></button>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -565,10 +565,7 @@
                                 {
                                     <div class="col-3 ">
                                         <button class="color_button not_chosen_color_border" name="@item">
-                                            <div class="row">
-                                                <div class="col-md-5 color_choice" style="background-color: @item"></div>
-                                                <div class="col-md-5 color_label">@Html.Raw(@item)</div>
-                                            </div>
+                                                <div class="col-10 color_choice" style="background-color: @item"></div>
                                         </button>
                                     </div>
                                 }
