@@ -48,6 +48,9 @@ function onRefresh() {
 }
 
 function saveModifiedUserToMemory() {
+
+    loadUsersIntoMemoryFromCookies();
+
     if (modifyUser.UserId && modifyUser.UserId != "") {
         // we already have a user id, update the user
         for (var i = 0; i < localUsers.users.length; i++) {
@@ -63,9 +66,9 @@ function saveModifiedUserToMemory() {
         localUsers.users.push(modifyUser);
     }
 
-    setCookie(CURRENT_USER_ID_COOKIE_NAME, newUser.UserId);
+    setCookie(CURRENT_USER_ID_COOKIE_NAME, modifyUser.UserId);
 
-    saveUserListToCookie();
+    saveUserListInMemoryToCookie();
 
     if (modifyUser.Settings.OperationsInitialized == false) {
         // redirect to operations page

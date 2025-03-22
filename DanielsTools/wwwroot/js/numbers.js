@@ -113,7 +113,7 @@ function saveUpdatedNumbersToMemory() {
 
     setCookie(CURRENT_USER_ID_COOKIE_NAME, modifyUser.UserId);
 
-    saveUserListToCookie();
+    saveUserListInMemoryToCookie();
 }
 
 // document.ready

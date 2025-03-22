@@ -75,10 +75,11 @@ function deleteCurrentUser() {
         localUsers.users.splice(indexToRemove, 1);
     }
 
-    saveUserListToCookie();
+    saveUserListInMemoryToCookie();
 
     var cookieName = getCurrentUserCookieName();
     deleteCookie(cookieName);
+    setCookie(CURRENT_USER_ID_COOKIE_NAME, "");
 }
 
 function getRandomValueFromList(possibleNumbers) {
@@ -206,7 +207,7 @@ function makeAnswerTextGreenForShortTime() {
 
     setTimeout(function () {
         clearAnswerBox();
-    }, 500)
+    }, 1)
 }
 
 function makeAllAnswerBoxesHaveColor(colorToUse){
@@ -228,7 +229,6 @@ function makeAnswerClear() {
 
 function selectUser(userId) {
     currentUser = {};
-    currentUser.UserId = 0;
 
     for (var i = 0; i < localUsers.users.length; i++) {
         var currentUserInList = localUsers.users[i];

@@ -100,20 +100,16 @@ function checkIfAtLeastOneNumberIsOn() {
 function isStringAlphaNumeric(str) {
     for (var i = 0; i < str.length; i++) {
         var code = str.charCodeAt(i);
-        if (code => 48 && code <= 57) {
+        if (code >= 48 && code <= 57) {
             //if character is 0-9
             continue;
         }
-        else if (code => 65 && code <= 90) {
+        else if (code >= 65 && code <= 90) {
             // if character is A-Z (uppercase)
             continue;
         }
         else if (code >= 97 && code <= 122) {
             // if character is a-z (lower)
-            continue;
-        }
-        else if (code == 32) {
-            // if character is a space
             continue;
         }
         else if (code == 32) {
@@ -302,7 +298,7 @@ function saveCurrentUserSettingsIntoCookies() {
     setCookie(userCookieName, settingsString);
 }
 
-function saveUserListToCookie() {
+function saveUserListInMemoryToCookie() {
     var localUsersString = JSON.stringify(localUsers);
     setCookie(USER_LIST_COOKIE_NAME, localUsersString);
 }
