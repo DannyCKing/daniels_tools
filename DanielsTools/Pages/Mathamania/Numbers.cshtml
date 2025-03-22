@@ -1,4 +1,97 @@
 ﻿@page
 @model DanielsTools.Pages.Mathamania.NumbersModel
 @{
+    ViewData["Title"] = "Numbers";
 }
+
+<link rel="stylesheet" href="~/css/math.css" />
+<script src="~/js/shared_math.js" asp-append-version="true"></script>
+<script src="~/js/numbers.js" asp-append-version="true"></script>
+
+<h1 class="unselectable">Numbers</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-lg-6 number_background_1 extra_space">
+            <div class="row">
+                <div class="col-md-12 large_label">First Number</div>
+            </div>
+
+            <div class="row">
+                @for (int x = 0; x <= 12; x++)
+                {
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
+                        <button id="buttonnumber_@Html.Raw(1)_@Html.Raw(x)" name="buttonnumber_@Html.Raw(1)_@Html.Raw(x)" class="number_button unselectable  ">
+
+                            <div class="">
+                                <div class="row">
+                                    <div class="col-6 align-self-center centered_numbered operation_button_large_font ">
+                                        <span>@x</span>
+                                    </div>
+                                    <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 small_button_font">
+                                        <div class="small_button_font justify-content-md-center">
+                                            ON
+                                        </div>
+                                        <div class="">
+                                            <div id="parentFirstNumber_@Html.Raw(1)_@Html.Raw(x)" class="toggle_rotate_270 small_button_font">
+                                                <i id="firstNumber_@Html.Raw(1)_@Html.Raw(x)" class="bi "></i>
+                                            </div>
+                                        </div>
+                                        <div class="small_button_font justify-content-md-center">
+                                            OFF
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                }
+
+
+            </div>
+
+
+        </div>
+
+        <div class="col-12 col-lg-6 number_background_2 extra_space">
+            <div class="row">
+                <div class="col-md-12 large_label">Second Number</div>
+            </div>
+
+            <div class="row">
+                @for (int x = 0; x <= 12; x++)
+                {
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
+                        <button id="buttonnumber_@Html.Raw(2)_@Html.Raw(x)" name="buttonnumber_@Html.Raw(2)_@Html.Raw(x)" class="number_button unselectable">
+                            <div class="">
+                                <div class="row">
+                                    <div class="col-6 align-self-center centered_numbered operation_button_large_font ">
+                                        <span>@x</span>
+                                    </div>
+                                    <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 small_button_font">
+                                        <div class="small_button_font justify-content-md-center">
+                                            ON
+                                        </div>
+                                        <div class="">
+                                            <div id="parentFirstNumber_@Html.Raw(2)_@Html.Raw(x)" class="toggle_rotate_270 small_button_font">
+                                                <i id="firstNumber_@Html.Raw(2)_@Html.Raw(x)" class="bi "></i>
+                                            </div>
+                                        </div>
+                                        <div class="small_button_font justify-content-md-center">
+                                            OFF
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row unselectable">
+    <button type="button" id="cancelNumberChangesButton" class="btn btn-secondary large_button">Cancel</button>
+    <button type="button" id="saveNumberChangesButton" class="btn btn-primary large_button">Save</button>
+</div>

@@ -13,11 +13,11 @@
     const EMOJI_DICTIONARY = JSON.parse('@Html.Raw(Json.Serialize(Model.EmojiDictionary))');
 </script>
 
-<div class="d-lg-none hide_during_test">
+<div class="d-lg-none smallest_screen hide_during_test">
     <nav class="navbar navbar-expand-lg navbar-light bg-light hide_during_test">
         <div class="container-fluid">
             <a id="smallUserDiv" class="navbar-brand" href="#">Home</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" >
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
@@ -46,8 +46,8 @@
     </div>
 
     <div class="topcorner col-auto hide_during_test d-none d-lg-block d-xl-block unselectable">
-        <div id="changeSoundStatusButton" class="large_button show_during_test">
-            <i id="soundStatusIcon" class="bi bi-volume-up-fill green_font"></i>
+        <div id="changeSoundStatusButton" class="large_button show_during_test ">
+            <i id="soundStatusIcon" class="bi bi-volume-up-fill green_font change_sound_status"></i>
         </div>
         <button type="button" class="btn btn-success large_button hide_during_test" data-bs-toggle="modal" data-bs-target="#youTubeModal">
             <i class="bi bi-coin"></i>
@@ -74,45 +74,111 @@
     </button>
 </div>
 
+<!-- This should show on large devices -->
 <div class="show_during_test d-none d-lg-block">
     <span id="secondsSpan" class="current_problem  unselectable timer_class show_during_timed_test">00</span>
     <span id="" class="show_after_timed_test current_problem  unselectable timer_class">Correct Count:</span><span id="correctCountSpan" class="show_after_timed_test current_problem  unselectable timer_class">0</span>
 
     <div class="row unselectable show_during_test">
-        <span id="firstNumberDiv" class="current_problem  unselectable col-2"></span>
-        <span id="operationDiv" class="current_problem unselectable col-auto"></span>
+        <span id="firstNumberDiv" class="current_problem  unselectable col-3"></span>
+        <span id="operationDiv" class="current_problem unselectable col-1"></span>
         <span id="secondNumberDiv" class="current_problem unselectable col-2"></span>
-        <span class="current_problem unselectable col-2">=</span>
+        <span class="current_problem unselectable col-1">=</span>
         <input id="answerTextBox" class="current_problem col-4" type="text" />
+        <label id="answerLabel" class="current_problem col-4" />
     </div>
 
     <div class="row show_during_test">
-        <button id="stop_timing_button" type="button" class="btn btn-warning large_button col-11">
+        <button id="stop_timing_button" type="button" class="btn btn-warning large_button col-11 stop_timing_button">
+            <i class="bi bi-sign-stop"></i>Stop
+        </button>
+    </div>
+</div>
+
+<!-- This should show on medium devices -->
+<div class="show_during_test d-none d-md-block d-lg-none">
+    <span id="secondsSpan" class="current_problem  unselectable timer_class show_during_timed_test">00</span>
+    <span id="" class="show_after_timed_test current_problem  unselectable timer_class">Correct Count:</span><span id="correctCountSpan" class="show_after_timed_test current_problem  unselectable timer_class">0</span>
+
+    <div class="row unselectable show_during_test">
+        <span id="firstNumberDivMed" class="current_problem  unselectable col-3"></span>
+        <span id="operationDivMed" class="current_problem unselectable col-1"></span>
+        <span id="secondNumberDivMed" class="current_problem unselectable col-2"></span>
+        <span class="current_problem unselectable col-1">=</span>
+        @*<input id="answerTextBox" class="current_problem col-4" type="text" />*@
+        <label id="answerLabelMed" class="current_problem col-4" />
+    </div>
+
+    <div class="row unselectable">
+        <button id="number1MedScreenPortrait" class="current_problem_small col-3 btn-info">1</button>
+        <div class="col"></div>
+        <button id="number2MedScreenPortrait" class="current_problem_small col-3 btn-info">2</button>
+        <div class="col"></div>
+        <button id="number3MedScreenPortrait" class="current_problem_small col-3 btn-info">3</button>
+
+
+    </div>
+    <div class="row">
+        <button id="number4MedScreenPortrait" class="current_problem_small col-3 btn-info">4</button>
+        <div class="col"></div>
+        <button id="number5MedScreenPortrait" class="current_problem_small col-3 btn-info">5</button>
+        <div class="col"></div>
+        <button id="number6MedScreenPortrait" class="current_problem_small col-3 btn-info">6</button>
+    </div>
+
+    <div class="row">
+        <button id="number7MedScreenPortrait" class="current_problem_small col-3 btn-info">7</button>
+        <div class="col"></div>
+        <button id="number8MedScreenPortrait" class="current_problem_small col-3 btn-info">8</button>
+        <div class="col"></div>
+        <button id="number9MedScreenPortrait" class="current_problem_small col-3 btn-info">9</button>
+    </div>
+
+    <div class="row">
+        <button class="current_problem_small col-3 btn-info" style="visibility:hidden"></button>
+        <div class="col"></div>
+        <button id="number0MedScreenPortrait" class="current_problem_small col-3 btn-info">0</button>
+        <div class="col"></div>
+        <button id="clearMedScreenPortrait" class="current_problem_small col-3 btn-info">
+            <i class="bi bi-backspace"></i>
+        </button>
+
+    </div>
+
+    <div class="row show_during_test">
+        <button id="stop_timing_button_medium" type="button" class="btn btn-warning large_button col-11 stop_timing_button">
             <i class="bi bi-sign-stop"></i>Stop
         </button>
     </div>
 </div>
 
 <!-- This should show on mobile devices in the potrait orientation-->
-<div class="show_during_test d-lg-none">
+<div class="show_during_test d-md-none">
     <div class="row">
-        <div class="col" style="background-color:pink;">
-            <span id="secondsSpanSmallScreen" class="current_problem unselectable timer_class show_during_timed_test">00</span>
+        <div class="col" style="">
+            <span id="secondsSpanMedScreen" class="current_problem unselectable timer_class show_during_timed_test">00</span>
         </div>
-        <button id="stop_timing_button_small" type="button" class="col-4 btn btn-warning small_button">
-            <i class="bi bi-sign-stop"></i>
-        </button>
+        <div class="col-auto">
+            <button type="button" class="btn btn-success large_button change_mobile_orientation">
+                <i class="bi bi-phone"></i>
+            </button>
+        </div>
+        <div class="col-auto">
+            <div type="button" class=" large_button unselectable">
+                <i id="soundStatusIconMed" class="bi bi-volume-up-fill green_font change_sound_status"></i>
+            </div>
+        </div>
     </div>
     <div class="row unselectable">
-        <span id="firstNumberDivSmallScreen" class="current_problem  unselectable col-2"></span>
-        <span id="operationDivSmallScreen" class="current_problem unselectable col-2"></span>
-        <span id="secondNumberDivSmallScreen" class="current_problem unselectable col-2"></span>
+        <span id="firstNumberDivSmall" class="current_problem  unselectable col-2"></span>
+        <span id="operationDivSmall" class="current_problem unselectable col-2"></span>
+        <span id="secondNumberDivSmall" class="current_problem unselectable col-2"></span>
         <span class="current_problem unselectable col-auto">=</span>
-        <input id="answerTextBoxSmallScreenPotrait" class="current_problem col" type="text" />
+        <label id="answerLabelSmall" class="current_problem col-4" />
     </div>
     <div class="row">
     </div>
-    <div class="row">
+    <div class="row unselectable">
         <button id="number1SmallScreenPortrait" class="current_problem_small col-3 btn-info">1</button>
         <div class="col"></div>
         <button id="number2SmallScreenPortrait" class="current_problem_small col-3 btn-info">2</button>
@@ -148,6 +214,12 @@
 
     </div>
 
+    <div class="row show_during_test">
+        <button id="stop_timing_button_small" type="button" class="col-12 btn btn-warning small_button stop_timing_button">
+            <i class="bi bi-sign-stop"></i>
+        </button>
+    </div>
+
 </div>
 
 
@@ -157,7 +229,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Settings</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" ></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -165,15 +237,23 @@
 
                         <div class="col-md-6">
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-success setting_button" data-bs-toggle="modal" data-bs-target="#numbersModal">
-                                <i class="bi bi-list-ol"></i>  Numbers
+                            <button id="chooseGradeButton" type="button" class="btn btn-success setting_button">
+                                <i class="bi bi-list-ol"></i> Choose Grade
                             </button>
                         </div>
+
+
+                        <!--<div class="col-md-6">-->
+                        <!-- Button trigger modal -->
+                        <!--<button type="button" class="btn btn-success setting_button">
+                                <i class="bi bi-1-square"></i> Custom Settings
+                            </button>
+                        </div>-->
 
                         <div class="col-md-6">
                             <!-- Button trigger modal -->
                             <button id="chooseOperationsButton" type="button" class="btn btn-success setting_button">
-                                <i class="bi bi-plus-slash-minus"></i>  Operations
+                                <i class="bi bi-plus-slash-minus"></i>  Custom Settings
                             </button>
                         </div>
 
@@ -203,7 +283,7 @@
 </div>
 
 <!-- Select User Modal -->
-<div class="modal fade my_modal" id="usersModal" tabindex="-1" role="dialog" data-bs-backdrop="static" >
+<div class="modal fade my_modal" id="usersModal" tabindex="-1" role="dialog" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -230,12 +310,12 @@
 </div>
 
 <!-- Confirm Delete User Modal-->
-<div class="modal fade my_modal" id="deleteUserModal" tabindex="-1" role="dialog" >
+<div class="modal fade my_modal" id="deleteUserModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 id="DeleteUserMessageModalTitle" class="modal-title">Delete User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" ></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">

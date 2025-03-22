@@ -323,6 +323,22 @@ function showMessageModal(isError, messageTitle, messageBody) {
     $('#messageModal').modal('show');
 }
 
+function loadCurrentUserIntoMemoryFromCookies() {
+    loadUsersIntoMemoryFromCookies();
+
+    var currentUserId = getCookie(CURRENT_USER_ID_COOKIE_NAME);
+
+    // is existing user
+    for (var i = 0; i < localUsers.users.length; i++) {
+        var currentUserInList = localUsers.users[i];
+        if (currentUserInList.UserId == currentUserId) {
+            currentUser = currentUserInList;
+            break;
+        }
+    }
+
+    console.log("User not found in memory");
+}
 
 
 

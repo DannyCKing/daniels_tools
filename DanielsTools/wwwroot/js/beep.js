@@ -8,30 +8,31 @@ function beep() {
 
 var isMuted = false;
 
-function changeSoundStatus() {
-    $("#soundStatusIcon").removeClass("bi-volume-up-fill");
-    $("#soundStatusIcon").removeClass("bi-volume-mute-fill");
-    $("#soundStatusIcon").removeClass("red_font");
-    $("#soundStatusIcon").removeClass("green_font");
+function changeSoundStatus(buttonId) {
+    $("#" + buttonId).removeClass("bi-volume-up-fill");
+    $("#" + buttonId).removeClass("bi-volume-mute-fill");
+    $("#" + buttonId).removeClass("red_font");
+    $("#" + buttonId).removeClass("green_font");
 
 
     if (isMuted) {
         // currently muted, unmute
         isMuted = false;
-        $("#soundStatusIcon").addClass("bi-volume-up-fill");
-        $("#soundStatusIcon").addClass("green_font");
+        $("#" + buttonId).addClass("bi-volume-up-fill");
+        $("#" + buttonId).addClass("green_font");
     }
     else {
         // mute the sound
         isMuted = true;
-        $("#soundStatusIcon").addClass("bi-volume-mute-fill");
-        $("#soundStatusIcon").addClass("red_font");
+        $("#" + buttonId).addClass("bi-volume-mute-fill");
+        $("#" + buttonId).addClass("red_font");
 
     }
 }
 
 $(function () {
-    $('#changeSoundStatusButton').on('click', function (event) {
-        changeSoundStatus();
+    $('.change_sound_status').on('click', function (event) {
+        var buttonId = $(this).attr('id');
+        changeSoundStatus(buttonId);
     });
 });

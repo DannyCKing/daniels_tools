@@ -6,7 +6,7 @@ function turnOnOffOperationButtonsBasedOnSettings() {
     $("#add_current_toggle").removeClass("bi-toggle-on");
     $("#add_current_toggle").removeClass("bi-toggle-off");
 
-    if (modifyUser.Settings.Operations.Add) {
+    if (currentUser.Settings.Operations.Add) {
         $("#add_operation_button").addClass("operation_button_on");
         $("#add_current_toggle").addClass("bi-toggle-on");
         $("#onoff_add").text("ON");
@@ -23,7 +23,7 @@ function turnOnOffOperationButtonsBasedOnSettings() {
     $("#subtract_current_toggle").removeClass("bi-toggle-on");
     $("#subtract_current_toggle").removeClass("bi-toggle-off");
 
-    if (modifyUser.Settings.Operations.Subtract) {
+    if (currentUser.Settings.Operations.Subtract) {
         $("#subtract_operation_button").addClass("operation_button_on");
         $("#subtract_current_toggle").addClass("bi-toggle-on");
         $("#onoff_sub").text("ON");
@@ -40,7 +40,7 @@ function turnOnOffOperationButtonsBasedOnSettings() {
     $("#multiply_current_toggle").removeClass("bi-toggle-on");
     $("#multiply_current_toggle").removeClass("bi-toggle-off");
 
-    if (modifyUser.Settings.Operations.Multiply) {
+    if (currentUser.Settings.Operations.Multiply) {
         $("#multiply_operation_button").addClass("operation_button_on");
         $("#multiply_current_toggle").addClass("bi-toggle-on");
         $("#onoff_mult").text("ON");
@@ -58,7 +58,7 @@ function turnOnOffOperationButtonsBasedOnSettings() {
     $("#divide_current_toggle").removeClass("bi-toggle-on");
     $("#divide_current_toggle").removeClass("bi-toggle-off");
 
-    if (modifyUser.Settings.Operations.Divide) {
+    if (currentUser.Settings.Operations.Divide) {
         $("#divide_operation_button").addClass("operation_button_on");
         $("#divide_current_toggle").addClass("bi-toggle-on");
         $("#onoff_divide").text("ON");
@@ -78,7 +78,7 @@ function turnOnOffOperationButtonsBasedOnSettings() {
     $("#swap_current_toggle").removeClass("bi-toggle-off");
 
 
-    if (modifyUser.Settings.Operations.SwapNumbers) {
+    if (currentUser.Settings.Operations.SwapNumbers) {
         $("#swap_operation_button").addClass("operation_button_on");
         $("#swap_current_toggle").addClass("bi-toggle-on");
         $("#onoff_swap").text("ON");
@@ -119,23 +119,22 @@ function turnOperationOnOff(buttonId) {
 }
 
 function onRefresh() {
-    loadUsersIntoMemoryFromCookies();
-    var currentUserId = getCookie(CURRENT_USER_ID_COOKIE_NAME);
+    loadCurrentUserIntoMemoryFromCookies();
+    loadCurrentUsersSettingsFromCookies();
+    modifyUser = currentUser;
+}
 
-    // is existing user
+function saveUpdatedOperationsToMemory() {
+    // we already have a user id, update the user
     for (var i = 0; i < localUsers.users.length; i++) {
-        var currentUserInList = localUsers.users[i];
-        if (currentUserInList.UserId == currentUserId) {
-            modifyUser = currentUserInList;
-
-            // to do - find out where this would go
-            //turnOnOffNumberButtonsBasedOnSettings();
-            //turnOnOffOperationButtonsBasedOnSettings();
-
-            //setCookie(CURRENT_USER_ID_COOKIE_NAME, currentUserId);
-            break;
+        if (localUsers.users[i].UserId == modifyUser.UserId) {
+            localUsers.users[i] = modifyUser;
         }
     }
+
+    setCookie(CURRENT_USER_ID_COOKIE_NAME, modifyUser.UserId);
+
+    saveUserListToCookie();
 }
 
 // document.ready
@@ -143,9 +142,24 @@ $(function () {
     onRefresh();
 
     turnOnOffOperationButtonsBasedOnSettings();
+
     // on operation button clicked
     $(".operation_button").on('click', function (event) {
         var buttonId = $(this).attr('id');
         turnOperationOnOff(buttonId)
+    });
+
+    $("#saveOperationsButton").on('click', function () {
+        saveUpdatedOperationsToMemory();
+
+        // go to the number page
+        location.href = 'Numbers';
+    });
+
+    $("#cancelOperationsChangesButton").on('click', function () {
+        modifyUser = {};
+
+        // go back to main page
+        location.href = 'Main';
     });
 });

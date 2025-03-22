@@ -4,6 +4,10 @@ var firstNumber = 0;
 var secondNumber = 0;
 var operation = "+";
 
+function setAllAnswers(currentValue) {
+    $("#answerLabelMed").text(currentValue);
+    $("#answerLabelSmall").text(currentValue);
+}
 function checkMyAnswer(myAnswer) {
 
     // we only allow numbers or space to by typed
@@ -15,7 +19,6 @@ function checkMyAnswer(myAnswer) {
     }
 
     // update text box with properly formatted answer
-
     $("#answerTextBox").val(myAnswer);
     $("#answerTextBoxSmallScreenPotrait").val(myAnswer);
 
@@ -25,7 +28,7 @@ function checkMyAnswer(myAnswer) {
         correctCount++;
         updateCorrectCount();
         beep();
-        showNumbersForProblem();
+        createProblem();
         makeAnswerTextGreenForShortTime();
 
         if (mobileAndTabletCheck() == false) {
@@ -43,6 +46,7 @@ function checkMyAnswer(myAnswer) {
     else if (myAnswer.length > 3) {
         // ignore any input longer than length
         var newAnswer = myAnswer.substring(0, 3);
+        setAllAnswers(newAnswer);
         $("#answerTextBox").val(newAnswer);
         $("#answerTextBoxSmallScreenPotrait").val(newAnswer);
     }
@@ -50,9 +54,9 @@ function checkMyAnswer(myAnswer) {
 
 function clearAnswerBox() {
     $("#answerTextBox").val("");
-    $("#answerTextBoxSmallScreenPotrait").val("");
-    $("#answerTextBox").css("background-color", "white");
-    $("#answerTextBoxSmallScreenPotrait").css("background-color", "white");
+    setAllAnswers("");
+
+    makeAllAnswerBoxesHaveColor("white");
 }
 
 function deleteCurrentUser() {
@@ -154,7 +158,7 @@ function getOperation() {
         return operations[idx];
     }
 
-    return "x";
+    return "+";
 }
 
 function getAnswer(num1, num2, operation) {
@@ -198,12 +202,17 @@ function hideTimer() {
 
 
 function makeAnswerTextGreenForShortTime() {
-    $("#answerTextBox").css("background-color", "green");
-    $("#answerTextBoxSmallScreenPotrait").css("background-color", "green");
+    makeAllAnswerBoxesHaveColor("green");
 
     setTimeout(function () {
         clearAnswerBox();
     }, 500)
+}
+
+function makeAllAnswerBoxesHaveColor(colorToUse){
+    $("#answerTextBox").css("background-color", colorToUse);
+    $("#answerLabelMed").css("background-color", colorToUse);
+    $("#answerLabelSmall").css("background-color", colorToUse);
 }
 
 function makeAnswerRed() {
@@ -230,12 +239,7 @@ function selectUser(userId) {
         }
     }
 
-    // set current user to new user in case we update
-    newUser = currentUser;
-
     loadCurrentUsersSettingsFromCookies(currentUser.UserId);
-
-
 
     if (currentUser.UserId != 0) {
         $('#usersModal').modal('hide');
@@ -252,7 +256,7 @@ function selectUser(userId) {
     $("#currentUserDiv").html(userDivHTML);
 }
 
-function showNumbersForProblem() {
+function createProblem() {
     /// variable to indicate if this problem is an exact repeat of the previous problem
     var isRepeat = true;
 
@@ -288,13 +292,6 @@ function showNumbersForProblem() {
         secondNumber = getSecondNumber();
         operation = getOperation();
 
-        if (previousFirstNumber == firstNumber && previousSecondNumber == secondNumber && previousOperation == operataion) {
-            isRepeat = true;
-        }
-        else {
-            isRepeat = false;
-        }
-
         var shouldWeFlip = currentUser.Settings.Operations.SwapNumbers;
 
         var flip = Math.floor(Math.random() * 2) == 1;
@@ -313,22 +310,38 @@ function showNumbersForProblem() {
             secondNumber = temp;
         }
 
-        // to do: for division, generate first number and second number
+        
+        if (operation == "÷" && secondNumber == "0") {
+            // don't divide by 0
+            secondNumber = 1;
+        }
+
+        // for division generate the problem
         if (operation == "÷") {
             firstNumber = firstNumber * secondNumber;
+        }
+
+        if (previousFirstNumber == firstNumber && previousSecondNumber == secondNumber && previousOperation == operation) {
+            isRepeat = true;
+        }
+        else {
+            isRepeat = false;
         }
     }
 
     currentAnswer = getAnswer(firstNumber, secondNumber, operation);
 
     $("#firstNumberDiv").html(firstNumber);
-    $("#firstNumberDivSmallScreen").html(firstNumber);
+    $("#firstNumberDivMed").html(firstNumber);
+    $("#firstNumberDivSmall").html(firstNumber);
 
     $("#secondNumberDiv").html(secondNumber);
-    $("#secondNumberDivSmallScreen").html(secondNumber);
+    $("#secondNumberDivMed").html(secondNumber);
+    $("#secondNumberDivSmall").html(secondNumber);
 
     $("#operationDiv").html(operation);
-    $("#operationDivSmallScreen").html(operation);
+    $("#operationDivMed").html(operation);
+    $("#operationDivSmall").html(operation);
 
     if (mobileAndTabletCheck() == false) {
         $("#answerTextBox").trigger('focus');
@@ -354,7 +367,7 @@ function showProblems(isTimed) {
         });
     }
 
-    showNumbersForProblem();
+    createProblem();
 }
 
 function stopTiming() {
@@ -391,10 +404,12 @@ function tickTimer() {
     var interval = 300;
 
     $('#secondsSpan').html("00:" + pad2(wholeSeconds));
+    $('#secondsSpanMedScreen').html("00:" + pad2(wholeSeconds));
+
     $('#secondsSpanSmallScreen').html("00:" + pad2(wholeSeconds));
 
 
-    if (wholeSeconds < 0) {
+    if (wholeSeconds <= 0) {
         wholeSeconds = 0;
         hideProblems(true);
         hideTimer();
@@ -403,11 +418,22 @@ function tickTimer() {
 
     setTimeout(function () {
         tickTimer();
-    }, 1000)
+    }, 100)
 }
 
 function updateCorrectCount() {
     $('#correctCountSpan').html(correctCount);
+}
+
+function loadCurrentUserIfSelected() {
+    var currentUserId = getCookie(CURRENT_USER_ID_COOKIE_NAME);
+
+    if (currentUserId != "") {
+        selectUser(currentUserId);
+    }
+    else {
+        $('#usersModal').modal('show');
+    }
 }
 
 
@@ -416,14 +442,12 @@ $(function () {
 
     loadUserCookies();
 
+    loadCurrentUserIfSelected();
+
     hideProblems(true);
     $('.show_after_timed_test').each(function (i, obj) {
         $(this).hide();
     });
-
-    $('#usersModal').modal('show');
-
-
 
 
     $('#usersModal').on('hidden.bs.modal', function (e) {
@@ -479,9 +503,7 @@ $(function () {
         startTimer();
     })
 
-    $("#stop_timing_button").on('click', function (event) {
-        stopTiming();
-    })
+
 
     $("#deleteUserButton").on('click', function (event) {
         var warningMessage = "Are you sure you want to delete the user " + currentUser.Username + "?";
@@ -494,7 +516,7 @@ $(function () {
         location.reload();
     })
 
-    $("#stop_timing_button_small").on('click', function (event) {
+    $(".stop_timing_button").on('click', function (event) {
         stopTiming();
     })
 
@@ -507,16 +529,15 @@ $(function () {
     })
 
 
-
     $(".current_problem_small").on('click', function (event) {
         var buttonId = $(this).attr('id');
         var buttonValue = buttonId.replace(/\D/g, '');
         if (buttonValue == "") {
             buttonValue = " "
         }
-        var currentText = $("#answerTextBoxSmallScreenPotrait").val();
+        var currentText = $("#answerTextBox").val();
         var newAnswer = currentText + buttonValue;
-        var currentText = $("#answerTextBoxSmallScreenPotrait").val(newAnswer);
+        setAllAnswers(newAnswer);
         checkMyAnswer(newAnswer);
     });
 
@@ -541,6 +562,11 @@ $(function () {
         // go to the new user page
         setCookie(CURRENT_USER_ID_COOKIE_NAME, "");
         location.href = 'ModifyUser';
+    });
+
+    $('#chooseGradeButton').on('click', function (event) {
+        // go to the new user page
+        location.href = 'ChooseGrade';
     });
 
     // Every time a modal is shown, if it has an autofocus element, focus on it.

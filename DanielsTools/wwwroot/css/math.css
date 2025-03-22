@@ -13,7 +13,7 @@
 }
 
 .small_button_font {
-    font-size: calc(0px + 0.8vw);
+    font-size: calc(12px + 0.8vw);
 }
 
 .number_button_on {
@@ -96,6 +96,10 @@
     font-size: min(6vw, 48px);
     margin: 10px;
     padding: 10px;
+}
+
+.grade_button {
+    width: 90%;
 }
 
 .small_button {
@@ -296,7 +300,7 @@ input:checked + .slider:before {
 }
 
 .current_problem {
-    font-size: min(10vw, 144px);
+    font-size: min(8vw, 144px);
     color: black;
     margin: 5px;
     padding: 5px;
@@ -383,3 +387,131 @@ input:checked + .slider:before {
     right: 0px;
 }
 
+/*****
+    Custom sizing CSS
+*/
+
+/* No media query necessary for xs breakpoint as it's effectively `@media (min-width: 0) { ... }` 
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap */
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+}
+
+@include media-breakpoint-up(sm) {
+    
+}
+
+@include media-breakpoint-up(md) {
+    
+}
+
+@include media-breakpoint-up(lg) {
+    
+}
+
+@include media-breakpoint-up(xl) {
+    
+}
+
+/* Example: Hide starting at `min-width: 0`, and then show at the `sm` breakpoint */
+.smallest_screen {
+    display: block;
+}
+
+.landscape_phone {
+    display: none;
+}
+
+.large_screen {
+    display: none;
+}
+
+.largest_screen {
+    display: none;
+}
+
+@include media-breakpoint-up(sm) {
+    .smallest_screen {
+        display: block;
+    }
+
+    .landscape_phone {
+        display: none;
+    }
+
+    .large_screen {
+        display: none;
+    }
+
+    .large_screen {
+        display: none;
+    }
+}
+
+@include media-breakpoint-up(md) {
+    .smallest_screen {
+        display: none;
+    }
+
+    .landscape_phone {
+        display: block;
+    }
+
+    .large_screen {
+        display: none;
+    }
+
+    .large_screen {
+        display: none;
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .smallest_screen {
+        display: none;
+    }
+
+    .landscape_phone {
+        display: none;
+    }
+
+    .large_screen {
+        display: block;
+    }
+
+    .large_screen {
+        display: none;
+    }
+}
+
+@include media-breakpoint-up(xl) {
+    .smallest_screen {
+        display: none;
+    }
+
+    .landscape_phone {
+        display: none;
+    }
+
+    .large_screen {
+        display: none;
+    }
+
+    .large_screen {
+        display: block;
+    }
+}

@@ -30,46 +30,29 @@ function loadCurrentUserIntoUpdateFields() {
 }
 
 function onRefresh() {
-    initializeModifyUser();
-    loadUsersIntoMemoryFromCookies();
     var currentUserId = getCookie(CURRENT_USER_ID_COOKIE_NAME);
+
     if (currentUserId == "") {
         // if creating new user auto show name modal
+        initializeModifyUser();
+
         $('#chooseNameModal').modal('show');
         modifyUser.IsNewUser = true;
     }
     else {
-        // is existing user
-        for (var i = 0; i < localUsers.users.length; i++) {
-            var currentUserInList = localUsers.users[i];
-            if (currentUserInList.UserId == currentUserId) {
-                modifyUser = currentUserInList;
-
-                // to do - find out where this would go
-                //turnOnOffNumberButtonsBasedOnSettings();
-                //turnOnOffOperationButtonsBasedOnSettings();
-
-                //setCookie(CURRENT_USER_ID_COOKIE_NAME, currentUserId);
-                break;
-            }
-        }
-
+        loadCurrentUserIntoMemoryFromCookies();
         modifyUser.IsNewUser = false;
-
     }
 
     loadCurrentUserIntoUpdateFields();
-
 }
-
 
 function saveModifiedUserToMemory() {
     if (modifyUser.UserId && modifyUser.UserId != "") {
         // we already have a user id, update the user
         for (var i = 0; i < localUsers.users.length; i++) {
-            if (localUsers.users[i].UserId == newUser.UserId) {
-                localUsers.users[i] = newUser;
-                selectUser(newUser.UserId);
+            if (localUsers.users[i].UserId == modifyUser.UserId) {
+                localUsers.users[i] = modifyUser;
             }
         }
     }
@@ -79,10 +62,16 @@ function saveModifiedUserToMemory() {
 
         localUsers.users.push(modifyUser);
     }
+
+    setCookie(CURRENT_USER_ID_COOKIE_NAME, newUser.UserId);
+
     saveUserListToCookie();
 
-
     if (modifyUser.Settings.OperationsInitialized == false) {
+        // redirect to operations page
+        location.href = "ChooseGrade";
+    }
+    else if (modifyUser.Settings.OperationsInitialized == false) {
         // redirect to operations page
         location.href = "Operations";
     }
@@ -174,117 +163,6 @@ function setModifyUsername() {
     }
 }
 
-function turnNumberOnOff(buttonId) {
-
-    const items = buttonId.split("_");
-
-    if (items.length < 2) {
-        //not valid button that was pressed
-        return;
-    }
-    else if (items.length == 2) {
-        //specific number portion not found, this is the "All On" button
-        var isFirst = items[1] == 1;
-        if (isFirst) {
-            for (var i = 0; i <= 12; i++) {
-                currentUser.Settings.FirstNumber[i] = true;
-            }
-        }
-        else {
-            for (var i = 0; i <= 12; i++) {
-                currentUser.Settings.SecondNumber[i] = true;
-            } W
-        }
-    }
-    else {
-        //we set the id of the number button to numberbutton_1_5
-        // we the one represents is the first number of the two operations
-        // and the 5 represents the number we are operating against
-        var isFirstNumber = items[1] == 1;
-        var numberToSet = items[2];
-
-        if (isFirstNumber) {
-            currentUser.Settings.FirstNumber[numberToSet] = !currentUser.Settings.FirstNumber[numberToSet];
-        }
-        else {
-            currentUser.Settings.SecondNumber[numberToSet] = !currentUser.Settings.SecondNumber[numberToSet];
-        }
-    }
-
-    //checkIfAtLeastOneNumberIsOn();
-
-    saveCurrentUserSettingsIntoCookies();
-
-    turnOnOffNumberButtonsBasedOnSettings();
-}
-
-function turnOnOffNumberButtonsBasedOnSettings() {
-    // turn off on correct number buttons
-    for (var i = 0; i <= 12; i++) {
-
-        // handle first number section
-        var firstNumberButtonId = "buttonnumber_1_" + i.toString();
-        $("#" + firstNumberButtonId).removeClass("number_button_on");
-        $("#" + firstNumberButtonId).removeClass("number_button_off");
-
-        var onOffLabel1Id = "onoffnumber_1_" + i.toString();
-        var radioButton1Id = "firstNumber_1_" + i.toString();
-        var parentOfRadioButton1Id = "parentFirstNumber_1_" + i.toString();
-
-        $("#" + radioButton1Id).removeClass("bi-toggle-on");
-        $("#" + radioButton1Id).removeClass("bi-toggle-off");
-        $("#" + radioButton1Id).removeClass("green_font");
-        $("#" + radioButton1Id).removeClass("red_font");
-
-        if (currentUser.Settings.FirstNumber[i]) {
-            $("#" + firstNumberButtonId).addClass("number_button_on");
-            $("#" + radioButton1Id).addClass("bi-toggle-on");
-            $("#" + radioButton1Id).addClass("green_font");
-
-            $("#" + onOffLabel1Id).html("ON");
-
-        }
-        else {
-            $("#" + firstNumberButtonId).addClass("number_button_off");
-            $("#" + radioButton1Id).addClass("bi-toggle-off");
-            $("#" + radioButton1Id).addClass("red_font");
-            //$("#" + parentOfRadioButton1Id).addClass("toggle_rotate_90");
-
-            $("#" + onOffLabel1Id).html("OFF");
-        }
-
-        // handle second number section
-        var firstNumberButtonId = "buttonnumber_2_" + i.toString();
-        $("#" + firstNumberButtonId).removeClass("number_button_on");
-        $("#" + firstNumberButtonId).removeClass("number_button_off");
-
-        var onOffLabel1Id = "onoffnumber_2_" + i.toString();
-        var radioButton1Id = "firstNumber_2_" + i.toString();
-        var parentOfRadioButton1Id = "parentFirstNumber_1_" + i.toString();
-
-        $("#" + radioButton1Id).removeClass("bi-toggle-on");
-        $("#" + radioButton1Id).removeClass("bi-toggle-off");
-        $("#" + radioButton1Id).removeClass("green_font");
-        $("#" + radioButton1Id).removeClass("red_font");
-
-        if (currentUser.Settings.SecondNumber[i]) {
-            $("#" + firstNumberButtonId).addClass("number_button_on");
-            $("#" + radioButton1Id).addClass("bi-toggle-on");
-            $("#" + radioButton1Id).addClass("green_font");
-
-            $("#" + onOffLabel1Id).html("ON");
-
-        }
-        else {
-            $("#" + firstNumberButtonId).addClass("number_button_off");
-            $("#" + radioButton1Id).addClass("bi-toggle-off");
-            $("#" + radioButton1Id).addClass("red_font");
-            //$("#" + parentOfRadioButton1Id).addClass("toggle_rotate_90");
-
-            $("#" + onOffLabel1Id).html("OFF");
-        }
-    }
-}
 
 function loadEventHandlers() {
 
@@ -360,12 +238,6 @@ function loadEventHandlers() {
         // get the name of the clicked element
         // which contains the color
         modifyUser.Color = $(this).attr('name');
-    });
-
-    // on number button clicked
-    $(".number_button").on('click', function (event) {
-        var buttonId = $(this).attr('id');
-        turnNumberOnOff(buttonId)
     });
 
 
