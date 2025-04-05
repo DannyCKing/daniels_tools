@@ -6,6 +6,8 @@ const USER_REPLACEMENT = "<<user_id>>";
 
 const USERS_SETTINGS_COOKIE_NAME = "mathamamania_user_" + USER_REPLACEMENT + "_settings";
 
+const USERS_INFO_COOKIE_NAME = "mathamamania_user_" + USER_REPLACEMENT + "_info";
+
 const CURRENT_USER_ID_COOKIE_NAME = "mathamamania_current_user_id";
 
 var localUsers = {};
@@ -40,14 +42,20 @@ class Settings {
     }
 }
 
+class UserInfo {
+    constructor() {
+        this.Money = 0;
+        this.EmojiList = [];
+    }
+}
 
 class MathUser {
     constructor() {
         this.UserId = 0;
-        this.Settings = {};
         this.OriginalUsername = "";
         this.Username = "";
         this.Settings = new Settings();
+        this.UserInfo = new UserInfo();
     }
 }
 
@@ -241,14 +249,45 @@ function getTimeStamp() {
     return returnValue;
 }
 
-function getCurrentUserCookieName() {
+function getCurrentUserSettingsCookieName() {
+    // removes all non alpha characters from the string
     var friendlyUserName = currentUser.OriginalUsername.toLowerCase().replace(/\W/g, '');
+
     var userCookieName = USERS_SETTINGS_COOKIE_NAME.replace(USER_REPLACEMENT, currentUser.UserId + "_" + friendlyUserName);
     return userCookieName;
 }
 
+function getCurrentUserInfoCookieName() {
+    // removes all non alpha characters from the string
+    var friendlyUserName = currentUser.OriginalUsername.toLowerCase().replace(/\W/g, '');
+
+    var userCookieName = USERS_INFO_COOKIE_NAME.replace(USER_REPLACEMENT, currentUser.UserId + "_" + friendlyUserName);
+    return userCookieName;
+}
+
+function loadCurrentUserInfoFromCookies() {
+    var userInfoCookieName = getCurrentUserInfoCookieName()
+    var userInfoString = getCookie(userInfoCookieName);
+
+    if (userInfoString == "") {
+        // load default
+        currentUser.UserInfo = new UserInfo();
+        saveCurrentUserInfoIntoCookies();
+    }
+    else {
+        try {
+            currentUser.UserInfo = JSON.parse(userInfoString);
+        }
+        catch (e) {
+            currentUser.Settings = new UserInfo();
+            saveCurrentUserInfoIntoCookies();
+        }
+    }
+}
+
+
 function loadCurrentUsersSettingsFromCookies() {
-    var userCookieName = getCurrentUserCookieName()
+    var userCookieName = getCurrentUserSettingsCookieName()
     var userSettingsString = getCookie(userCookieName);
 
     if (userSettingsString == "") {
@@ -293,9 +332,15 @@ function getDefaultSettings() {
 }
 
 function saveCurrentUserSettingsIntoCookies() {
-    var userCookieName = getCurrentUserCookieName()
+    var userCookieName = getCurrentUserSettingsCookieName()
     var settingsString = JSON.stringify(currentUser.Settings);
     setCookie(userCookieName, settingsString);
+}
+
+function saveCurrentUserInfoIntoCookies() {
+    var userInfoCookieName = getCurrentUserInfoCookieName()
+    var infoString = JSON.stringify(currentUser.UserInfo);
+    setCookie(userInfoCookieName, infoString);
 }
 
 function saveUserListInMemoryToCookie() {

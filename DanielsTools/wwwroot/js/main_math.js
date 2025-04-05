@@ -4,6 +4,12 @@ var firstNumber = 0;
 var secondNumber = 0;
 var operation = "+";
 
+function addCorrectCountToUserInfo(correctCount) {
+    loadCurrentUserInfoFromCookies();
+    currentUser.UserInfo.Money = currentUser.UserInfo.Money + correctCount;
+    saveCurrentUserInfoIntoCookies();
+
+}
 function setAllAnswers(currentValue) {
     $("#answerLabelMed").text(currentValue);
     $("#answerLabelSmall").text(currentValue);
@@ -77,7 +83,7 @@ function deleteCurrentUser() {
 
     saveUserListInMemoryToCookie();
 
-    var cookieName = getCurrentUserCookieName();
+    var cookieName = getCurrentUserSettingsCookieName();
     deleteCookie(cookieName);
     setCookie(CURRENT_USER_ID_COOKIE_NAME, "");
 }
@@ -177,7 +183,7 @@ function getAnswer(num1, num2, operation) {
     }
 }
 
-function hideProblems(isTimed) {
+function hideProblems(initialLoad, isTimed) {
     $('.show_during_test').each(function (i, obj) {
         $(this).hide();
     });
@@ -190,10 +196,23 @@ function hideProblems(isTimed) {
         $(this).show();
     });
 
+    var practiceType = "Practice";
+
     if (isTimed) {
-        $('.show_after_timed_test').each(function (i, obj) {
-            $(this).show();
-        });
+        //$('.show_after_timed_test').each(function (i, obj) {
+        //    $(this).show();
+        //});
+        practiceType = "Timed test"
+    }
+
+    if (initialLoad == false) {
+        showMessageModal(false, practiceType, "You got " + correctCount + " answers right during your " + practiceType.toLowerCase());
+
+        addCorrectCountToUserInfo(correctCount);
+
+        
+
+        correctCount = 0;
     }
 }
 
@@ -207,7 +226,7 @@ function makeAnswerTextGreenForShortTime() {
 
     setTimeout(function () {
         clearAnswerBox();
-    }, 1)
+    }, 600)
 }
 
 function makeAllAnswerBoxesHaveColor(colorToUse){
@@ -371,7 +390,7 @@ function showProblems(isTimed) {
 }
 
 function stopTiming() {
-    hideProblems(true);
+    hideProblems(false, false);
     hideTimer();
     stopTimer();
 }
@@ -411,7 +430,7 @@ function tickTimer() {
 
     if (wholeSeconds <= 0) {
         wholeSeconds = 0;
-        hideProblems(true);
+        hideProblems(false, true);
         hideTimer();
         return;
     }
@@ -444,7 +463,7 @@ $(function () {
 
     loadCurrentUserIfSelected();
 
-    hideProblems(true);
+    hideProblems(true, true);
     $('.show_after_timed_test').each(function (i, obj) {
         $(this).hide();
     });
@@ -478,6 +497,11 @@ $(function () {
 
     $('#chooseAvatarModal').on('show.bs.modal', function (e) {
         onAvatarScreenVisible();
+    });
+
+    $('#currentMoneyModal').on('show.bs.modal', function (e) {
+        loadCurrentUserInfoFromCookies();
+        $('#MoneyModalText').html("Current Balance: " + currentUser.UserInfo.Money + " coins");
     });
 
     // hide the math problems on page load

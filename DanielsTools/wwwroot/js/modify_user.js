@@ -41,6 +41,7 @@ function onRefresh() {
     }
     else {
         loadCurrentUserIntoMemoryFromCookies();
+        modifyUser = currentUser;
         modifyUser.IsNewUser = false;
     }
 

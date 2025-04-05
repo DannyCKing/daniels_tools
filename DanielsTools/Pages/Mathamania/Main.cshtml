@@ -49,7 +49,7 @@
         <div id="changeSoundStatusButton" class="large_button show_during_test ">
             <i id="soundStatusIcon" class="bi bi-volume-up-fill green_font change_sound_status"></i>
         </div>
-        <button type="button" class="btn btn-success large_button hide_during_test" data-bs-toggle="modal" data-bs-target="#youTubeModal">
+        <button type="button" class="btn btn-success large_button hide_during_test" data-bs-toggle="modal" data-bs-target="#currentMoneyModal">
             <i class="bi bi-coin"></i>
         </button>
         <button type="button" class="btn btn-success large_button hide_during_test" data-bs-toggle="modal" data-bs-target="#settingsModal">
@@ -332,6 +332,50 @@
         </div>
     </div>
 </div>
+
+<!-- Message Modal-->
+<div class="modal fade my_modal" id="messageModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="MessageModalTitle" class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <span id="MessageModalBodyText" class=""></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade my_modal" id="currentMoneyModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="MoneyModalTitle" class="modal-title">Money</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <span id="MoneyModalText" class=""></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- You Tube Modal-->
 @*<div class="modal fade" id="youTubeModal" tabindex="-1" role="dialog" >
