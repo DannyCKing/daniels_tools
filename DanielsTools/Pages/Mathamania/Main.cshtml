@@ -96,130 +96,134 @@
 </div>
 
 <!-- This should show on medium devices -->
-<div class="show_during_test d-none d-md-block d-lg-none">
-    <span id="secondsSpan" class="current_problem  unselectable timer_class show_during_timed_test">00</span>
-    <span id="" class="show_after_timed_test current_problem  unselectable timer_class">Correct Count:</span><span id="correctCountSpan" class="show_after_timed_test current_problem  unselectable timer_class">0</span>
+<div class="show_during_test">
+    <div class="show_during_test d-none d-md-block d-lg-none">
+        <span id="secondsSpan" class="current_problem  unselectable timer_class show_during_timed_test">00</span>
+        <span id="" class="show_after_timed_test current_problem  unselectable timer_class">Correct Count:</span><span id="correctCountSpan" class="show_after_timed_test current_problem  unselectable timer_class">0</span>
 
-    <div class="row unselectable show_during_test">
-        <span id="firstNumberDivMed" class="current_problem  unselectable col-3"></span>
-        <span id="operationDivMed" class="current_problem unselectable col-1"></span>
-        <span id="secondNumberDivMed" class="current_problem unselectable col-2"></span>
-        <span class="current_problem unselectable col-1">=</span>
-        @*<input id="answerTextBox" class="current_problem col-4" type="text" />*@
-        <label id="answerLabelMed" class="current_problem col-4" />
-    </div>
+        <div class="row unselectable show_during_test">
+            <span id="firstNumberDivMed" class="current_problem  unselectable col-3"></span>
+            <span id="operationDivMed" class="current_problem unselectable col-1"></span>
+            <span id="secondNumberDivMed" class="current_problem unselectable col-2"></span>
+            <span class="current_problem unselectable col-1">=</span>
+            @*<input id="answerTextBox" class="current_problem col-4" type="text" />*@
+            <label id="answerLabelMed" class="current_problem col-4" />
+        </div>
 
-    <div class="row unselectable">
-        <button id="number1MedScreenPortrait" class="current_problem_small col-3 btn-info">1</button>
-        <div class="col"></div>
-        <button id="number2MedScreenPortrait" class="current_problem_small col-3 btn-info">2</button>
-        <div class="col"></div>
-        <button id="number3MedScreenPortrait" class="current_problem_small col-3 btn-info">3</button>
+        <div class="row unselectable">
+            <button id="number1MedScreenPortrait" class="current_problem_small col-3 btn-info">1</button>
+            <div class="col"></div>
+            <button id="number2MedScreenPortrait" class="current_problem_small col-3 btn-info">2</button>
+            <div class="col"></div>
+            <button id="number3MedScreenPortrait" class="current_problem_small col-3 btn-info">3</button>
 
 
-    </div>
-    <div class="row">
-        <button id="number4MedScreenPortrait" class="current_problem_small col-3 btn-info">4</button>
-        <div class="col"></div>
-        <button id="number5MedScreenPortrait" class="current_problem_small col-3 btn-info">5</button>
-        <div class="col"></div>
-        <button id="number6MedScreenPortrait" class="current_problem_small col-3 btn-info">6</button>
-    </div>
+        </div>
+        <div class="row">
+            <button id="number4MedScreenPortrait" class="current_problem_small col-3 btn-info">4</button>
+            <div class="col"></div>
+            <button id="number5MedScreenPortrait" class="current_problem_small col-3 btn-info">5</button>
+            <div class="col"></div>
+            <button id="number6MedScreenPortrait" class="current_problem_small col-3 btn-info">6</button>
+        </div>
 
-    <div class="row">
-        <button id="number7MedScreenPortrait" class="current_problem_small col-3 btn-info">7</button>
-        <div class="col"></div>
-        <button id="number8MedScreenPortrait" class="current_problem_small col-3 btn-info">8</button>
-        <div class="col"></div>
-        <button id="number9MedScreenPortrait" class="current_problem_small col-3 btn-info">9</button>
-    </div>
+        <div class="row">
+            <button id="number7MedScreenPortrait" class="current_problem_small col-3 btn-info">7</button>
+            <div class="col"></div>
+            <button id="number8MedScreenPortrait" class="current_problem_small col-3 btn-info">8</button>
+            <div class="col"></div>
+            <button id="number9MedScreenPortrait" class="current_problem_small col-3 btn-info">9</button>
+        </div>
 
-    <div class="row">
-        <button class="current_problem_small col-3 btn-info" style="visibility:hidden"></button>
-        <div class="col"></div>
-        <button id="number0MedScreenPortrait" class="current_problem_small col-3 btn-info">0</button>
-        <div class="col"></div>
-        <button id="clearMedScreenPortrait" class="current_problem_small col-3 btn-info">
-            <i class="bi bi-backspace"></i>
-        </button>
+        <div class="row">
+            <button class="current_problem_small col-3 btn-info" style="visibility:hidden"></button>
+            <div class="col"></div>
+            <button id="number0MedScreenPortrait" class="current_problem_small col-3 btn-info">0</button>
+            <div class="col"></div>
+            <button id="clearMedScreenPortrait" class="current_problem_small col-3 btn-info">
+                <i class="bi bi-backspace"></i>
+            </button>
 
-    </div>
+        </div>
 
-    <div class="row show_during_test">
-        <button id="stop_timing_button_medium" type="button" class="btn btn-warning large_button col-11 stop_timing_button">
-            <i class="bi bi-sign-stop"></i>Stop
-        </button>
+        <div class="row show_during_test">
+            <button id="stop_timing_button_medium" type="button" class="btn btn-warning large_button col-11 stop_timing_button">
+                <i class="bi bi-sign-stop"></i>Stop
+            </button>
+        </div>
     </div>
 </div>
 
 <!-- This should show on mobile devices in the potrait orientation-->
-<div class="show_during_test d-md-none">
-    <div class="row">
-        <div class="col" style="">
-            <span id="secondsSpanMedScreen" class="current_problem unselectable timer_class show_during_timed_test">00</span>
-        </div>
-        <div class="col-auto">
-            <button type="button" class="btn btn-success large_button change_mobile_orientation">
-                <i class="bi bi-phone"></i>
-            </button>
-        </div>
-        <div class="col-auto">
-            <div type="button" class=" large_button unselectable">
-                <i id="soundStatusIconMed" class="bi bi-volume-up-fill green_font change_sound_status"></i>
+<div class="show_during_test">
+    <div class=" d-block d-md-none">
+        <div class="row">
+            <div class="col" style="">
+                <span id="secondsSpanMedScreen" class="current_problem unselectable timer_class show_during_timed_test">00</span>
+            </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-success large_button change_mobile_orientation">
+                    <i class="bi bi-phone"></i>
+                </button>
+            </div>
+            <div class="col-auto">
+                <div type="button" class=" large_button unselectable">
+                    <i id="soundStatusIconMed" class="bi bi-volume-up-fill green_font change_sound_status"></i>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row unselectable">
-        <span id="firstNumberDivSmall" class="current_problem  unselectable col-2"></span>
-        <span id="operationDivSmall" class="current_problem unselectable col-2"></span>
-        <span id="secondNumberDivSmall" class="current_problem unselectable col-2"></span>
-        <span class="current_problem unselectable col-auto">=</span>
-        <label id="answerLabelSmall" class="current_problem col-4" />
-    </div>
-    <div class="row">
-    </div>
-    <div class="row unselectable">
-        <button id="number1SmallScreenPortrait" class="current_problem_small col-3 btn-info">1</button>
-        <div class="col"></div>
-        <button id="number2SmallScreenPortrait" class="current_problem_small col-3 btn-info">2</button>
-        <div class="col"></div>
-        <button id="number3SmallScreenPortrait" class="current_problem_small col-3 btn-info">3</button>
+        <div class="row unselectable">
+            <span id="firstNumberDivSmall" class="current_problem  unselectable col-2"></span>
+            <span id="operationDivSmall" class="current_problem unselectable col-2"></span>
+            <span id="secondNumberDivSmall" class="current_problem unselectable col-2"></span>
+            <span class="current_problem unselectable col-1">=</span>
+            <label id="answerLabelSmall" class="current_problem col-2" />
+        </div>
+        <div class="row">
+        </div>
+        <div class="row unselectable">
+            <button id="number1SmallScreenPortrait" class="current_problem_small col-3 btn-info">1</button>
+            <div class="col"></div>
+            <button id="number2SmallScreenPortrait" class="current_problem_small col-3 btn-info">2</button>
+            <div class="col"></div>
+            <button id="number3SmallScreenPortrait" class="current_problem_small col-3 btn-info">3</button>
 
 
-    </div>
-    <div class="row">
-        <button id="number4SmallScreenPortrait" class="current_problem_small col-3 btn-info">4</button>
-        <div class="col"></div>
-        <button id="number5SmallScreenPortrait" class="current_problem_small col-3 btn-info">5</button>
-        <div class="col"></div>
-        <button id="number6SmallScreenPortrait" class="current_problem_small col-3 btn-info">6</button>
-    </div>
+        </div>
+        <div class="row">
+            <button id="number4SmallScreenPortrait" class="current_problem_small col-3 btn-info">4</button>
+            <div class="col"></div>
+            <button id="number5SmallScreenPortrait" class="current_problem_small col-3 btn-info">5</button>
+            <div class="col"></div>
+            <button id="number6SmallScreenPortrait" class="current_problem_small col-3 btn-info">6</button>
+        </div>
 
-    <div class="row">
-        <button id="number7SmallScreenPortrait" class="current_problem_small col-3 btn-info">7</button>
-        <div class="col"></div>
-        <button id="number8SmallScreenPortrait" class="current_problem_small col-3 btn-info">8</button>
-        <div class="col"></div>
-        <button id="number9SmallScreenPortrait" class="current_problem_small col-3 btn-info">9</button>
+        <div class="row">
+            <button id="number7SmallScreenPortrait" class="current_problem_small col-3 btn-info">7</button>
+            <div class="col"></div>
+            <button id="number8SmallScreenPortrait" class="current_problem_small col-3 btn-info">8</button>
+            <div class="col"></div>
+            <button id="number9SmallScreenPortrait" class="current_problem_small col-3 btn-info">9</button>
+        </div>
+
+        <div class="row">
+            <button class="current_problem_small col-3 btn-info" style="visibility:hidden"></button>
+            <div class="col"></div>
+            <button id="number0SmallScreenPortrait" class="current_problem_small col-3 btn-info">0</button>
+            <div class="col"></div>
+            <button id="clearSmallScreenPortrait" class="current_problem_small col-3 btn-info">
+                <i class="bi bi-backspace"></i>
+            </button>
+
+        </div>
+
+        <div class="row show_during_test">
+            <button id="stop_timing_button_small" type="button" class="col-12 btn btn-warning small_button stop_timing_button">
+                <i class="bi bi-sign-stop"></i>
+            </button>
+        </div>
+
     </div>
-
-    <div class="row">
-        <button class="current_problem_small col-3 btn-info" style="visibility:hidden"></button>
-        <div class="col"></div>
-        <button id="number0SmallScreenPortrait" class="current_problem_small col-3 btn-info">0</button>
-        <div class="col"></div>
-        <button id="clearSmallScreenPortrait" class="current_problem_small col-3 btn-info">
-            <i class="bi bi-backspace"></i>
-        </button>
-
-    </div>
-
-    <div class="row show_during_test">
-        <button id="stop_timing_button_small" type="button" class="col-12 btn btn-warning small_button stop_timing_button">
-            <i class="bi bi-sign-stop"></i>
-        </button>
-    </div>
-
 </div>
 
 

@@ -3,6 +3,8 @@ var currentAnswer = 0;
 var firstNumber = 0;
 var secondNumber = 0;
 var operation = "+";
+var allowInput = true;
+var previousAnswer = "";
 
 function addCorrectCountToUserInfo(correctCount) {
     loadCurrentUserInfoFromCookies();
@@ -30,6 +32,7 @@ function checkMyAnswer(myAnswer) {
 
     if (myAnswer == currentAnswer.toString() &&
         myAnswer.length == currentAnswer.toString().length) {
+        allowInput = false;
         //makeTextGreenForShortTime();
         correctCount++;
         updateCorrectCount();
@@ -59,6 +62,7 @@ function checkMyAnswer(myAnswer) {
 }
 
 function clearAnswerBox() {
+    allowInput = true;
     $("#answerTextBox").val("");
     setAllAnswers("");
 
@@ -222,11 +226,12 @@ function hideTimer() {
 
 
 function makeAnswerTextGreenForShortTime() {
+    allowInput = false;
     makeAllAnswerBoxesHaveColor("green");
 
     setTimeout(function () {
         clearAnswerBox();
-    }, 600)
+    }, 500)
 }
 
 function makeAllAnswerBoxesHaveColor(colorToUse){
@@ -577,6 +582,17 @@ $(function () {
     })
 
     $('#answerTextBox').on('input', function (e) {
+        if (allowInput == false) {
+            $("#answerTextBox").val(previousAnswer);
+            console.log("going back to " + previousAnswer);
+            return;
+        }
+        else {
+            previousAnswer = $("#answerTextBox").val();
+            console.log("setting new answers " + previousAnswer);
+
+        }
+
         var myAnswer = $("#answerTextBox").val();
 
         checkMyAnswer(myAnswer);
